@@ -208,10 +208,10 @@
       "minecraft:spring_lava"
     ],
     [
-      "eastwardjourneys:trees_old_growth_fir_forest",
+    "eastwardjourneys:trees_old_growth_fir_forest",
+      "minecraft:glow_lichen",
       "minecraft:patch_tall_grass",
       "minecraft:patch_tall_grass_2",
-      "minecraft:glow_lichen",
       "minecraft:patch_large_fern",
       "minecraft:patch_grass_plain",
       "minecraft:patch_grass_forest",
