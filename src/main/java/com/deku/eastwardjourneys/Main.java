@@ -459,6 +459,8 @@ public class Main
                 registrar.register(new ResourceLocation(MOD_ID, "mangrove_planks_trapdoor"), new MangrovePlanksTrapdoor());
                 registrar.register(new ResourceLocation(MOD_ID, "bamboo_planks_trapdoor"), new BambooPlanksTrapdoor());
                 registrar.register(new ResourceLocation(MOD_ID, "cherry_planks_trapdoor"), new CherryPlanksTrapdoor());
+                registrar.register(new ResourceLocation(MOD_ID, "warped_planks_trapdoor"), new WarpedPlanksTrapdoor());
+                registrar.register(new ResourceLocation(MOD_ID, "crimson_planks_trapdoor"), new CrimsonPlanksTrapdoor());
             });
         }
 
@@ -673,6 +675,8 @@ public class Main
                 registrar.register(new ResourceLocation(MOD_ID, "smooth_stone_trapdoor"), new BlockItem(ModBlocks.SMOOTH_STONE_TRAP_DOOR, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "stone_trapdoor"), new BlockItem(ModBlocks.STONE_TRAP_DOOR, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "cobblestone_trapdoor"), new BlockItem(ModBlocks.COBBLESTONE_TRAP_DOOR, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "warped_planks_trapdoor"), new BlockItem(ModBlocks.WARPED_PLANKS_TRAP_DOOR, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "crimson_planks_trapdoor"), new BlockItem(ModBlocks.CRIMSON_PLANKS_TRAP_DOOR, new Item.Properties()));
             });
         }
 
@@ -889,6 +893,8 @@ public class Main
                 entries.putAfter(new ItemStack(Items.STONE_SLAB), new ItemStack(ModItems.STONE_TRAP_DOOR), visibility);
                 entries.putAfter(new ItemStack(Items.SMOOTH_STONE_SLAB), new ItemStack(ModItems.SMOOTH_STONE_TRAP_DOOR), visibility);
                 entries.putAfter(new ItemStack(Items.COBBLESTONE_WALL), new ItemStack(ModItems.COBBLESTONE_TRAP_DOOR), visibility);
+                entries.putAfter(new ItemStack(Items.WARPED_TRAPDOOR), new ItemStack(ModItems.WARPED_PLANKS_TRAP_DOOR), visibility);
+                entries.putAfter(new ItemStack(Items.CRIMSON_TRAPDOOR), new ItemStack(ModItems.CRIMSON_PLANKS_TRAP_DOOR), visibility);
             } else if (creativeTabBuilderRegistryEvent.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
                 // Maple blocks
                 entries.putAfter(new ItemStack(Items.CHERRY_LOG), new ItemStack(ModItems.MAPLE_LOG), visibility);

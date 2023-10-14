@@ -10,7 +10,7 @@ import net.minecraft.world.level.material.MapColor;
 public class WaterFirLog extends AbstractWoodenBlock {
 
     public WaterFirLog() {
-        super(Properties.of().mapColor((determineMaterialColour) -> {
+        super(Properties.of().strength(2.0f).mapColor((determineMaterialColour) -> {
             return determineMaterialColour.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.TERRACOTTA_RED : MapColor.WOOD;
         }).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()
         );

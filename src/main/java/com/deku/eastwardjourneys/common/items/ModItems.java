@@ -464,6 +464,12 @@ public class ModItems {
     @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":cobblestone_trapdoor")
     public static BlockItem COBBLESTONE_TRAP_DOOR;
 
+    @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":warped_planks_trapdoor")
+    public static BlockItem WARPED_PLANKS_TRAP_DOOR;
+
+    @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":crimson_planks_trapdoor")
+    public static BlockItem CRIMSON_PLANKS_TRAP_DOOR;
+
     @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":koi_spawn_egg")
     public static ForgeSpawnEggItem KOI_SPAWN_EGG;
 

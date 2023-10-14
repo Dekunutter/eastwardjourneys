@@ -426,4 +426,10 @@ public class ModBlocks {
 
     @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":cobblestone_trapdoor")
     public static CobblestoneTrapdoor COBBLESTONE_TRAP_DOOR;
+
+    @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":warped_planks_trapdoor")
+    public static WarpedPlanksTrapdoor WARPED_PLANKS_TRAP_DOOR;
+
+    @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":crimson_planks_trapdoor")
+    public static CrimsonPlanksTrapdoor CRIMSON_PLANKS_TRAP_DOOR;
 }
