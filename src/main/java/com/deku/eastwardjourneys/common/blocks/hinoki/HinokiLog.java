@@ -10,7 +10,7 @@ import net.minecraft.world.level.material.MapColor;
 public class HinokiLog extends AbstractWoodenBlock {
 
     public HinokiLog() {
-        super(Properties.of().mapColor((determineMaterialColour) -> {
+        super(Properties.of().strength(2.0f).mapColor((determineMaterialColour) -> {
             return determineMaterialColour.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.TERRACOTTA_BROWN : MapColor.WOOD;
         }).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()
         );
