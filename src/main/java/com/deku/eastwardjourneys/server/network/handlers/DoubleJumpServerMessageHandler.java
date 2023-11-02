@@ -7,11 +7,10 @@ import com.deku.eastwardjourneys.server.network.messages.DoubleJumpServerMessage
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
 
-import java.util.function.Supplier;
 
 public class DoubleJumpServerMessageHandler {
     /**
@@ -22,10 +21,9 @@ public class DoubleJumpServerMessageHandler {
      * Assuming all of the above is true, the message is then processed by the network event context.
      *
      * @param message The message that was received by the server
-     * @param contextSupplier The network event context supplier
+     * @param context The network event context
      */
-    public static void onMessageReceived(final DoubleJumpServerMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
+    public static void onMessageReceived(final DoubleJumpServerMessage message, CustomPayloadEvent.Context context) {
         LogicalSide sideReceived = context.getDirection().getReceptionSide();
         context.setPacketHandled(true);
 
@@ -66,16 +64,6 @@ public class DoubleJumpServerMessageHandler {
             doubleJumpCapability.setHasDoubleJumped(message.hasDoubleJumped());
         }
 
-        Main.NETWORK_CHANNEL.send(PacketDistributor.DIMENSION.with(() -> playerDimension), clientMessage);
-    }
-
-    /**
-     * Checks if a given network protocol version is supported by this server
-     *
-     * @param protocolVersion The protocol version we want to check support for
-     * @return Whether this network protocol is supported
-     */
-    public static boolean isProtocolAcceptedOnServer(String protocolVersion) {
-        return Main.NETWORK_PROTOCOL_VERSION.equals(protocolVersion);
+        Main.networkChannel.send(clientMessage, PacketDistributor.DIMENSION.with(playerDimension));
     }
 }

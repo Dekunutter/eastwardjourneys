@@ -6,11 +6,10 @@ import com.deku.eastwardjourneys.common.capabilities.DoubleJumpCapability;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LogicalSidedProvider;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.network.NetworkEvent;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public class DoubleJumpClientMessageHandler {
     /**
@@ -21,10 +20,9 @@ public class DoubleJumpClientMessageHandler {
      * Assuming all of the above is true, the message is then processed by the network event context.
      *
      * @param message The message that was received by the client
-     * @param contextSupplier The network event context supplier
+     * @param context The network event context
      */
-    public static void onMessageReceived(final DoubleJumpClientMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
+    public static void onMessageReceived(final DoubleJumpClientMessage message, CustomPayloadEvent.Context context) {
         LogicalSide sideReceived = context.getDirection().getReceptionSide();
         context.setPacketHandled(true);
 
@@ -64,15 +62,5 @@ public class DoubleJumpClientMessageHandler {
             doubleJumpCapability.setHasDoubleJumped(message.hasDoubleJumped());
         }
         // TODO: Render an effect here for jumping while in the air
-    }
-
-    /**
-     * Checks if a given network protocol version is supported by this client
-     *
-     * @param protocolVersion The protocol version we want to check support for
-     * @return Whether this network protocol is supported
-     */
-    public static boolean isProtocolAcceptedOnClient(String protocolVersion) {
-        return "1.0".equals(protocolVersion);
     }
 }

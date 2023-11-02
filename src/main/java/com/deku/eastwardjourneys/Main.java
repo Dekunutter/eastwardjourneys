@@ -100,9 +100,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.network.*;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.Level;
@@ -112,7 +110,6 @@ import terrablender.api.Regions;
 import terrablender.api.SurfaceRuleManager;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.deku.eastwardjourneys.common.enchantments.ModEnchantmentInitializer.DOUBLE_JUMP_ENCHANTMENT;
@@ -133,10 +130,10 @@ public class Main
     public static final Logger LOGGER = LogManager.getLogger(Main.class);
 
     // Network Protocol Version
-    public static final String NETWORK_PROTOCOL_VERSION = "1.0";
+    public static final int NETWORK_PROTOCOL_VERSION = 1;
 
     // Network channel
-    public static SimpleChannel NETWORK_CHANNEL = null;
+    public static SimpleChannel networkChannel = null;
 
     /**
      * Constructor for initializing the mod.
@@ -151,7 +148,13 @@ public class Main
      */
     public Main() {
         System.out.println("STARTING EXECUTION");
-        NETWORK_CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MOD_ID, "eastwardjourneyschannel"), () -> NETWORK_PROTOCOL_VERSION, DoubleJumpClientMessageHandler::isProtocolAcceptedOnClient, DoubleJumpServerMessageHandler::isProtocolAcceptedOnServer);
+        networkChannel = ChannelBuilder
+            .named(new ResourceLocation(MOD_ID, "eastwardjourneyschannel"))
+            .optional()
+            .networkProtocolVersion(NETWORK_PROTOCOL_VERSION)
+            .clientAcceptedVersions((s, v) -> v == 1)
+            .serverAcceptedVersions((s, v) -> v == 1)
+            .simpleChannel();
 
         if (HIDE_CONSOLE_NOISE) {
             LogTweaker.applyLogFilterLevel(Level.WARN);
@@ -231,8 +234,17 @@ public class Main
      * @param event The setup event
      */
     private void setup(final FMLCommonSetupEvent event) {
-        NETWORK_CHANNEL.registerMessage(DoubleJumpServerMessage.MESSAGE_ID, DoubleJumpServerMessage.class, DoubleJumpServerMessage::encode, DoubleJumpServerMessage::decode, DoubleJumpServerMessageHandler::onMessageReceived, Optional.of(PLAY_TO_SERVER));
-        NETWORK_CHANNEL.registerMessage(DoubleJumpClientMessage.MESSAGE_ID, DoubleJumpClientMessage.class, DoubleJumpClientMessage::encode, DoubleJumpClientMessage::decode, DoubleJumpClientMessageHandler::onMessageReceived, Optional.of(PLAY_TO_CLIENT));
+        networkChannel.messageBuilder(DoubleJumpServerMessage.class, PLAY_TO_SERVER)
+            .decoder(DoubleJumpServerMessage::decode)
+            .encoder(DoubleJumpServerMessage::encode)
+            .consumerNetworkThread(DoubleJumpServerMessageHandler::onMessageReceived)
+            .add();
+
+        networkChannel.messageBuilder(DoubleJumpClientMessage.class, PLAY_TO_CLIENT)
+            .decoder(DoubleJumpClientMessage::decode)
+            .encoder(DoubleJumpClientMessage::encode)
+            .consumerNetworkThread(DoubleJumpClientMessageHandler::onMessageReceived)
+            .add();
 
         event.enqueueWork(() -> {
             BlockSetType.register(ModBlockSetType.MAPLE);
@@ -1170,8 +1182,11 @@ public class Main
                                     player.causeFoodExhaustion(player.isSprinting() ? 0.2F * 3.0F : 0.05F * 3.0F);
                                     player.noJumpDelay = 10;
 
+                                    //DoubleJumpTask
                                     DoubleJumpServerMessage message = new DoubleJumpServerMessage(true);
-                                    Main.NETWORK_CHANNEL.sendToServer(message);
+                                    // TODO: Utilize a configurationtTask so I can have the context to pull a connection from?
+                                    // CURRNETLY THROWING Caused by: java.lang.IllegalArgumentException: Invalid message com.deku.eastwardjourneys.server.network.messages.DoubleJumpServerMessage
+                                    networkChannel.send(message, PacketDistributor.SERVER.noArg());
                                 }
                             }
                         }
@@ -1212,7 +1227,7 @@ public class Main
                 boolean hasDoubleJumped = player.getCapability(DoubleJumpCapability.DOUBLE_JUMP).map(DoubleJumpCapability.IDoubleJump::hasDoubleJumped).orElse(false);
                 if (hasDoubleJumped) {
                     DoubleJumpClientMessage message = new DoubleJumpClientMessage(player.getUUID(), true);
-                    Main.NETWORK_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), message);
+                    networkChannel.send(message, PacketDistributor.PLAYER.with(player));
                 }
             }
         }

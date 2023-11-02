@@ -20,8 +20,8 @@ public class FoldingRecipe extends CustomRecipe {
     private ItemStack katana;
     private ItemStack ingot;
 
-    public FoldingRecipe(ResourceLocation resourceLocation, CraftingBookCategory category) {
-        super(resourceLocation, category);
+    public FoldingRecipe(CraftingBookCategory category) {
+        super(category);
     }
 
     /**

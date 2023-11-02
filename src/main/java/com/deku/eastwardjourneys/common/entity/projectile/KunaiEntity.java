@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.network.PlayMessages;
+import net.minecraftforge.network.packets.SpawnEntity;
 
 public class KunaiEntity extends AbstractArrow implements IEntityAdditionalSpawnData {
     public KunaiEntity(EntityType<KunaiEntity> entityType, Level level) {
@@ -30,7 +30,7 @@ public class KunaiEntity extends AbstractArrow implements IEntityAdditionalSpawn
         setBaseDamage(2.0D);
     }
 
-    public KunaiEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+    public KunaiEntity(SpawnEntity spawnEntity, Level level) {
         super(ModEntityTypeInitializer.KUNAI_ENTITY_TYPE.get(), level);
         setBaseDamage(2.0D);
     }
