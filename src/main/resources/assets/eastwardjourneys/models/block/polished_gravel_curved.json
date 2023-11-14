@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "eastwardjourneys:block/polished_gravel",
+    "down": "eastwardjourneys:block/polished_gravel",
+    "up": "eastwardjourneys:block/polished_gravel_curved",
+    "north": "eastwardjourneys:block/polished_gravel",
+    "east": "eastwardjourneys:block/polished_gravel",
+    "south": "eastwardjourneys:block/polished_gravel",
+    "west": "eastwardjourneys:block/polished_gravel"
+  }
+}

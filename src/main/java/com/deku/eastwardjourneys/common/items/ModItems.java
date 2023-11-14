@@ -374,6 +374,27 @@ public class ModItems {
     @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":dark_shoji_screen")
     public static DoubleHighBlockItem DARK_SHOJI_SCREEN;
 
+    @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":shoji_paper")
+    public static ShojiPaper SHOJI_PAPER;
+
+    @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":shoji_screen_grided")
+    public static DoubleHighBlockItem SHOJI_SCREEN_GRIDED;
+
+    @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":dark_shoji_screen_grided")
+    public static DoubleHighBlockItem DARK_SHOJI_SCREEN_GRIDED;
+
+    @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":shoji_screen_grided_heavy")
+    public static DoubleHighBlockItem SHOJI_SCREEN_GRIDED_HEAVY;
+
+    @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":dark_shoji_screen_grided_heavy")
+    public static DoubleHighBlockItem DARK_SHOJI_SCREEN_GRIDED_HEAVY;
+
+    @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":small_shoji_screen")
+    public static BlockItem SMALL_SHOJI_SCREEN;
+
+    @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":small_dark_shoji_screen")
+    public static BlockItem SMALL_DARK_SHOJI_SCREEN;
+
     @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":tatami_mat")
     public static BlockItem TATAMI_MAT;
 
@@ -403,6 +424,9 @@ public class ModItems {
 
     @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":red_fence")
     public static BlockItem RED_FENCE;
+
+    @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":polished_gravel")
+    public static BlockItem POLISHED_GRAVEL;
 
     @ObjectHolder(registryName = "minecraft:item", value = MOD_ID + ":ninja_mask")
     public static ArmorItem NINJA_MASK;

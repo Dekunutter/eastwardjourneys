@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:red_dye",
+    "minecraft:blue_dye",
+    "minecraft:black_dye",
+    "minecraft:gold_nugget",
+    "minecraft:pink_petals"
+  ]
+}
+

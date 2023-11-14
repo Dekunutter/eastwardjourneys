@@ -131,7 +131,7 @@ public class FoldingRecipe extends CustomRecipe {
      */
     @Override
     public boolean canCraftInDimensions(int craftingWidth, int craftingHeight) {
-        return craftingWidth * craftingHeight >= 2;
+        return craftingWidth * craftingHeight >= 3;
     }
 
     /**

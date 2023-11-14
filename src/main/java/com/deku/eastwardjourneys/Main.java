@@ -2,6 +2,7 @@ package com.deku.eastwardjourneys;
 
 import com.deku.eastwardjourneys.client.network.handlers.DoubleJumpClientMessageHandler;
 import com.deku.eastwardjourneys.client.network.messages.DoubleJumpClientMessage;
+import com.deku.eastwardjourneys.common.blockEntities.ShojiScreenBlockEntity;
 import com.deku.eastwardjourneys.common.blocks.*;
 import com.deku.eastwardjourneys.common.blocks.black_pine.*;
 import com.deku.eastwardjourneys.common.blocks.hinoki.*;
@@ -57,6 +58,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.registries.VanillaRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -120,8 +122,7 @@ import static net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER;
 @Mod(Main.MOD_ID)
 public class Main
 {
-    // TODO: Set to true to hide noise on console when mod is finished
-    final boolean HIDE_CONSOLE_NOISE = false;
+    final boolean HIDE_CONSOLE_NOISE = true;
 
     // declare Mod ID
     public static final String MOD_ID = "eastwardjourneys";
@@ -430,14 +431,21 @@ public class Main
 
 
                 // All architectural blocks
-                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen"), new ShojiScreen());
-                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen"), new ShojiScreen());
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.STANDARD, ShojiScreenBlockEntity.WoodColor.STANDARD));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.STANDARD, ShojiScreenBlockEntity.WoodColor.DARK));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED, ShojiScreenBlockEntity.WoodColor.STANDARD));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED, ShojiScreenBlockEntity.WoodColor.DARK));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided_heavy"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED_HEAVY, ShojiScreenBlockEntity.WoodColor.STANDARD));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided_heavy"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED_HEAVY, ShojiScreenBlockEntity.WoodColor.DARK));
+                registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen"), new SmallShojiScreen(ShojiScreenBlockEntity.FrameType.SMALL, ShojiScreenBlockEntity.WoodColor.STANDARD));
+                registrar.register(new ResourceLocation(MOD_ID, "small_dark_shoji_screen"), new SmallShojiScreen(ShojiScreenBlockEntity.FrameType.SMALL, ShojiScreenBlockEntity.WoodColor.DARK));
                 registrar.register(new ResourceLocation(MOD_ID, "tatami_mat"), new TatamiMat());
                 registrar.register(new ResourceLocation(MOD_ID, "long_tatami_mat"), new LongTatamiMat());
                 registrar.register(new ResourceLocation(MOD_ID, "aged_tatami_mat"), new AgedTatamiMat());
                 registrar.register(new ResourceLocation(MOD_ID, "long_aged_tatami_mat"), new LongAgedTatamiMat());
                 registrar.register(new ResourceLocation(MOD_ID, "terracotta_warrior_statue"), new TerracottaWarriorStatue());
                 registrar.register(new ResourceLocation(MOD_ID, "red_fence"), new RedFence());
+                registrar.register(new ResourceLocation(MOD_ID, "polished_gravel"), new PolishedGravel());
 
                 // All farm crops
                 registrar.register(new ResourceLocation(MOD_ID, "rice_paddy"), new RicePaddy());
@@ -491,6 +499,10 @@ public class Main
                 // All sign block entities
                 registrar.register(new ResourceLocation(MOD_ID, "mod_sign_entity"), ModBlockEntities.SIGN_ENTITY_TYPE);
                 registrar.register(new ResourceLocation(MOD_ID, "mod_hanging_sign_entity"), ModBlockEntities.HANGING_SIGN_ENTITY_TYPE);
+
+                // Decorative block entities
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_block_entity"), ModBlockEntities.SHOJI_SCREEN_TYPE);
+                //registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen_block_entity"), ModBlockEntities.SMALL_SHOJI_SCREEN_TYPE);
             });
         }
 
@@ -633,12 +645,20 @@ public class Main
                 // All architectural items
                 registrar.register(new ResourceLocation(MOD_ID, "shoji_screen"), new DoubleHighBlockItem(ModBlocks.SHOJI_SCREEN, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen"), new DoubleHighBlockItem(ModBlocks.DARK_SHOJI_SCREEN, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided"), new DoubleHighBlockItem(ModBlocks.SHOJI_SCREEN_GRIDED, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided"), new DoubleHighBlockItem(ModBlocks.DARK_SHOJI_SCREEN_GRIDED, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided_heavy"), new DoubleHighBlockItem(ModBlocks.SHOJI_SCREEN_GRIDED_HEAVY, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided_heavy"), new DoubleHighBlockItem(ModBlocks.DARK_SHOJI_SCREEN_GRIDED_HEAVY, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen"), new BlockItem(ModBlocks.SMALL_SHOJI_SCREEN, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "small_dark_shoji_screen"), new BlockItem(ModBlocks.SMALL_DARK_SHOJI_SCREEN, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_paper"), new ShojiPaper());
                 registrar.register(new ResourceLocation(MOD_ID, "tatami_mat"), new BlockItem(ModBlocks.TATAMI_MAT, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "long_tatami_mat"), new BlockItem(ModBlocks.LONG_TATAMI_MAT, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "aged_tatami_mat"), new BlockItem(ModBlocks.AGED_TATAMI_MAT, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "long_aged_tatami_mat"), new BlockItem(ModBlocks.LONG_AGED_TATAMI_MAT, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "terracotta_warrior_statue"), new DoubleHighBlockItem(ModBlocks.TERRACOTTA_WARRIOR_STATUE, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "red_fence"), new BlockItem(ModBlocks.RED_FENCE, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "polished_gravel"), new BlockItem(ModBlocks.POLISHED_GRAVEL, new Item.Properties()));
 
                 // Mushrooms
                 registrar.register(new ResourceLocation(MOD_ID, "enoki_mushroom"), new BlockItem(ModBlocks.ENOKI_MUSHROOM, new Item.Properties()));
@@ -880,12 +900,21 @@ public class Main
                 // Misc building blocks
                 creativeTabBuilderRegistryEvent.accept(ModItems.SHOJI_SCREEN);
                 creativeTabBuilderRegistryEvent.accept(ModItems.DARK_SHOJI_SCREEN);
+                creativeTabBuilderRegistryEvent.accept(ModItems.SHOJI_SCREEN_GRIDED);
+                creativeTabBuilderRegistryEvent.accept(ModItems.DARK_SHOJI_SCREEN_GRIDED);
+                creativeTabBuilderRegistryEvent.accept(ModItems.SHOJI_SCREEN_GRIDED_HEAVY);
+                creativeTabBuilderRegistryEvent.accept(ModItems.DARK_SHOJI_SCREEN_GRIDED_HEAVY);
+                creativeTabBuilderRegistryEvent.accept(ModItems.SMALL_SHOJI_SCREEN);
+                creativeTabBuilderRegistryEvent.accept(ModItems.SMALL_DARK_SHOJI_SCREEN);
+                getAllShojiPaper(creativeTabBuilderRegistryEvent);
+                creativeTabBuilderRegistryEvent.accept(ModItems.SHOJI_PAPER);
                 creativeTabBuilderRegistryEvent.accept(ModItems.TATAMI_MAT);
                 creativeTabBuilderRegistryEvent.accept(ModItems.LONG_TATAMI_MAT);
                 creativeTabBuilderRegistryEvent.accept(ModItems.AGED_TATAMI_MAT);
                 creativeTabBuilderRegistryEvent.accept(ModItems.LONG_AGED_TATAMI_MAT);
                 creativeTabBuilderRegistryEvent.accept(ModItems.TERRACOTTA_WARRIOR_STATUE);
                 creativeTabBuilderRegistryEvent.accept(ModItems.RED_FENCE);
+                creativeTabBuilderRegistryEvent.accept(ModItems.POLISHED_GRAVEL);
 
                 // Hidden trapdoors
                 entries.putAfter(new ItemStack(Items.ACACIA_TRAPDOOR), new ItemStack(ModItems.ACACIA_PLANKS_TRAP_DOOR), visibility);
@@ -1062,6 +1091,16 @@ public class Main
                 entries.putAfter(new ItemStack(Items.ZOMBIE_SPAWN_EGG), new ItemStack(ModItems.TERRACOTTA_WARRIOR_SPAWN_EGG), visibility);
             }
         }
+    }
+
+    private static void getAllShojiPaper(BuildCreativeModeTabContentsEvent creativeTabBuilderRegistryEvent) {
+        for (String pattern : ShojiPaper.getAllPatterns()){
+            ItemStack itemStack = new ItemStack(ModItems.SHOJI_PAPER);
+            CompoundTag tag = itemStack.getOrCreateTag();
+            tag.putString("pattern", pattern);
+            creativeTabBuilderRegistryEvent.accept(itemStack);
+        }
+
     }
 
     /**

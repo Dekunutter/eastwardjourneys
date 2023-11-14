@@ -1,0 +1,7 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "frame": "eastwardjourneys:block/small_dark_shoji_screen",
+    "particle": "#frame"
+  }
+}

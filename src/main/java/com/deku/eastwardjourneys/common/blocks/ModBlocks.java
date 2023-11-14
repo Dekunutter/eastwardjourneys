@@ -349,6 +349,24 @@ public class ModBlocks {
     @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":dark_shoji_screen")
     public static ShojiScreen DARK_SHOJI_SCREEN;
 
+    @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":shoji_screen_grided")
+    public static ShojiScreen SHOJI_SCREEN_GRIDED;
+
+    @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":dark_shoji_screen_grided")
+    public static ShojiScreen DARK_SHOJI_SCREEN_GRIDED;
+
+    @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":shoji_screen_grided_heavy")
+    public static ShojiScreen SHOJI_SCREEN_GRIDED_HEAVY;
+
+    @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":dark_shoji_screen_grided_heavy")
+    public static ShojiScreen DARK_SHOJI_SCREEN_GRIDED_HEAVY;
+
+    @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":small_shoji_screen")
+    public static SmallShojiScreen SMALL_SHOJI_SCREEN;
+
+    @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":small_dark_shoji_screen")
+    public static SmallShojiScreen SMALL_DARK_SHOJI_SCREEN;
+
     @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":tatami_mat")
     public static TatamiMat TATAMI_MAT;
 
@@ -366,6 +384,9 @@ public class ModBlocks {
 
     @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":red_fence")
     public static RedFence RED_FENCE;
+
+    @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":polished_gravel")
+    public static PolishedGravel POLISHED_GRAVEL;
 
     @ObjectHolder(registryName = "minecraft:block", value = MOD_ID + ":rice_paddy")
     public static RicePaddy RICE_PADDY;

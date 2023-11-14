@@ -3,6 +3,7 @@ package com.deku.eastwardjourneys;
 import com.deku.eastwardjourneys.client.models.geom.ModLayerDefinitions;
 import com.deku.eastwardjourneys.client.models.geom.ModModelLayerLocations;
 import com.deku.eastwardjourneys.client.renderers.*;
+import com.deku.eastwardjourneys.client.renderers.ShojiScreenBlockEntityRenderer;
 import com.deku.eastwardjourneys.common.blocks.ModWoodType;
 import com.deku.eastwardjourneys.common.entity.ModEntityTypeInitializer;
 import com.deku.eastwardjourneys.common.entity.ModBlockEntities;
@@ -94,6 +95,27 @@ public class ClientOnlyRegistrar {
         @SubscribeEvent
         public static void onEntityRendererRegistry(final EntityRenderersEvent.RegisterLayerDefinitions registerLayerDefinitionEvent) {
             registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.KOI, () -> ModLayerDefinitions.KOI_LAYER);
+
+            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_FRAME, () -> ModLayerDefinitions.SHOJI_FRAME_LAYER);
+            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_FRAME_GRIDED, () -> ModLayerDefinitions.SHOJI_FRAME_GRIDED_LAYER);
+            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_FRAME_GRIDED_HEAVY, () -> ModLayerDefinitions.SHOJI_FRAME_GRIDED_HEAVY_LAYER);
+            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SMALL_SHOJI_FRAME, () -> ModLayerDefinitions.SMALL_SHOJI_FRAME_LAYER);
+
+            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_SCREEN, () -> ModLayerDefinitions.SHOJI_SCREEN_LAYER);
+            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SMALL_SHOJI_SCREEN, () -> ModLayerDefinitions.SMALL_SHOJI_SCREEN_LAYER);
+        }
+
+        /**
+         * Used to register block entity renderers into the game using the mod event bus
+         *
+         * Note that this is the only way renderers get associated to block entities, so you can only have a single renderer for each block entity.
+         * If you want to have blocks sharing a block entity type but not a renderer, you will need to combine all rendering logic into one renderer and make conditional checks based off of information within the block entity instead
+         *
+         * @param event The registry event with which block entity renderers will be registered
+         */
+        @SubscribeEvent
+        public static void onBlockEntityRendererRegistry(final EntityRenderersEvent.RegisterRenderers event) {
+            event.registerBlockEntityRenderer(ModBlockEntities.SHOJI_SCREEN_TYPE, ShojiScreenBlockEntityRenderer::new);
         }
 
         /**

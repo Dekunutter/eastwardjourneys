@@ -1,0 +1,29 @@
+{
+  "variants": {
+    "pattern=standard": {
+      "model": "eastwardjourneys:block/polished_gravel"
+    },
+    "pattern=north_south": {
+      "model": "eastwardjourneys:block/polished_gravel_straight"
+    },
+    "pattern=east_west": {
+      "model": "eastwardjourneys:block/polished_gravel_straight",
+      "y": 90
+    },
+    "pattern=south_east": {
+      "model": "eastwardjourneys:block/polished_gravel_curved"
+    },
+    "pattern=south_west": {
+      "model": "eastwardjourneys:block/polished_gravel_curved",
+      "y": 90
+    },
+    "pattern=north_east": {
+      "model": "eastwardjourneys:block/polished_gravel_curved",
+      "y": 180
+    },
+    "pattern=north_west": {
+      "model": "eastwardjourneys:block/polished_gravel_curved",
+      "y": 270
+    }
+  }
+}
