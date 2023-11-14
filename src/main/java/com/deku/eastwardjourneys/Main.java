@@ -907,7 +907,6 @@ public class Main
                 creativeTabBuilderRegistryEvent.accept(ModItems.SMALL_SHOJI_SCREEN);
                 creativeTabBuilderRegistryEvent.accept(ModItems.SMALL_DARK_SHOJI_SCREEN);
                 getAllShojiPaper(creativeTabBuilderRegistryEvent);
-                creativeTabBuilderRegistryEvent.accept(ModItems.SHOJI_PAPER);
                 creativeTabBuilderRegistryEvent.accept(ModItems.TATAMI_MAT);
                 creativeTabBuilderRegistryEvent.accept(ModItems.LONG_TATAMI_MAT);
                 creativeTabBuilderRegistryEvent.accept(ModItems.AGED_TATAMI_MAT);
