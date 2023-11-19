@@ -14,16 +14,19 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 
 import javax.annotation.Nullable;
 
 import static com.deku.eastwardjourneys.common.blocks.ModBlockStateProperties.HAS_SHOJI;
+import static com.deku.eastwardjourneys.common.blocks.ModBlockStateProperties.WATERLOGGED;
 
 
 public class SmallShojiScreen extends AbstractShojiScreen {
     public SmallShojiScreen(ShojiScreenBlockEntity.WoodColor color) {
         super(color);
-        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(HAS_SHOJI, false));
+        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(HAS_SHOJI, false).setValue(WATERLOGGED, false));
     }
 
     /**
@@ -37,8 +40,10 @@ public class SmallShojiScreen extends AbstractShojiScreen {
     public BlockState getStateForPlacement(BlockPlaceContext blockPlaceContext) {
         BlockPos position = blockPlaceContext.getClickedPos();
         Level level = blockPlaceContext.getLevel();
+        FluidState fluidstate = level.getFluidState(position);
+        BlockState newState = this.defaultBlockState().setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
         if (position.getY() < level.getMaxBuildHeight() - 1 && blockPlaceContext.getLevel().getBlockState(position.above()).canBeReplaced(blockPlaceContext)) {
-            return this.defaultBlockState().setValue(FACING, blockPlaceContext.getHorizontalDirection());
+            return newState.setValue(FACING, blockPlaceContext.getHorizontalDirection());
         } else {
             return null;
         }
@@ -71,6 +76,16 @@ public class SmallShojiScreen extends AbstractShojiScreen {
     public boolean canSurvive(BlockState blockState, LevelReader levelReader, BlockPos position) {
         BlockPos blockpos = position.below();
         return !levelReader.isEmptyBlock(blockpos);
+    }
+
+    /**
+     * Gets the current fluid state of this block
+     *
+     * @param state The state of the block being checked for fluid
+     * @return The fluid state of the block
+     */
+    public FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     /**
@@ -114,6 +129,6 @@ public class SmallShojiScreen extends AbstractShojiScreen {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(FACING).add(HAS_SHOJI);
+        builder.add(FACING, HAS_SHOJI, WATERLOGGED);
     }
 }

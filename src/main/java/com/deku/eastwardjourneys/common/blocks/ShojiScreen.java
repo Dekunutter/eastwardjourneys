@@ -20,12 +20,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 
 import javax.annotation.Nullable;
 
-import static com.deku.eastwardjourneys.common.blocks.ModBlockStateProperties.HALF;
-import static com.deku.eastwardjourneys.common.blocks.ModBlockStateProperties.HAS_SHOJI;
+import static com.deku.eastwardjourneys.common.blocks.ModBlockStateProperties.*;
 
 public class ShojiScreen extends AbstractShojiScreen {
     protected ShojiScreenBlockEntity.FrameType type;
@@ -33,7 +34,7 @@ public class ShojiScreen extends AbstractShojiScreen {
     public ShojiScreen(ShojiScreenBlockEntity.FrameType type, ShojiScreenBlockEntity.WoodColor color) {
         super(color);
         this.type = type;
-        registerDefaultState(defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER).setValue(FACING, Direction.NORTH).setValue(HAS_SHOJI, false));
+        registerDefaultState(defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER).setValue(FACING, Direction.NORTH).setValue(HAS_SHOJI, false).setValue(WATERLOGGED, false));
 
     }
 
@@ -115,7 +116,17 @@ public class ShojiScreen extends AbstractShojiScreen {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(HALF, FACING, HAS_SHOJI);
+        builder.add(HALF, FACING, HAS_SHOJI, WATERLOGGED);
+    }
+
+    /**
+     * Gets the current fluid state of this block
+     *
+     * @param state The state of the block being checked for fluid
+     * @return The fluid state of the block
+     */
+    public FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     /**
@@ -188,6 +199,7 @@ public class ShojiScreen extends AbstractShojiScreen {
             boolean result = ((ShojiScreenBlockEntity) blockEntity).popScreen();
             if (result) {
                 level.playSound(player, position, SoundEvents.MOSS_CARPET_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+                state.setValue(HAS_SHOJI, false);
             }
         }
     }
@@ -210,6 +222,6 @@ public class ShojiScreen extends AbstractShojiScreen {
         ItemStack itemStack = player.getItemInHand(hand);
         BlockEntity blockEntity = getAssociatedBlockEntity(state, position, level);
 
-        return placeScreen(itemStack, blockEntity, level, position, player);
+        return placeScreen(itemStack, blockEntity, state, level, position, player);
     }
 }

@@ -6,8 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Container;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,15 +22,17 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.material.*;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+
+import static com.deku.eastwardjourneys.common.blocks.ModBlockStateProperties.HAS_SHOJI;
+
 // TODO: Something is causing the shoji paper items to spawn into the world when reloaded even though they are still placed into the shoji screen. Essentially duplicating the item I think.
-public abstract class AbstractShojiScreen extends Block implements EntityBlock {
+public abstract class AbstractShojiScreen extends Block implements EntityBlock, SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     // NOTE: Actual model is only 3px wide but extended to 10px to resolve pathfinding issues with thin double-block objects and entities
@@ -214,6 +214,7 @@ public abstract class AbstractShojiScreen extends Block implements EntityBlock {
             boolean result = ((AbstractShojiScreenBlockEntity) blockEntity).popScreen();
             if (result) {
                 level.playSound(player, position, SoundEvents.MOSS_CARPET_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+                state.setValue(HAS_SHOJI, true);
             }
         }
     }
@@ -235,22 +236,7 @@ public abstract class AbstractShojiScreen extends Block implements EntityBlock {
         ItemStack itemStack = player.getItemInHand(hand);
 
         BlockEntity blockEntity = level.getBlockEntity(position);
-        if (blockEntity instanceof AbstractShojiScreenBlockEntity) {
-            if (level.isClientSide()) {
-                return itemStack.isEmpty() ? InteractionResult.PASS : InteractionResult.SUCCESS;
-            } else {
-                if (!itemStack.isEmpty() && itemStack.getItem() instanceof ShojiPaper) {
-                    boolean result = ((AbstractShojiScreenBlockEntity) blockEntity).setScreen(itemStack.copyWithCount(1));
-                    if (result) {
-                        itemStack.shrink(1);
-                        level.playSound(player, position, SoundEvents.MOSS_CARPET_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                        return InteractionResult.CONSUME;
-                    }
-                }
-            }
-        }
-
-        return InteractionResult.PASS;
+        return placeScreen(itemStack, blockEntity, state, level, position, player);
     }
 
     /**
@@ -258,12 +244,13 @@ public abstract class AbstractShojiScreen extends Block implements EntityBlock {
      *
      * @param itemStack Item being placed into the entity
      * @param blockEntity Block entity within which the item is being placed
+     * @param state state of the block the screen is being placed into
      * @param level Level in which this is happening in
      * @param position Position that the block was interacted with
      * @param player Player that interacted with the block to place the screen
      * @return Result after interacting with this block
      */
-    protected InteractionResult placeScreen(ItemStack itemStack, BlockEntity blockEntity, Level level, BlockPos position, Player player) {
+    protected InteractionResult placeScreen(ItemStack itemStack, BlockEntity blockEntity, BlockState state, Level level, BlockPos position, Player player) {
         if (blockEntity instanceof AbstractShojiScreenBlockEntity) {
             if (level.isClientSide()) {
                 return itemStack.isEmpty() ? InteractionResult.PASS : InteractionResult.SUCCESS;
@@ -273,6 +260,7 @@ public abstract class AbstractShojiScreen extends Block implements EntityBlock {
                     if (result) {
                         itemStack.shrink(1);
                         level.playSound(player, position, SoundEvents.MOSS_CARPET_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                        state.setValue(HAS_SHOJI, true);
                         return InteractionResult.CONSUME;
                     }
                 }
