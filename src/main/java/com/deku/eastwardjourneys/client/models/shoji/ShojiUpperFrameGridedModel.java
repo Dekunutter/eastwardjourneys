@@ -8,10 +8,10 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 
 
-public class ShojiFrameGridedHeavyModel extends AbstractShojiFrameModel {
+public class ShojiUpperFrameGridedModel extends AbstractShojiFrameModel {
     private final ModelPart frame;
 
-    public ShojiFrameGridedHeavyModel(ModelPart root) {
+    public ShojiUpperFrameGridedModel(ModelPart root) {
         this.frame = root.getChild("frame");
     }
 
@@ -24,17 +24,14 @@ public class ShojiFrameGridedHeavyModel extends AbstractShojiFrameModel {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        PartDefinition frame = partdefinition.addOrReplaceChild("frame", CubeListBuilder.create().texOffs(26, 0).addBox(-16.0F, -9.0F, 13.0F, 16.0F, 9.0F, 3.0F, new CubeDeformation(0.0F))
-            .texOffs(23, 22).addBox(-16.0F, -32.0F, 13.0F, 16.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
-            .texOffs(10, 25).addBox(-2.0F, -30.0F, 13.0F, 2.0F, 21.0F, 3.0F, new CubeDeformation(0.0F))
-            .texOffs(0, 25).addBox(-16.0F, -30.0F, 13.0F, 2.0F, 21.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(8.0F, 24.0F, -8.0F));
+        PartDefinition frame = partdefinition.addOrReplaceChild("frame", CubeListBuilder.create().texOffs(23, 22).addBox(-16.0F, -16.0F, 13.0F, 16.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
+            .texOffs(10, 25).addBox(-2.0F, -14.0F, 13.0F, 2.0F, 14.0F, 3.0F, new CubeDeformation(0.0F))
+            .texOffs(0, 25).addBox(-16.0F, -14.0F, 13.0F, 2.0F, 14.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(8.0F, 24.0F, -8.0F));
 
-        PartDefinition grid = frame.addOrReplaceChild("grid", CubeListBuilder.create().texOffs(0, 12).addBox(-14.0F, -26.0F, 13.0F, 12.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
-            .texOffs(0, 12).addBox(-14.0F, -21.0F, 13.0F, 12.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
-            .texOffs(0, 12).addBox(-14.0F, -16.0F, 13.0F, 12.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
-            .texOffs(0, 12).addBox(-14.0F, -11.0F, 13.0F, 12.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
-            .texOffs(56, 27).addBox(-11.0F, -30.0F, 13.0F, 1.0F, 21.0F, 3.0F, new CubeDeformation(0.0F))
-            .texOffs(56, 27).addBox(-6.0F, -30.0F, 13.0F, 1.0F, 21.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition grid = frame.addOrReplaceChild("grid", CubeListBuilder.create().texOffs(0, 12).addBox(-14.0F, -10.0F, 13.0F, 12.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
+            .texOffs(0, 12).addBox(-14.0F, -5.0F, 13.0F, 12.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
+            .texOffs(56, 27).addBox(-11.0F, -14.0F, 13.0F, 1.0F, 14.0F, 3.0F, new CubeDeformation(0.0F))
+            .texOffs(56, 27).addBox(-6.0F, -14.0F, 13.0F, 1.0F, 14.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
         return LayerDefinition.create(meshdefinition, 64, 64);
     }

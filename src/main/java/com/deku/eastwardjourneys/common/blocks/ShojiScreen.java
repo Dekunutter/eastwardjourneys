@@ -1,5 +1,6 @@
 package com.deku.eastwardjourneys.common.blocks;
 
+import com.deku.eastwardjourneys.common.blockEntities.AbstractShojiScreenBlockEntity;
 import com.deku.eastwardjourneys.common.blockEntities.ShojiScreenBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,13 +24,15 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import javax.annotation.Nullable;
 
+import static com.deku.eastwardjourneys.common.blocks.ModBlockStateProperties.HALF;
 import static com.deku.eastwardjourneys.common.blocks.ModBlockStateProperties.HAS_SHOJI;
 
 public class ShojiScreen extends AbstractShojiScreen {
-    public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
+    protected ShojiScreenBlockEntity.FrameType type;
 
     public ShojiScreen(ShojiScreenBlockEntity.FrameType type, ShojiScreenBlockEntity.WoodColor color) {
-        super(type, color);
+        super(color);
+        this.type = type;
         registerDefaultState(defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER).setValue(FACING, Direction.NORTH).setValue(HAS_SHOJI, false));
 
     }
@@ -125,10 +128,7 @@ public class ShojiScreen extends AbstractShojiScreen {
     @org.jetbrains.annotations.Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos position, BlockState state) {
-        if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
-            return new ShojiScreenBlockEntity(position, state, type, color);
-        }
-        return null;
+        return new ShojiScreenBlockEntity(position, state, type, color);
     }
 
     /**
@@ -148,6 +148,26 @@ public class ShojiScreen extends AbstractShojiScreen {
         } else {
             return level.getBlockEntity(position);
         }
+    }
+
+    /**
+     * Logic that occurs when this block is destroyed.
+     * Checks the associated block entity for this double-height block for an attached screen.
+     * Drops any screen currently placed into this frame into the world as an item for pick up.
+     *
+     * @param state State of the block being removed
+     * @param level Level the block being removed is in
+     * @param position Position of the block being removed
+     * @param otherState State of the block that will take its place
+     * @param isRemoved Whether the block will be removed
+     */
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos position, BlockState otherState, boolean isRemoved) {
+        BlockEntity blockEntity = getAssociatedBlockEntity(state, position, level);
+        if (blockEntity instanceof AbstractShojiScreenBlockEntity) {
+            ((AbstractShojiScreenBlockEntity) blockEntity).popScreen();
+        }
+        super.onRemove(state, level, position, otherState, isRemoved);
     }
 
     /**

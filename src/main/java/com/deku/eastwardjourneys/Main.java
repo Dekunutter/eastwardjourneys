@@ -437,8 +437,8 @@ public class Main
                 registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED, ShojiScreenBlockEntity.WoodColor.DARK));
                 registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided_heavy"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED_HEAVY, ShojiScreenBlockEntity.WoodColor.STANDARD));
                 registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided_heavy"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED_HEAVY, ShojiScreenBlockEntity.WoodColor.DARK));
-                registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen"), new SmallShojiScreen(ShojiScreenBlockEntity.FrameType.SMALL, ShojiScreenBlockEntity.WoodColor.STANDARD));
-                registrar.register(new ResourceLocation(MOD_ID, "small_dark_shoji_screen"), new SmallShojiScreen(ShojiScreenBlockEntity.FrameType.SMALL, ShojiScreenBlockEntity.WoodColor.DARK));
+                registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen"), new SmallShojiScreen(ShojiScreenBlockEntity.WoodColor.STANDARD));
+                registrar.register(new ResourceLocation(MOD_ID, "small_dark_shoji_screen"), new SmallShojiScreen(ShojiScreenBlockEntity.WoodColor.DARK));
                 registrar.register(new ResourceLocation(MOD_ID, "tatami_mat"), new TatamiMat());
                 registrar.register(new ResourceLocation(MOD_ID, "long_tatami_mat"), new LongTatamiMat());
                 registrar.register(new ResourceLocation(MOD_ID, "aged_tatami_mat"), new AgedTatamiMat());
@@ -502,7 +502,7 @@ public class Main
 
                 // Decorative block entities
                 registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_block_entity"), ModBlockEntities.SHOJI_SCREEN_TYPE);
-                //registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen_block_entity"), ModBlockEntities.SMALL_SHOJI_SCREEN_TYPE);
+                registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen_block_entity"), ModBlockEntities.SMALL_SHOJI_SCREEN_TYPE);
             });
         }
 

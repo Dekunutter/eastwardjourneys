@@ -1,6 +1,8 @@
 package com.deku.eastwardjourneys.common.blocks;
 
+import com.deku.eastwardjourneys.common.blockEntities.AbstractShojiScreenBlockEntity;
 import com.deku.eastwardjourneys.common.blockEntities.ShojiScreenBlockEntity;
+import com.deku.eastwardjourneys.common.blockEntities.SmallShojiScreenBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,6 +11,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 
@@ -18,8 +21,8 @@ import static com.deku.eastwardjourneys.common.blocks.ModBlockStateProperties.HA
 
 
 public class SmallShojiScreen extends AbstractShojiScreen {
-    public SmallShojiScreen(ShojiScreenBlockEntity.FrameType type, ShojiScreenBlockEntity.WoodColor color) {
-        super(type, color);
+    public SmallShojiScreen(ShojiScreenBlockEntity.WoodColor color) {
+        super(color);
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(HAS_SHOJI, false));
     }
 
@@ -68,6 +71,38 @@ public class SmallShojiScreen extends AbstractShojiScreen {
     public boolean canSurvive(BlockState blockState, LevelReader levelReader, BlockPos position) {
         BlockPos blockpos = position.below();
         return !levelReader.isEmptyBlock(blockpos);
+    }
+
+    /**
+     * Ties a block entity to this block
+     *
+     * @param position Position of the block
+     * @param state State of the block
+     * @return The block entity tied to this block
+     */
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos position, BlockState state) {
+        return new SmallShojiScreenBlockEntity(position, state, color);
+    }
+
+    /**
+     * Logic that occurs when this block is destroyed.
+     * Drops any screen currently placed into this frame into the world as an item for pick up.
+     *
+     * @param state State of the block being removed
+     * @param level Level the block being removed is in
+     * @param position Position of the block being removed
+     * @param otherState State of the block that will take its place
+     * @param isRemoved Whether the block will be removed
+     */
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos position, BlockState otherState, boolean isRemoved) {
+        BlockEntity blockEntity = level.getBlockEntity(position);
+        if (blockEntity instanceof AbstractShojiScreenBlockEntity) {
+            ((AbstractShojiScreenBlockEntity) blockEntity).popScreen();
+        }
+        super.onRemove(state, level, position, otherState, isRemoved);
     }
 
     /**

@@ -96,9 +96,11 @@ public class ClientOnlyRegistrar {
         public static void onEntityRendererRegistry(final EntityRenderersEvent.RegisterLayerDefinitions registerLayerDefinitionEvent) {
             registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.KOI, () -> ModLayerDefinitions.KOI_LAYER);
 
-            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_FRAME, () -> ModLayerDefinitions.SHOJI_FRAME_LAYER);
-            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_FRAME_GRIDED, () -> ModLayerDefinitions.SHOJI_FRAME_GRIDED_LAYER);
-            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_FRAME_GRIDED_HEAVY, () -> ModLayerDefinitions.SHOJI_FRAME_GRIDED_HEAVY_LAYER);
+            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_FRAME_LOWER, () -> ModLayerDefinitions.SHOJI_FRAME_LOWER_LAYER);
+            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_FRAME_GRIDED_LOWER, () -> ModLayerDefinitions.SHOJI_FRAME_GRIDED_LOWER_LAYER);
+            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_FRAME_GRIDED_HEAVY_LOWER, () -> ModLayerDefinitions.SHOJI_FRAME_GRIDED_HEAVY_LOWER_LAYER);
+            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_FRAME_UPPER, () -> ModLayerDefinitions.SHOJI_FRAME_UPPER_LAYER);
+            registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_FRAME_GRIDED_UPPER, () -> ModLayerDefinitions.SHOJI_FRAME_GRIDED_UPPER_LAYER);
             registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SMALL_SHOJI_FRAME, () -> ModLayerDefinitions.SMALL_SHOJI_FRAME_LAYER);
 
             registerLayerDefinitionEvent.registerLayerDefinition(ModModelLayerLocations.SHOJI_SCREEN, () -> ModLayerDefinitions.SHOJI_SCREEN_LAYER);
@@ -116,6 +118,7 @@ public class ClientOnlyRegistrar {
         @SubscribeEvent
         public static void onBlockEntityRendererRegistry(final EntityRenderersEvent.RegisterRenderers event) {
             event.registerBlockEntityRenderer(ModBlockEntities.SHOJI_SCREEN_TYPE, ShojiScreenBlockEntityRenderer::new);
+            event.registerBlockEntityRenderer(ModBlockEntities.SMALL_SHOJI_SCREEN_TYPE, SmallShojiScreenBlockEntityRenderer::new);
         }
 
         /**

@@ -1,11 +1,13 @@
 package com.deku.eastwardjourneys.common.blocks;
 
-import com.deku.eastwardjourneys.common.blockEntities.ShojiScreenBlockEntity;
+import com.deku.eastwardjourneys.common.blockEntities.AbstractShojiScreenBlockEntity;
 import com.deku.eastwardjourneys.common.items.ShojiPaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Container;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,6 +31,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+// TODO: Something is causing the shoji paper items to spawn into the world when reloaded even though they are still placed into the shoji screen. Essentially duplicating the item I think.
 public abstract class AbstractShojiScreen extends Block implements EntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
@@ -38,12 +41,10 @@ public abstract class AbstractShojiScreen extends Block implements EntityBlock {
     protected static final VoxelShape WEST_AABB = Block.box(6.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
     protected static final VoxelShape EAST_AABB = Block.box(0.0D, 0.0D, 0.0D, 10.0D, 16.0D, 16.0D);
 
-    protected ShojiScreenBlockEntity.FrameType type;
-    protected ShojiScreenBlockEntity.WoodColor color;
+    protected AbstractShojiScreenBlockEntity.WoodColor color;
 
-    public AbstractShojiScreen(ShojiScreenBlockEntity.FrameType type, ShojiScreenBlockEntity.WoodColor color) {
+    public AbstractShojiScreen(AbstractShojiScreenBlockEntity.WoodColor color) {
         super(BlockBehaviour.Properties.of().noOcclusion().strength(0.5f).mapColor(MapColor.NONE).ignitedByLava().instrument(NoteBlockInstrument.BASS).sound(SoundType.GRASS));
-        this.type = type;
         this.color = color;
     }
 
@@ -198,36 +199,6 @@ public abstract class AbstractShojiScreen extends Block implements EntityBlock {
     }
 
     /**
-     * Ties a block entity to this block
-     *
-     * @param position Position of the block
-     * @param state State of the block
-     * @return The block entity tied to this block
-     */
-    @org.jetbrains.annotations.Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos position, BlockState state) {
-        return new ShojiScreenBlockEntity(position, state, type, color);
-    }
-
-    /**
-     * Logic that occurs when this block is destroyed
-     * Drops any screen currently placed into this frame into the world as an item for pick up
-     *
-     * @param levelAccessor Accessor for the level the block is in
-     * @param position Position of the block
-     * @param state State of the block
-     */
-    @Override
-    public void destroy(LevelAccessor levelAccessor, BlockPos position, BlockState state) {
-        super.destroy(levelAccessor, position, state);
-        BlockEntity blockEntity = levelAccessor.getBlockEntity(position);
-        if (blockEntity instanceof ShojiScreenBlockEntity) {
-            ((ShojiScreenBlockEntity) blockEntity).popScreen();
-        }
-    }
-
-    /**
      * Called whenever this block is attacked by a player
      * Causes the block to drop its placed screen, if one is attached
      *
@@ -239,8 +210,8 @@ public abstract class AbstractShojiScreen extends Block implements EntityBlock {
     @Override
     public void attack(BlockState state, Level level, BlockPos position, Player player) {
         BlockEntity blockEntity = level.getBlockEntity(position);
-        if (blockEntity instanceof ShojiScreenBlockEntity) {
-            boolean result = ((ShojiScreenBlockEntity) blockEntity).popScreen();
+        if (blockEntity instanceof AbstractShojiScreenBlockEntity) {
+            boolean result = ((AbstractShojiScreenBlockEntity) blockEntity).popScreen();
             if (result) {
                 level.playSound(player, position, SoundEvents.MOSS_CARPET_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
             }
@@ -264,12 +235,12 @@ public abstract class AbstractShojiScreen extends Block implements EntityBlock {
         ItemStack itemStack = player.getItemInHand(hand);
 
         BlockEntity blockEntity = level.getBlockEntity(position);
-        if (blockEntity instanceof ShojiScreenBlockEntity) {
+        if (blockEntity instanceof AbstractShojiScreenBlockEntity) {
             if (level.isClientSide()) {
                 return itemStack.isEmpty() ? InteractionResult.PASS : InteractionResult.SUCCESS;
             } else {
                 if (!itemStack.isEmpty() && itemStack.getItem() instanceof ShojiPaper) {
-                    boolean result = ((ShojiScreenBlockEntity) blockEntity).setScreen(itemStack.copyWithCount(1));
+                    boolean result = ((AbstractShojiScreenBlockEntity) blockEntity).setScreen(itemStack.copyWithCount(1));
                     if (result) {
                         itemStack.shrink(1);
                         level.playSound(player, position, SoundEvents.MOSS_CARPET_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -293,12 +264,12 @@ public abstract class AbstractShojiScreen extends Block implements EntityBlock {
      * @return Result after interacting with this block
      */
     protected InteractionResult placeScreen(ItemStack itemStack, BlockEntity blockEntity, Level level, BlockPos position, Player player) {
-        if (blockEntity instanceof ShojiScreenBlockEntity) {
+        if (blockEntity instanceof AbstractShojiScreenBlockEntity) {
             if (level.isClientSide()) {
                 return itemStack.isEmpty() ? InteractionResult.PASS : InteractionResult.SUCCESS;
             } else {
                 if (!itemStack.isEmpty() && itemStack.getItem() instanceof ShojiPaper) {
-                    boolean result = ((ShojiScreenBlockEntity) blockEntity).setScreen(itemStack.copyWithCount(1));
+                    boolean result = ((AbstractShojiScreenBlockEntity) blockEntity).setScreen(itemStack.copyWithCount(1));
                     if (result) {
                         itemStack.shrink(1);
                         level.playSound(player, position, SoundEvents.MOSS_CARPET_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);

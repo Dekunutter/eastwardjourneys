@@ -8,10 +8,10 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 
 
-public class ShojiFrameModel extends AbstractShojiFrameModel {
+public class ShojiUpperFrameModel extends AbstractShojiFrameModel {
     private final ModelPart frame;
 
-    public ShojiFrameModel(ModelPart root) {
+    public ShojiUpperFrameModel(ModelPart root) {
         this.frame = root.getChild("frame");
     }
 
@@ -24,10 +24,9 @@ public class ShojiFrameModel extends AbstractShojiFrameModel {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        PartDefinition frame = partdefinition.addOrReplaceChild("frame", CubeListBuilder.create().texOffs(26, 17).addBox(-16.0F, -2.0F, 13.0F, 16.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
-            .texOffs(23, 22).addBox(-16.0F, -32.0F, 13.0F, 16.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
-            .texOffs(10, 25).addBox(-2.0F, -30.0F, 13.0F, 2.0F, 28.0F, 3.0F, new CubeDeformation(0.0F))
-            .texOffs(0, 25).addBox(-16.0F, -30.0F, 13.0F, 2.0F, 28.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(8.0F, 24.0F, -8.0F));
+        PartDefinition frame = partdefinition.addOrReplaceChild("frame", CubeListBuilder.create().texOffs(23, 22).addBox(-16.0F, -16.0F, 13.0F, 16.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
+            .texOffs(10, 25).addBox(-2.0F, -14.0F, 13.0F, 2.0F, 14.0F, 3.0F, new CubeDeformation(0.0F))
+            .texOffs(0, 25).addBox(-16.0F, -14.0F, 13.0F, 2.0F, 14.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(8.0F, 24.0F, -8.0F));
 
         return LayerDefinition.create(meshdefinition, 64, 64);
     }

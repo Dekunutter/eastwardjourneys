@@ -1,6 +1,5 @@
 package com.deku.eastwardjourneys.client.models.shoji;
 
-import com.deku.eastwardjourneys.common.blockEntities.ShojiScreenBlockEntity;
 import com.deku.eastwardjourneys.common.items.ShojiPaper;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -49,17 +48,13 @@ public abstract class AbstractShojiScreenModel extends EntityModel {
     }
 
     /**
-     * Gets the texture for the shoji screen based on the screen placed into the shoji frame and the type of frame the screen is being rendered within
+     * Gets the texture for the shoji screen based on the screen placed into the shoji frame
      *
      * @param screen Shoji screen item that is being rendered
-     * @param type Type of shoji frame used this screen is being rendered within
      * @return The resource location for the texture to apply to the model
      */
-    public ResourceLocation getTextureLocation(ItemStack screen, ShojiScreenBlockEntity.FrameType type) {
-        return switch(type) {
-            case SMALL -> new ResourceLocation(MOD_ID, "textures/block/shoji/small/" + ShojiPaper.getPattern(screen) + ".png");
-            default -> new ResourceLocation(MOD_ID, "textures/block/shoji/" + ShojiPaper.getPattern(screen) + ".png");
-        };
+    public ResourceLocation getTextureLocation(ItemStack screen) {
+        return new ResourceLocation(MOD_ID, "textures/block/shoji/" + ShojiPaper.getPattern(screen) + ".png");
     }
 
     /**

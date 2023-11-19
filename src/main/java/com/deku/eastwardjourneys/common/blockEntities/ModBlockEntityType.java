@@ -11,4 +11,7 @@ public class ModBlockEntityType {
 
     @ObjectHolder(registryName = "minecraft:block_entity_type", value = MOD_ID + ":shoji_screen_block_entity")
     public static BlockEntityType<ShojiScreenBlockEntity> SHOJI_SCREEN_BLOCK_DATA;
+
+    @ObjectHolder(registryName = "minecraft:block_entity_type", value = MOD_ID + ":small_shoji_screen_block_entity")
+    public static BlockEntityType<SmallShojiScreenBlockEntity> SMALL_SHOJI_SCREEN_BLOCK_DATA;
 }
