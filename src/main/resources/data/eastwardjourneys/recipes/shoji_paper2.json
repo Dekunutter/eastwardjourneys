@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#X",
+    "X#"
+  ],
+  "key": {
+    "#": {
+      "item": "eastwardjourneys:rice"
+    },
+    "X": {
+      "item": "minecraft:pumpkin"
+    }
+  },
+  "result": {
+    "item": "eastwardjourneys:shoji_paper",
+    "count": 4
+  }
+}

@@ -14,7 +14,7 @@ import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.PlayMessages;
+import net.minecraftforge.network.packets.SpawnEntity;
 
 public class ModChestBoatEntity extends ChestBoat {
     private static final EntityDataAccessor<Integer> MOD_CHEST_BOAT_TYPE = SynchedEntityData.defineId(ModChestBoatEntity.class, EntityDataSerializers.INT);
@@ -33,7 +33,7 @@ public class ModChestBoatEntity extends ChestBoat {
 
     }
 
-    public ModChestBoatEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+    public ModChestBoatEntity(SpawnEntity spawnEntity, Level level) {
         this(ModEntityTypeInitializer.CHEST_BOAT_ENTITY_TYPE.get(), level);
     }
 

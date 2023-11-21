@@ -10,4 +10,7 @@ import static com.deku.eastwardjourneys.Main.MOD_ID;
 public class ModItemTags {
     public static final TagKey<Item> TANOOKI_TEMPTATIONS = TagKey.create(Registries.ITEM, new ResourceLocation(MOD_ID, "tanooki_tempt_items"));
     public static final TagKey<Item> TANOOKI_DESIREABLES = TagKey.create(Registries.ITEM, new ResourceLocation(MOD_ID, "tanooki_desireables"));
+
+    public static final TagKey<Item> SHOJI_PATTERN_ITEMS = TagKey.create(Registries.ITEM, new ResourceLocation(MOD_ID, "shoji_pattern_items"));
+
 }

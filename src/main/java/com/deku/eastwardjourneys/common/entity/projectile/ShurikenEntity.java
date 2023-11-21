@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.network.PlayMessages;
+import net.minecraftforge.network.packets.SpawnEntity;
 
 public class ShurikenEntity extends AbstractArrow implements IEntityAdditionalSpawnData {
     public float spin = 0.0f;
@@ -31,7 +31,7 @@ public class ShurikenEntity extends AbstractArrow implements IEntityAdditionalSp
         setBaseDamage(0.1D);
     }
 
-    public ShurikenEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+    public ShurikenEntity(SpawnEntity spawnEntity, Level level) {
         super(ModEntityTypeInitializer.SHURIKEN_ENTITY_TYPE.get(), level);
         setBaseDamage(0.1D);
     }

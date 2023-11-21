@@ -2,6 +2,7 @@ package com.deku.eastwardjourneys;
 
 import com.deku.eastwardjourneys.client.network.handlers.DoubleJumpClientMessageHandler;
 import com.deku.eastwardjourneys.client.network.messages.DoubleJumpClientMessage;
+import com.deku.eastwardjourneys.common.blockEntities.ShojiScreenBlockEntity;
 import com.deku.eastwardjourneys.common.blocks.*;
 import com.deku.eastwardjourneys.common.blocks.black_pine.*;
 import com.deku.eastwardjourneys.common.blocks.hinoki.*;
@@ -57,6 +58,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.registries.VanillaRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -100,9 +102,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.network.*;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.Level;
@@ -112,7 +112,6 @@ import terrablender.api.Regions;
 import terrablender.api.SurfaceRuleManager;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.deku.eastwardjourneys.common.enchantments.ModEnchantmentInitializer.DOUBLE_JUMP_ENCHANTMENT;
@@ -123,8 +122,7 @@ import static net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER;
 @Mod(Main.MOD_ID)
 public class Main
 {
-    // TODO: Set to true to hide noise on console when mod is finished
-    final boolean HIDE_CONSOLE_NOISE = false;
+    final boolean HIDE_CONSOLE_NOISE = true;
 
     // declare Mod ID
     public static final String MOD_ID = "eastwardjourneys";
@@ -133,10 +131,10 @@ public class Main
     public static final Logger LOGGER = LogManager.getLogger(Main.class);
 
     // Network Protocol Version
-    public static final String NETWORK_PROTOCOL_VERSION = "1.0";
+    public static final int NETWORK_PROTOCOL_VERSION = 1;
 
     // Network channel
-    public static SimpleChannel NETWORK_CHANNEL = null;
+    public static SimpleChannel networkChannel = null;
 
     /**
      * Constructor for initializing the mod.
@@ -151,7 +149,13 @@ public class Main
      */
     public Main() {
         System.out.println("STARTING EXECUTION");
-        NETWORK_CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MOD_ID, "eastwardjourneyschannel"), () -> NETWORK_PROTOCOL_VERSION, DoubleJumpClientMessageHandler::isProtocolAcceptedOnClient, DoubleJumpServerMessageHandler::isProtocolAcceptedOnServer);
+        networkChannel = ChannelBuilder
+            .named(new ResourceLocation(MOD_ID, "eastwardjourneyschannel"))
+            .optional()
+            .networkProtocolVersion(NETWORK_PROTOCOL_VERSION)
+            .clientAcceptedVersions((s, v) -> v == 1)
+            .serverAcceptedVersions((s, v) -> v == 1)
+            .simpleChannel();
 
         if (HIDE_CONSOLE_NOISE) {
             LogTweaker.applyLogFilterLevel(Level.WARN);
@@ -231,8 +235,17 @@ public class Main
      * @param event The setup event
      */
     private void setup(final FMLCommonSetupEvent event) {
-        NETWORK_CHANNEL.registerMessage(DoubleJumpServerMessage.MESSAGE_ID, DoubleJumpServerMessage.class, DoubleJumpServerMessage::encode, DoubleJumpServerMessage::decode, DoubleJumpServerMessageHandler::onMessageReceived, Optional.of(PLAY_TO_SERVER));
-        NETWORK_CHANNEL.registerMessage(DoubleJumpClientMessage.MESSAGE_ID, DoubleJumpClientMessage.class, DoubleJumpClientMessage::encode, DoubleJumpClientMessage::decode, DoubleJumpClientMessageHandler::onMessageReceived, Optional.of(PLAY_TO_CLIENT));
+        networkChannel.messageBuilder(DoubleJumpServerMessage.class, PLAY_TO_SERVER)
+            .decoder(DoubleJumpServerMessage::decode)
+            .encoder(DoubleJumpServerMessage::encode)
+            .consumerNetworkThread(DoubleJumpServerMessageHandler::onMessageReceived)
+            .add();
+
+        networkChannel.messageBuilder(DoubleJumpClientMessage.class, PLAY_TO_CLIENT)
+            .decoder(DoubleJumpClientMessage::decode)
+            .encoder(DoubleJumpClientMessage::encode)
+            .consumerNetworkThread(DoubleJumpClientMessageHandler::onMessageReceived)
+            .add();
 
         event.enqueueWork(() -> {
             BlockSetType.register(ModBlockSetType.MAPLE);
@@ -418,14 +431,21 @@ public class Main
 
 
                 // All architectural blocks
-                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen"), new ShojiScreen());
-                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen"), new ShojiScreen());
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.STANDARD, ShojiScreenBlockEntity.WoodColor.STANDARD));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.STANDARD, ShojiScreenBlockEntity.WoodColor.DARK));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED, ShojiScreenBlockEntity.WoodColor.STANDARD));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED, ShojiScreenBlockEntity.WoodColor.DARK));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided_heavy"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED_HEAVY, ShojiScreenBlockEntity.WoodColor.STANDARD));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided_heavy"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED_HEAVY, ShojiScreenBlockEntity.WoodColor.DARK));
+                registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen"), new SmallShojiScreen(ShojiScreenBlockEntity.WoodColor.STANDARD));
+                registrar.register(new ResourceLocation(MOD_ID, "small_dark_shoji_screen"), new SmallShojiScreen(ShojiScreenBlockEntity.WoodColor.DARK));
                 registrar.register(new ResourceLocation(MOD_ID, "tatami_mat"), new TatamiMat());
                 registrar.register(new ResourceLocation(MOD_ID, "long_tatami_mat"), new LongTatamiMat());
                 registrar.register(new ResourceLocation(MOD_ID, "aged_tatami_mat"), new AgedTatamiMat());
                 registrar.register(new ResourceLocation(MOD_ID, "long_aged_tatami_mat"), new LongAgedTatamiMat());
                 registrar.register(new ResourceLocation(MOD_ID, "terracotta_warrior_statue"), new TerracottaWarriorStatue());
                 registrar.register(new ResourceLocation(MOD_ID, "red_fence"), new RedFence());
+                registrar.register(new ResourceLocation(MOD_ID, "polished_gravel"), new PolishedGravel());
 
                 // All farm crops
                 registrar.register(new ResourceLocation(MOD_ID, "rice_paddy"), new RicePaddy());
@@ -479,6 +499,10 @@ public class Main
                 // All sign block entities
                 registrar.register(new ResourceLocation(MOD_ID, "mod_sign_entity"), ModBlockEntities.SIGN_ENTITY_TYPE);
                 registrar.register(new ResourceLocation(MOD_ID, "mod_hanging_sign_entity"), ModBlockEntities.HANGING_SIGN_ENTITY_TYPE);
+
+                // Decorative block entities
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_block_entity"), ModBlockEntities.SHOJI_SCREEN_TYPE);
+                registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen_block_entity"), ModBlockEntities.SMALL_SHOJI_SCREEN_TYPE);
             });
         }
 
@@ -621,12 +645,20 @@ public class Main
                 // All architectural items
                 registrar.register(new ResourceLocation(MOD_ID, "shoji_screen"), new DoubleHighBlockItem(ModBlocks.SHOJI_SCREEN, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen"), new DoubleHighBlockItem(ModBlocks.DARK_SHOJI_SCREEN, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided"), new DoubleHighBlockItem(ModBlocks.SHOJI_SCREEN_GRIDED, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided"), new DoubleHighBlockItem(ModBlocks.DARK_SHOJI_SCREEN_GRIDED, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided_heavy"), new DoubleHighBlockItem(ModBlocks.SHOJI_SCREEN_GRIDED_HEAVY, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided_heavy"), new DoubleHighBlockItem(ModBlocks.DARK_SHOJI_SCREEN_GRIDED_HEAVY, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen"), new BlockItem(ModBlocks.SMALL_SHOJI_SCREEN, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "small_dark_shoji_screen"), new BlockItem(ModBlocks.SMALL_DARK_SHOJI_SCREEN, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_paper"), new ShojiPaper());
                 registrar.register(new ResourceLocation(MOD_ID, "tatami_mat"), new BlockItem(ModBlocks.TATAMI_MAT, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "long_tatami_mat"), new BlockItem(ModBlocks.LONG_TATAMI_MAT, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "aged_tatami_mat"), new BlockItem(ModBlocks.AGED_TATAMI_MAT, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "long_aged_tatami_mat"), new BlockItem(ModBlocks.LONG_AGED_TATAMI_MAT, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "terracotta_warrior_statue"), new DoubleHighBlockItem(ModBlocks.TERRACOTTA_WARRIOR_STATUE, new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "red_fence"), new BlockItem(ModBlocks.RED_FENCE, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "polished_gravel"), new BlockItem(ModBlocks.POLISHED_GRAVEL, new Item.Properties()));
 
                 // Mushrooms
                 registrar.register(new ResourceLocation(MOD_ID, "enoki_mushroom"), new BlockItem(ModBlocks.ENOKI_MUSHROOM, new Item.Properties()));
@@ -868,12 +900,20 @@ public class Main
                 // Misc building blocks
                 creativeTabBuilderRegistryEvent.accept(ModItems.SHOJI_SCREEN);
                 creativeTabBuilderRegistryEvent.accept(ModItems.DARK_SHOJI_SCREEN);
+                creativeTabBuilderRegistryEvent.accept(ModItems.SHOJI_SCREEN_GRIDED);
+                creativeTabBuilderRegistryEvent.accept(ModItems.DARK_SHOJI_SCREEN_GRIDED);
+                creativeTabBuilderRegistryEvent.accept(ModItems.SHOJI_SCREEN_GRIDED_HEAVY);
+                creativeTabBuilderRegistryEvent.accept(ModItems.DARK_SHOJI_SCREEN_GRIDED_HEAVY);
+                creativeTabBuilderRegistryEvent.accept(ModItems.SMALL_SHOJI_SCREEN);
+                creativeTabBuilderRegistryEvent.accept(ModItems.SMALL_DARK_SHOJI_SCREEN);
+                getAllShojiPaper(creativeTabBuilderRegistryEvent);
                 creativeTabBuilderRegistryEvent.accept(ModItems.TATAMI_MAT);
                 creativeTabBuilderRegistryEvent.accept(ModItems.LONG_TATAMI_MAT);
                 creativeTabBuilderRegistryEvent.accept(ModItems.AGED_TATAMI_MAT);
                 creativeTabBuilderRegistryEvent.accept(ModItems.LONG_AGED_TATAMI_MAT);
                 creativeTabBuilderRegistryEvent.accept(ModItems.TERRACOTTA_WARRIOR_STATUE);
                 creativeTabBuilderRegistryEvent.accept(ModItems.RED_FENCE);
+                creativeTabBuilderRegistryEvent.accept(ModItems.POLISHED_GRAVEL);
 
                 // Hidden trapdoors
                 entries.putAfter(new ItemStack(Items.ACACIA_TRAPDOOR), new ItemStack(ModItems.ACACIA_PLANKS_TRAP_DOOR), visibility);
@@ -1052,6 +1092,16 @@ public class Main
         }
     }
 
+    private static void getAllShojiPaper(BuildCreativeModeTabContentsEvent creativeTabBuilderRegistryEvent) {
+        for (String pattern : ShojiPaper.getAllPatterns()){
+            ItemStack itemStack = new ItemStack(ModItems.SHOJI_PAPER);
+            CompoundTag tag = itemStack.getOrCreateTag();
+            tag.putString("pattern", pattern);
+            creativeTabBuilderRegistryEvent.accept(itemStack);
+        }
+
+    }
+
     /**
      * Inner class for different event handlers overriding handlers from vanilla Minecraft
      */
@@ -1170,8 +1220,11 @@ public class Main
                                     player.causeFoodExhaustion(player.isSprinting() ? 0.2F * 3.0F : 0.05F * 3.0F);
                                     player.noJumpDelay = 10;
 
+                                    //DoubleJumpTask
                                     DoubleJumpServerMessage message = new DoubleJumpServerMessage(true);
-                                    Main.NETWORK_CHANNEL.sendToServer(message);
+                                    // TODO: Utilize a configurationtTask so I can have the context to pull a connection from?
+                                    // CURRNETLY THROWING Caused by: java.lang.IllegalArgumentException: Invalid message com.deku.eastwardjourneys.server.network.messages.DoubleJumpServerMessage
+                                    networkChannel.send(message, PacketDistributor.SERVER.noArg());
                                 }
                             }
                         }
@@ -1212,7 +1265,7 @@ public class Main
                 boolean hasDoubleJumped = player.getCapability(DoubleJumpCapability.DOUBLE_JUMP).map(DoubleJumpCapability.IDoubleJump::hasDoubleJumped).orElse(false);
                 if (hasDoubleJumped) {
                     DoubleJumpClientMessage message = new DoubleJumpClientMessage(player.getUUID(), true);
-                    Main.NETWORK_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), message);
+                    networkChannel.send(message, PacketDistributor.PLAYER.with(player));
                 }
             }
         }

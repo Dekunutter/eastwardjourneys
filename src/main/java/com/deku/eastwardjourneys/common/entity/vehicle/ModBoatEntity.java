@@ -14,7 +14,7 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.PlayMessages;
+import net.minecraftforge.network.packets.SpawnEntity;
 
 public class ModBoatEntity extends Boat {
     private static final EntityDataAccessor<Integer> MOD_BOAT_TYPE = SynchedEntityData.defineId(ModBoatEntity.class, EntityDataSerializers.INT);
@@ -30,10 +30,9 @@ public class ModBoatEntity extends Boat {
         this.xo = positionX;
         this.yo = positionY;
         this.zo = positionZ;
-
     }
 
-    public ModBoatEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+    public ModBoatEntity(SpawnEntity spawnEntity, Level level) {
         this(ModEntityTypeInitializer.BOAT_ENTITY_TYPE.get(), level);
     }
 

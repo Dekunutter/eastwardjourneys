@@ -1,68 +1,41 @@
 package com.deku.eastwardjourneys.common.blocks;
 
+import com.deku.eastwardjourneys.common.blockEntities.AbstractShojiScreenBlockEntity;
+import com.deku.eastwardjourneys.common.blockEntities.ShojiScreenBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
 
 import javax.annotation.Nullable;
 
+import static com.deku.eastwardjourneys.common.blocks.ModBlockStateProperties.*;
 
-public class ShojiScreen extends Block {
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-    public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
+public class ShojiScreen extends AbstractShojiScreen {
+    protected ShojiScreenBlockEntity.FrameType type;
 
-    // NOTE: Actual model is only 3px wide but extended to 10px to resolve pathfinding issues with thin double-block objects and entities
-    protected static final VoxelShape SOUTH_AABB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 10.0D);
-    protected static final VoxelShape NORTH_AABB = Block.box(0.0D, 0.0D, 6.0D, 16.0D, 16.0D, 16.0D);
-    protected static final VoxelShape WEST_AABB = Block.box(6.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-    protected static final VoxelShape EAST_AABB = Block.box(0.0D, 0.0D, 0.0D, 10.0D, 16.0D, 16.0D);
+    public ShojiScreen(ShojiScreenBlockEntity.FrameType type, ShojiScreenBlockEntity.WoodColor color) {
+        super(color);
+        this.type = type;
+        registerDefaultState(defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER).setValue(FACING, Direction.NORTH).setValue(HAS_SHOJI, false).setValue(WATERLOGGED, false));
 
-
-    public ShojiScreen() {
-        super(BlockBehaviour.Properties.of().noOcclusion().strength(0.1f).mapColor(MapColor.NONE).ignitedByLava().instrument(NoteBlockInstrument.BASS).sound(SoundType.GRASS));
-        registerDefaultState(defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER).setValue(FACING, Direction.NORTH));
-    }
-
-    /**
-     * Gets the shape of the block depending on the state associated with this instance.
-     * Extracts the shape from the designated AABBs.
-     * This determines in what direction the block will be rendered, since it doesnt fill an entire block
-     *
-     * @param state State of this block
-     * @param blockGetter Reader for information from this block
-     * @param position Position of this block
-     * @param selectionContext The context under which this block was selected
-     * @return
-     */
-    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos position, CollisionContext selectionContext) {
-        Direction direction = state.getValue(FACING);
-        switch(direction) {
-            case EAST:
-            default:
-                return EAST_AABB;
-            case SOUTH:
-                return SOUTH_AABB;
-            case WEST:
-                return WEST_AABB;
-            case NORTH:
-                return NORTH_AABB;
-        }
     }
 
     /**
@@ -131,7 +104,7 @@ public class ShojiScreen extends Block {
     public boolean canSurvive(BlockState blockState, LevelReader levelReader, BlockPos position) {
         BlockPos blockpos = position.below();
         BlockState blockstate = levelReader.getBlockState(blockpos);
-        return blockState.getValue(HALF) == DoubleBlockHalf.LOWER ? blockstate.isFaceSturdy(levelReader, blockpos, Direction.UP) : blockstate.is(this);
+        return blockState.getValue(HALF) == DoubleBlockHalf.LOWER ? !levelReader.isEmptyBlock(blockpos) : blockstate.is(this);
     }
 
     /**
@@ -143,83 +116,112 @@ public class ShojiScreen extends Block {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(HALF, FACING);
+        builder.add(HALF, FACING, HAS_SHOJI, WATERLOGGED);
     }
 
     /**
-     * Determines what happens to this block if it is pushed by a piston.
-     * In this case, we want the block to be destroyed.
+     * Gets the current fluid state of this block
      *
-     * @param state State of the block being pushed
-     * @return What the reaction to being pushed is
+     * @param state The state of the block being checked for fluid
+     * @return The fluid state of the block
      */
-    public PushReaction getPistonPushReaction(BlockState state) {
-        return PushReaction.DESTROY;
+    public FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     /**
-     * Sets the flammability of the block. The higher the number the more likely it is to catch fire
+     * Ties a block entity to this block
+     *
+     * @param position Position of the block
+     * @param state State of the block
+     * @return The block entity tied to this block
+     */
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos position, BlockState state) {
+        return new ShojiScreenBlockEntity(position, state, type, color);
+    }
+
+    /**
+     * Gets the block entity associated with this block
+     * Since this is a double-height block and we need to associate all block entity data and rendering just once to both halves, we use this helper method to fetch the block entity
+     * It allows us to associate one block entity for both halves
      *
      * @param state State of the block
-     * @param level Level that we are getting the block from
-     * @param pos Position of the block
-     * @param face The face of the block being set on fire
-     * @return The flammability value of the block given its position in the world and the face being set alight
+     * @param position Position of the block
+     * @param level Level in which the block exists
+     * @return Block entity associated to the given block
      */
-    @Override
-    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction face)
-    {
-        return 6;
-    }
-
-    /**
-     * Determines how likely the fire is to destroy the block. The higher the number the more likely it is to burn up.
-     *
-     * @param state State of the block
-     * @param level Level that the block exists in
-     * @param pos Position of the block
-     * @param face The face of the block that's currently aflame
-     * @return The likelihood that this burning block will be destroyed by the fire
-     */
-    @Override
-    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction face)
-    {
-        return 6;
-    }
-
-    /**
-     * Ensures that path finding entities treat this block as an obstruction even though it has no occlusion and is not a
-     * full shape.
-     *
-     * @param state State of the block we are pathing against
-     * @param blockGetter Reader for accessing block information
-     * @param position Position of the block we are pathing against
-     * @param pathType The type of path being checked (land, water, or air)
-     * @return Whether block is pathable given the path type being checked
-     */
-    @Override
-    public boolean isPathfindable(BlockState state, BlockGetter blockGetter, BlockPos position, PathComputationType pathType) {
-        switch(pathType) {
-            case LAND:
-                return false;
-            case WATER:
-                return false;
-            case AIR:
-                return false;
-            default:
-                return false;
+    public BlockEntity getAssociatedBlockEntity(BlockState state, BlockPos position, Level level) {
+        if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+            BlockPos belowPosition = position.below();
+            return level.getBlockEntity(belowPosition);
+        } else {
+            return level.getBlockEntity(position);
         }
     }
 
     /**
-     * Rotates the block based on the direction the player is facing when it was placed.
+     * Logic that occurs when this block is destroyed.
+     * Checks the associated block entity for this double-height block for an attached screen.
+     * Drops any screen currently placed into this frame into the world as an item for pick up.
      *
-     * @param state State of the block being placed
-     * @param rotation Rotation the block is being placed at
-     * @return Sets the rotation for the facing value into block state for this block
+     * @param state State of the block being removed
+     * @param level Level the block being removed is in
+     * @param position Position of the block being removed
+     * @param otherState State of the block that will take its place
+     * @param isRemoved Whether the block will be removed
      */
     @Override
-    public BlockState rotate(BlockState state, Rotation rotation) {
-        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+    public void onRemove(BlockState state, Level level, BlockPos position, BlockState otherState, boolean isRemoved) {
+        BlockEntity blockEntity = getAssociatedBlockEntity(state, position, level);
+        if (blockEntity instanceof AbstractShojiScreenBlockEntity) {
+            ((AbstractShojiScreenBlockEntity) blockEntity).popScreen();
+        }
+        super.onRemove(state, level, position, otherState, isRemoved);
+    }
+
+    /**
+     * Called whenever this block is attacked by a player
+     * Causes the block to drop its placed screen, if one is attached
+     * If we are interacting with the upper half of this block, we grab the block entity from the lower half (the block it is associated with) and continue on with that - allowing us to have one entity to control both blocks
+     *
+     * @param state State of the block
+     * @param level Level the block is in
+     * @param position Position of the block
+     * @param player Player attacking the block
+     */
+    @Override
+    public void attack(BlockState state, Level level, BlockPos position, Player player) {
+        BlockEntity blockEntity = getAssociatedBlockEntity(state, position, level);
+
+        if (blockEntity instanceof ShojiScreenBlockEntity) {
+            boolean result = ((ShojiScreenBlockEntity) blockEntity).popScreen();
+            if (result) {
+                level.playSound(player, position, SoundEvents.MOSS_CARPET_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+                state.setValue(HAS_SHOJI, false);
+            }
+        }
+    }
+
+    /**
+     * Logic that occurs when the player interacts with this block.
+     * If the player is holding a shoji paper item and this frame is currently empty, they can place it into this frame.
+     * If we are interacting with the upper half of this block, we grab the block entity from the lower half (the block it is associated with) and continue on with that - allowing us to have one entity to control both blocks
+     *
+     * @param state State of the block
+     * @param level Level the block is in
+     * @param position Position of the block
+     * @param player Player that interacted with the block
+     * @param hand Hand with which the player interacted with the block
+     * @param hitResult hit result for this block
+     * @return Result after interacting with this block
+     */
+    @Override
+    public InteractionResult use(BlockState state, Level level, BlockPos position, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        BlockEntity blockEntity = getAssociatedBlockEntity(state, position, level);
+
+        return placeScreen(itemStack, blockEntity, state, level, position, player);
     }
 }

@@ -12,4 +12,6 @@ public class ModRecipeSerializerInitializer {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MOD_ID);
 
     public static final RegistryObject<SimpleCraftingRecipeSerializer<FoldingRecipe>> FOLDING_SERIALIZER = RECIPE_SERIALIZERS.register("folding", () -> new SimpleCraftingRecipeSerializer<>(FoldingRecipe::new));
+
+    public static final RegistryObject<SimpleCraftingRecipeSerializer<ShojiPaperRecipe>> SHOJI_PAPER_SERIALIZER = RECIPE_SERIALIZERS.register("shoji_paper", () -> new SimpleCraftingRecipeSerializer<>(ShojiPaperRecipe::new));
 }

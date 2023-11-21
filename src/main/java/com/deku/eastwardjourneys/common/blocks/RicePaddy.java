@@ -4,6 +4,7 @@ import com.deku.eastwardjourneys.common.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.LevelAccessor;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.material.*;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.IPlantable;
+import org.jetbrains.annotations.Nullable;
 
 public class RicePaddy extends CropBlock implements LiquidBlockContainer {
     private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{
@@ -138,6 +140,7 @@ public class RicePaddy extends CropBlock implements LiquidBlockContainer {
     /**
      * Determines whether liquid can be placed on this block
      *
+     * @param player Player placing the block
      * @param blockGetter Reader for the block from the current level
      * @param position Position of the block
      * @param state State of the block
@@ -145,7 +148,7 @@ public class RicePaddy extends CropBlock implements LiquidBlockContainer {
      * @return Whether the give fluid can be placed on this block
      */
     @Override
-    public boolean canPlaceLiquid(BlockGetter blockGetter, BlockPos position, BlockState state, Fluid fluid) {
+    public boolean canPlaceLiquid(@Nullable Player player, BlockGetter blockGetter, BlockPos position, BlockState state, Fluid fluid) {
         return false;
     }
 

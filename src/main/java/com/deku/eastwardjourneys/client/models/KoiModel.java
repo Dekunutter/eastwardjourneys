@@ -56,14 +56,14 @@ public class KoiModel<T extends Entity> extends ColorableHierarchicalModel<T> {
      * Sets up the animations for this model.
      *
      * @param entity The entity being animated
-     * @param p_225597_2_
-     * @param p_225597_3_
-     * @param p_225597_4_
-     * @param p_225597_5_
-     * @param p_225597_6_
+     * @param limbSwing
+     * @param limbSwingAmount
+     * @param ageInTicks
+     * @param netHeadYaw
+     * @param headPitch
      */
     @Override
-    public void setupAnim(T entity, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
+    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float f = 1.0F;
         float f1 = 1.0F;
         if (!entity.isInWater()) {
@@ -71,6 +71,6 @@ public class KoiModel<T extends Entity> extends ColorableHierarchicalModel<T> {
             f1 = 1.7F;
         }
 
-        this.bodyBack.yRot = -f * 0.25F * Mth.sin(f1 * 0.6F * p_225597_4_);
+        this.bodyBack.yRot = -f * 0.25F * Mth.sin(f1 * 0.6F * ageInTicks);
     }
 }

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "eastwardjourneys:block/small_dark_shoji_screen"
+    },
+    "facing=north": {
+      "model": "eastwardjourneys:block/small_dark_shoji_screen",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "eastwardjourneys:block/small_dark_shoji_screen",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "eastwardjourneys:block/small_dark_shoji_screen",
+      "y": 180
+    }
+  }
+}
