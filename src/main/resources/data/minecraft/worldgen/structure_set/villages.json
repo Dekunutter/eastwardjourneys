@@ -29,6 +29,10 @@
     {
       "structure": "eastwardjourneys:village_cherry_blossom",
       "weight": 1
+    },
+    {
+      "structure": "eastwardjourneys:village_mangrove",
+      "weight": 1
     }
   ]
 }

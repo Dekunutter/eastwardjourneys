@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "eastwardjourneys:village_cherry_blossom"
+    "eastwardjourneys:village_cherry_blossom",
+    "eastwardjourneys:village_mangrove"
   ]
 }

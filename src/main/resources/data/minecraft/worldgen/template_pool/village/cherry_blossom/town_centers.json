@@ -7,7 +7,7 @@
         "processors": "minecraft:mossify_20_percent",
         "projection": "rigid"
       },
-      "weight": 50
+      "weight": 5
     },
     {
       "element": {
@@ -16,7 +16,7 @@
         "processors": "minecraft:mossify_20_percent",
         "projection": "rigid"
       },
-      "weight": 50
+      "weight": 5
     },
     {
       "element": {
@@ -27,7 +27,7 @@
         },
         "projection": "rigid"
       },
-      "weight": 50
+      "weight": 5
     },
     {
       "element": {
@@ -38,7 +38,7 @@
         },
         "projection": "rigid"
       },
-      "weight": 50
+      "weight": 5
     },
     {
       "element": {
@@ -47,7 +47,7 @@
         "processors": "eastwardjourneys:koi_pond_bottom_gravel_40_percent",
         "projection": "rigid"
       },
-      "weight": 35
+      "weight": 4
     }
   ],
   "fallback": "minecraft:empty"
