@@ -1,0 +1,173 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/small_house_01",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/small_house_02",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/small_house_03",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/small_house_04",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/small_house_porch",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/small_house_porch_02",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/medium_house_01",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/large_house_01",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/fishing_hut_02",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/shaman_house",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/smoker",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/stone_mason",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/toolsmith",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/library",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/observatory",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/rice_farm",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/rice_farm_large",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "minecraft:village/mangrove/houses/mangrove_box",
+        "processors": "eastwardjourneys:houses_mangrove",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "minecraft:empty_pool_element"
+      },
+      "weight": 10
+    }
+  ],
+  "fallback": "minecraft:village/mangrove/terminators"
+}

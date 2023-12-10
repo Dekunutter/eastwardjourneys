@@ -17,11 +17,13 @@ import static com.deku.eastwardjourneys.Main.MOD_ID;
 
 public class ModVillagerTypes {
     public static VillagerType CHERRY_BLOSSOM_VILLAGER_TYPE;
+    public static VillagerType MANGROVE_VILLAGER_TYPE;
 
     public static void register() {
         bootstrapVillagerTrades();
 
         CHERRY_BLOSSOM_VILLAGER_TYPE = Registry.register(BuiltInRegistries.VILLAGER_TYPE, new ResourceLocation(MOD_ID, "cherry_blossom"), new VillagerType("cherry_blossom"));
+        MANGROVE_VILLAGER_TYPE = Registry.register(BuiltInRegistries.VILLAGER_TYPE, new ResourceLocation(MOD_ID, "mangrove"), new VillagerType("mangrove"));
 
         updateVillagerTrades();
     }
