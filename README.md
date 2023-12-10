@@ -32,6 +32,7 @@ The mod itself has a range of new content from biomes, custom villages, new stru
 - Terracotta Tomb - A large tomb around which many terracotta warriors stand guard
 - Ruined Torii Portal - A new variant of the ruined portal structure that is designed to look like a torii gate
 - Cherry Blossom Village - A new variant of the village with custom buildings fitting the eastern aesthetic
+- Mangrove Village - Another new village variant that spawns only in vanilla mangrove swamps. This provides a unique aesthetic with heavy incorporation of local building materials in the houses.
 
 ### New Wood Types
 - Black Pine
@@ -121,11 +122,19 @@ The mod itself has a range of new content from biomes, custom villages, new stru
     Can be crafted with cobblestone and a torch
     Spawns naturally in cherry blossom grotto villages
     There is a soul flame variant
+- Shoji Paper
+    An item that can be placed into empty shoji screens
+    There are multiple patterns that can be crafted
 - Shoji Screen
     2x1 tall block which has a thin model like a door
     Does not block light
+    Shoji paper can be placed into the screen
 - Dark Shoji Screen
     Variant of the shoji screen rimmed with darker wood
+- Small Shoji Screen
+    Variant of the shoji screen which is a single block tall
+- Small Dark Shoji Screen
+    Variant of the dark shoji screen which is a single block tall
 - Hidden Trapdoors
     Trapdoor crafted from common blocks that make for great hidden entrances to bases
     All wood types (both this mod's and vanilla) have a hidden trapdoor variant based on their planks texture
