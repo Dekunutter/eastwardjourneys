@@ -9,6 +9,6 @@ import net.minecraft.world.level.material.MapColor;
 
 public class BlackPineFenceGate extends FenceGateBlock {
     public BlackPineFenceGate() {
-        super(BlockBehaviour.Properties.of().strength(2.0f, 3.0f).mapColor(MapColor.WOOD).sound(SoundType.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS), ModWoodType.BLACK_PINE);
+        super(ModWoodType.BLACK_PINE, BlockBehaviour.Properties.of().strength(2.0f, 3.0f).mapColor(MapColor.WOOD).sound(SoundType.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS));
     }
 }

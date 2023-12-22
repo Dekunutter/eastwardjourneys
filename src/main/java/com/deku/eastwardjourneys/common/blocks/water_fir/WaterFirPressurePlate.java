@@ -8,6 +8,6 @@ import net.minecraft.world.level.material.MapColor;
 
 public class WaterFirPressurePlate extends PressurePlateBlock {
     public WaterFirPressurePlate() {
-        super(Sensitivity.EVERYTHING, Properties.of().noCollission().strength(0.5F).mapColor(MapColor.TERRACOTTA_RED).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava(), ModBlockSetType.WATER_FIR);
+        super(ModBlockSetType.WATER_FIR, Properties.of().noCollission().strength(0.5F).mapColor(MapColor.TERRACOTTA_RED).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
     }
 }

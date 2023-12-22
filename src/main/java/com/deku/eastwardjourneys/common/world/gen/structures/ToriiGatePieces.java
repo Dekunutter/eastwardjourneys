@@ -91,7 +91,7 @@ public class ToriiGatePieces {
         }
 
         // TODO: Would be better to check for the "replaceable plants" tag instead so that it doesnt spawn on flowers and such either
-        if (blockState.is(Blocks.GRASS)) {
+        if (blockState.is(Blocks.SHORT_GRASS) || blockState.is(Blocks.TALL_GRASS)) {
             return false;
         }
 

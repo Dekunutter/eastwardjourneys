@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class HinokiHangingSign extends CeilingHangingSignBlock {
     public HinokiHangingSign() {
-        super(Properties.of().noCollission().strength(1.0F).mapColor(MapColor.WOOD).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS), ModWoodType.HINOKI);
+        super(ModWoodType.HINOKI, Properties.of().noCollission().strength(1.0F).mapColor(MapColor.WOOD).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS));
     }
 
     /**

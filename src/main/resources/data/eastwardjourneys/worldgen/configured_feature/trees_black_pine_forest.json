@@ -4,16 +4,12 @@
     "default": "eastwardjourneys:black_pine",
     "features": [
       {
-        "chance": 0.4,
+        "chance": 0.5,
         "feature":"eastwardjourneys:black_pine"
       },
       {
-        "chance": 0.4,
+        "chance": 0.5,
         "feature":"eastwardjourneys:straight_black_pine"
-      },
-      {
-        "chance": 0.2,
-        "feature":"eastwardjourneys:branching_black_pine"
       }
     ]
   }

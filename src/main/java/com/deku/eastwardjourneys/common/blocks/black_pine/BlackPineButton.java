@@ -7,6 +7,6 @@ import net.minecraft.world.level.material.PushReaction;
 
 public class BlackPineButton extends ButtonBlock {
     public BlackPineButton() {
-        super(BlockBehaviour.Properties.of().noCollission().strength(0.5f).pushReaction(PushReaction.DESTROY), ModBlockSetType.BLACK_PINE, 30, true);
+        super(ModBlockSetType.BLACK_PINE, 30, BlockBehaviour.Properties.of().noCollission().strength(0.5f).pushReaction(PushReaction.DESTROY));
     }
 }

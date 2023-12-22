@@ -1,18 +1,10 @@
 package com.deku.eastwardjourneys.common.world.gen.placements;
 
-import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
-import net.minecraft.data.worldgen.features.TreeFeatures;
-import net.minecraft.data.worldgen.features.VegetationFeatures;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
-import java.util.List;
 
 import static com.deku.eastwardjourneys.Main.MOD_ID;
 
@@ -28,17 +20,5 @@ public class ModVillagePlacements {
      */
     public static ResourceKey<PlacedFeature> registerVillagePlacementKey(String placementName) {
         return ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(MOD_ID, placementName));
-    }
-
-    /**
-     * Bootstraps the context needed to register the placed features for the mod
-     *
-     * @param context Bootstrap context needed to register placed features to the game
-     */
-    public static void bootstrap(BootstapContext<PlacedFeature> context) {
-        HolderGetter<ConfiguredFeature<?, ?>> featureGetter = context.lookup(Registries.CONFIGURED_FEATURE);
-
-        context.register(CHERRY_BLOSSOM_TREE_VILLAGE, new PlacedFeature(featureGetter.getOrThrow(TreeFeatures.CHERRY), List.of(PlacementUtils.filteredByBlockSurvival(Blocks.CHERRY_SAPLING))));
-        context.register(FLOWER_FOREST_VILLAGE, new PlacedFeature(featureGetter.getOrThrow(VegetationFeatures.FLOWER_FLOWER_FOREST), List.of()));
     }
 }

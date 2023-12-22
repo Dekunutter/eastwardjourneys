@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class SaxaulSign extends StandingSignBlock {
     public SaxaulSign() {
-        super(Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).noCollission().strength(1.0F).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), ModWoodType.SAXAUL);
+        super(ModWoodType.SAXAUL, Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).noCollission().strength(1.0F).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS));
     }
 
     /**

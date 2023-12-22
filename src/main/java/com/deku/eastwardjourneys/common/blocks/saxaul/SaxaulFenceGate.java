@@ -8,6 +8,6 @@ import net.minecraft.world.level.material.MapColor;
 
 public class SaxaulFenceGate extends FenceGateBlock {
     public SaxaulFenceGate() {
-        super(Properties.of().strength(2.0f, 3.0f).mapColor(MapColor.COLOR_LIGHT_GRAY).sound(SoundType.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS), ModWoodType.SAXAUL);
+        super(ModWoodType.SAXAUL, Properties.of().strength(2.0f, 3.0f).mapColor(MapColor.COLOR_LIGHT_GRAY).sound(SoundType.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS));
     }
 }

@@ -6,6 +6,6 @@ import net.minecraft.world.level.material.PushReaction;
 
 public class MapleButton extends ButtonBlock {
     public MapleButton() {
-        super(Properties.of().noCollission().strength(0.5f).pushReaction(PushReaction.DESTROY), ModBlockSetType.MAPLE, 30, true);
+        super(ModBlockSetType.MAPLE, 30, Properties.of().noCollission().strength(0.5f).pushReaction(PushReaction.DESTROY));
     }
 }

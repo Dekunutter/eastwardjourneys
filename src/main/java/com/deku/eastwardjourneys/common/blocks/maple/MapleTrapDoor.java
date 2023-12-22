@@ -11,7 +11,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class MapleTrapDoor extends TrapDoorBlock {
     public MapleTrapDoor() {
-        super(Properties.of().strength( 3.0f).mapColor(MapColor.WOOD).ignitedByLava().noOcclusion().instrument(NoteBlockInstrument.BASS).isValidSpawn(MapleTrapDoor::never), ModBlockSetType.MAPLE);
+        super(ModBlockSetType.MAPLE, Properties.of().strength( 3.0f).mapColor(MapColor.WOOD).ignitedByLava().noOcclusion().instrument(NoteBlockInstrument.BASS).isValidSpawn(MapleTrapDoor::never));
     }
 
     /**

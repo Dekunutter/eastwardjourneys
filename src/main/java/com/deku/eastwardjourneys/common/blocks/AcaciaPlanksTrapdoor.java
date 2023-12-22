@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 public class AcaciaPlanksTrapdoor extends TrapDoorBlock {
     public AcaciaPlanksTrapdoor() {
-        super(Properties.of().strength( 3.0f).mapColor(Blocks.ACACIA_PLANKS.defaultMapColor()).ignitedByLava().noOcclusion().instrument(NoteBlockInstrument.BASS).isValidSpawn(AcaciaPlanksTrapdoor::never), BlockSetType.ACACIA);
+        super(BlockSetType.ACACIA, Properties.of().strength( 3.0f).mapColor(Blocks.ACACIA_PLANKS.defaultMapColor()).ignitedByLava().noOcclusion().instrument(NoteBlockInstrument.BASS).isValidSpawn(AcaciaPlanksTrapdoor::never));
     }
 
     /**

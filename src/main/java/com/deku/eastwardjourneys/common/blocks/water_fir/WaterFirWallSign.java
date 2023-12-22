@@ -1,6 +1,6 @@
 package com.deku.eastwardjourneys.common.blocks.water_fir;
 
-import com.deku.eastwardjourneys.common.blocks.ModBlocks;
+import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
 import com.deku.eastwardjourneys.common.blocks.ModWoodType;
 import com.deku.eastwardjourneys.common.entity.sign.ModSignBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class WaterFirWallSign extends WallSignBlock {
     public WaterFirWallSign() {
-        super(Properties.of().noCollission().strength(1.0F).mapColor(MapColor.TERRACOTTA_RED).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).lootFrom(() -> ModBlocks.WATER_FIR_SIGN), ModWoodType.WATER_FIR);
+        super(ModWoodType.WATER_FIR, Properties.of().noCollission().strength(1.0F).mapColor(MapColor.TERRACOTTA_RED).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).lootFrom(() -> ModBlockInitializer.WATER_FIR_SIGN.get()));
     }
 
     /**

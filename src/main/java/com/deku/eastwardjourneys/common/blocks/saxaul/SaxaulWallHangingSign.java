@@ -1,6 +1,6 @@
 package com.deku.eastwardjourneys.common.blocks.saxaul;
 
-import com.deku.eastwardjourneys.common.blocks.ModBlocks;
+import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
 import com.deku.eastwardjourneys.common.blocks.ModWoodType;
 import com.deku.eastwardjourneys.common.entity.sign.ModHangingSignBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class SaxaulWallHangingSign extends WallHangingSignBlock {
     public SaxaulWallHangingSign() {
-        super(Properties.of().noCollission().strength(1.0F).mapColor(MapColor.COLOR_LIGHT_GRAY).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS).lootFrom(() -> ModBlocks.SAXAUL_HANGING_SIGN), ModWoodType.SAXAUL);
+        super(ModWoodType.SAXAUL, Properties.of().noCollission().strength(1.0F).mapColor(MapColor.COLOR_LIGHT_GRAY).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS).lootFrom(ModBlockInitializer.SAXAUL_HANGING_SIGN));
     }
 
     /**

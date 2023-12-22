@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class HinokiSign extends StandingSignBlock {
     public HinokiSign() {
-        super(Properties.of().mapColor(MapColor.WOOD).noCollission().strength(1.0F).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), ModWoodType.HINOKI);
+        super(ModWoodType.HINOKI, Properties.of().mapColor(MapColor.WOOD).noCollission().strength(1.0F).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS));
     }
 
     /**

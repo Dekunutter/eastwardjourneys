@@ -14,8 +14,10 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
 import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -41,7 +43,7 @@ public class LargeJigsawStructure extends JigsawStructure {
     }).flatXmap(verifyRange(), verifyRange()).codec();
 
     public LargeJigsawStructure(StructureSettings settings, Holder<StructureTemplatePool> templatePool, Optional<ResourceLocation> resourceLocation, int maxDepth, HeightProvider startHeight, boolean useExpansionHack, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter) {
-        super(settings, templatePool, resourceLocation, maxDepth, startHeight, useExpansionHack, projectStartToHeightmap, maxDistanceFromCenter);
+        super(settings, templatePool, resourceLocation, maxDepth, startHeight, useExpansionHack, projectStartToHeightmap, maxDistanceFromCenter, List.of());
         this.startPool = templatePool;
         this.startJigsawName = resourceLocation;
         this.maxDepth = maxDepth;
@@ -109,6 +111,6 @@ public class LargeJigsawStructure extends JigsawStructure {
         ChunkPos chunkpos = generationContext.chunkPos();
         int i = startHeight.sample(generationContext.random(), new WorldGenerationContext(generationContext.chunkGenerator(), generationContext.heightAccessor()));
         BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), i, chunkpos.getMinBlockZ());
-        return JigsawPlacement.addPieces(generationContext, startPool, startJigsawName, maxDepth, blockpos, useExpansionHack, projectStartToHeightmap, maxDistanceFromCenter);
+        return JigsawPlacement.addPieces(generationContext, startPool, startJigsawName, maxDepth, blockpos, useExpansionHack, projectStartToHeightmap, maxDistanceFromCenter, PoolAliasLookup.create(this.poolAliases, blockpos, generationContext.seed()));
     }
 }

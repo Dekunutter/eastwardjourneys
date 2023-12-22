@@ -11,7 +11,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class HinokiPlanksTrapdoor extends TrapDoorBlock {
     public HinokiPlanksTrapdoor() {
-        super(Properties.of().strength( 3.0f).mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).noOcclusion().ignitedByLava().isValidSpawn(HinokiPlanksTrapdoor::never), ModBlockSetType.HINOKI);
+        super(ModBlockSetType.HINOKI, Properties.of().strength( 3.0f).mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).noOcclusion().ignitedByLava().isValidSpawn(HinokiPlanksTrapdoor::never));
     }
 
     /**

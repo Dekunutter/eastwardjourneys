@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class WaterFirHangingSign extends CeilingHangingSignBlock {
     public WaterFirHangingSign() {
-        super(Properties.of().noCollission().strength(1.0F).mapColor(MapColor.TERRACOTTA_RED).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS), ModWoodType.WATER_FIR);
+        super(ModWoodType.WATER_FIR, Properties.of().noCollission().strength(1.0F).mapColor(MapColor.TERRACOTTA_RED).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS));
     }
 
     /**

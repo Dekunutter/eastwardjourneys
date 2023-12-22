@@ -1,6 +1,6 @@
 package com.deku.eastwardjourneys.common.features.decorators;
 
-import com.deku.eastwardjourneys.common.blocks.ModBlocks;
+import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
 import com.deku.eastwardjourneys.common.blocks.ShiitakeMushroom;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
@@ -40,7 +40,7 @@ public class ShiitakeMushroomDecorator extends TreeDecorator {
                     if (random.nextFloat() <= 0.25F) {
                         BlockPos blockpos = position.offset(direction.getStepX(), 0, direction.getStepZ());
                         if (context.isAir(blockpos)) {
-                            context.setBlock(blockpos, ModBlocks.SHIITAKE_MUSHROOM.defaultBlockState().setValue(ShiitakeMushroom.FACING, direction));
+                            context.setBlock(blockpos, ModBlockInitializer.SHIITAKE_MUSHROOM.get().defaultBlockState().setValue(ShiitakeMushroom.FACING, direction));
                         }
                     }
                 }

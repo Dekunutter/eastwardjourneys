@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class WaterFirSign extends StandingSignBlock {
     public WaterFirSign() {
-        super(Properties.of().mapColor(MapColor.TERRACOTTA_RED).noCollission().strength(1.0F).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), ModWoodType.WATER_FIR);
+        super(ModWoodType.WATER_FIR, Properties.of().mapColor(MapColor.TERRACOTTA_RED).noCollission().strength(1.0F).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS));
     }
 
     /**

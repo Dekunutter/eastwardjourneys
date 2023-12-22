@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class SaxaulHangingSign  extends CeilingHangingSignBlock {
     public SaxaulHangingSign() {
-        super(Properties.of().noCollission().strength(1.0F).mapColor(MapColor.COLOR_LIGHT_GRAY).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS), ModWoodType.SAXAUL);
+        super(ModWoodType.SAXAUL, Properties.of().noCollission().strength(1.0F).mapColor(MapColor.COLOR_LIGHT_GRAY).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS));
     }
 
     /**

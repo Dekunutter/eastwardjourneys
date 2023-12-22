@@ -8,6 +8,6 @@ import net.minecraft.world.level.material.MapColor;
 
 public class WaterFirFenceGate extends FenceGateBlock {
     public WaterFirFenceGate() {
-        super(Properties.of().strength(2.0f, 3.0f).mapColor(MapColor.TERRACOTTA_RED).sound(SoundType.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS), ModWoodType.WATER_FIR);
+        super(ModWoodType.WATER_FIR, Properties.of().strength(2.0f, 3.0f).mapColor(MapColor.TERRACOTTA_RED).sound(SoundType.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS));
     }
 }

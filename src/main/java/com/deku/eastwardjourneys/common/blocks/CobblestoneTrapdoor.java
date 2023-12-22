@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 public class CobblestoneTrapdoor extends TrapDoorBlock {
     public CobblestoneTrapdoor() {
-        super(BlockBehaviour.Properties.of().strength(6.0f).mapColor(Blocks.COBBLESTONE.defaultMapColor()).sound(SoundType.STONE).instrument(NoteBlockInstrument.BASEDRUM).noOcclusion().isValidSpawn(CobblestoneTrapdoor::never), BlockSetType.STONE);
+        super(BlockSetType.STONE, BlockBehaviour.Properties.of().strength(6.0f).mapColor(Blocks.COBBLESTONE.defaultMapColor()).sound(SoundType.STONE).instrument(NoteBlockInstrument.BASEDRUM).noOcclusion().isValidSpawn(CobblestoneTrapdoor::never));
     }
 
     /**

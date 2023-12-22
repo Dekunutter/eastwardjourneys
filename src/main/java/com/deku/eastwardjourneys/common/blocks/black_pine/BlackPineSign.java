@@ -13,7 +13,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class BlackPineSign extends StandingSignBlock {
     public BlackPineSign() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollission().strength(1.0F).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), ModWoodType.BLACK_PINE);
+        super(ModWoodType.BLACK_PINE, BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollission().strength(1.0F).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS));
     }
 
     /**

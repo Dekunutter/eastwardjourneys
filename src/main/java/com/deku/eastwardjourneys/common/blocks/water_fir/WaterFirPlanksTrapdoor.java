@@ -11,7 +11,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class WaterFirPlanksTrapdoor extends TrapDoorBlock {
     public WaterFirPlanksTrapdoor() {
-        super(Properties.of().strength( 3.0f).mapColor(MapColor.TERRACOTTA_RED).ignitedByLava().instrument(NoteBlockInstrument.BASS).noOcclusion().ignitedByLava().isValidSpawn(WaterFirPlanksTrapdoor::never), ModBlockSetType.WATER_FIR);
+        super(ModBlockSetType.WATER_FIR, Properties.of().strength( 3.0f).mapColor(MapColor.TERRACOTTA_RED).ignitedByLava().instrument(NoteBlockInstrument.BASS).noOcclusion().ignitedByLava().isValidSpawn(WaterFirPlanksTrapdoor::never));
     }
 
     /**

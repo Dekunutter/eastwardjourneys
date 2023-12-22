@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class MapleHangingSign extends CeilingHangingSignBlock {
     public MapleHangingSign() {
-        super(Properties.of().noCollission().strength(1.0F).mapColor(MapColor.WOOD).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS), ModWoodType.MAPLE);
+        super(ModWoodType.MAPLE, Properties.of().noCollission().strength(1.0F).mapColor(MapColor.WOOD).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS));
     }
 
     /**

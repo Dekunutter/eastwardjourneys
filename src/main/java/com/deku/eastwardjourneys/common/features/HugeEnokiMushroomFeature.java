@@ -1,7 +1,7 @@
 package com.deku.eastwardjourneys.common.features;
 
+import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
 import com.deku.eastwardjourneys.common.blocks.ModBlockTags;
-import com.deku.eastwardjourneys.common.blocks.ModBlocks;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
@@ -50,7 +50,7 @@ public class HugeEnokiMushroomFeature extends AbstractHugeMushroomFeature {
                     for(int l = -k; l <= k; ++l) {
                         for(int i1 = -k; i1 <= k; ++i1) {
                             BlockState blockstate1 = p_65099_.getBlockState(p_65102_.setWithOffset(p_65100_, l, j, i1));
-                            if (!blockstate1.isAir() && !blockstate1.is(BlockTags.LEAVES) && !blockstate1.is(ModBlocks.ENOKI_MUSHROOM)) {
+                            if (!blockstate1.isAir() && !blockstate1.is(BlockTags.LEAVES) && !blockstate1.is(ModBlockInitializer.ENOKI_MUSHROOM.get())) {
                                 return false;
                             }
                         }

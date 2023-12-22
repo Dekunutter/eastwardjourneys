@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 public class MapleDoor extends DoorBlock
 {
     public MapleDoor() {
-        super(Properties.of().strength(3.0f).mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava().noOcclusion().isValidSpawn(MapleDoor::never), ModBlockSetType.MAPLE);
+        super(ModBlockSetType.MAPLE, Properties.of().strength(3.0f).mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava().noOcclusion().isValidSpawn(MapleDoor::never));
     }
 
     /**

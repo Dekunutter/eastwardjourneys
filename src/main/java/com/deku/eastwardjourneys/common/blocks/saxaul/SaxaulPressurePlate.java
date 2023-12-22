@@ -8,6 +8,6 @@ import net.minecraft.world.level.material.MapColor;
 
 public class SaxaulPressurePlate extends PressurePlateBlock {
     public SaxaulPressurePlate() {
-        super(Sensitivity.EVERYTHING, Properties.of().noCollission().strength(0.5F).mapColor(MapColor.COLOR_LIGHT_GRAY).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava(), ModBlockSetType.SAXAUL);
+        super(ModBlockSetType.SAXAUL, Properties.of().noCollission().strength(0.5F).mapColor(MapColor.COLOR_LIGHT_GRAY).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
     }
 }
