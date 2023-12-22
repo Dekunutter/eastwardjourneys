@@ -1,23 +1,9 @@
 package com.deku.eastwardjourneys.common.world.gen.placements;
 
-import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
-import com.deku.eastwardjourneys.common.features.ModTreeFeatures;
-import net.minecraft.core.Direction;
-import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
-import net.minecraft.world.level.levelgen.placement.EnvironmentScanPlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.PlacementModifier;
-
-import java.util.List;
 
 import static com.deku.eastwardjourneys.Main.MOD_ID;
 
@@ -35,31 +21,5 @@ public class ModTreePlacements {
      */
     public static ResourceKey<PlacedFeature> registerTreePlacementKey(String placementName) {
         return ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(MOD_ID, placementName));
-    }
-
-    /**
-     * Bootstraps the context needed to register the placed features for the mod
-     *
-     * @param context Bootstrap context needed to register placed features to the game
-     */
-    public static void bootstrap(BootstapContext<PlacedFeature> context) {
-        HolderGetter<ConfiguredFeature<?, ?>> featureGetter = context.lookup(Registries.CONFIGURED_FEATURE);
-
-        context.register(FANCY_MAPLE_CHECKED, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.FANCY_MAPLE_TREE), List.of(PlacementUtils.filteredByBlockSurvival(ModBlockInitializer.MAPLE_SAPLING.get()))));
-        context.register(FANCY_MAPLE_BEES, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.FANCY_MAPLE_TREE_BEES), List.of(PlacementUtils.filteredByBlockSurvival(ModBlockInitializer.MAPLE_SAPLING.get()))));
-
-        context.register(BLACK_PINE_CHECKED, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.BLACK_PINE), List.of(PlacementUtils.filteredByBlockSurvival(ModBlockInitializer.BLACK_PINE_SAPLING.get()))));
-        context.register(STRAIGHT_BLACK_PINE_CHECKED, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.STRAIGHT_BLACK_PINE), List.of(PlacementUtils.filteredByBlockSurvival(ModBlockInitializer.BLACK_PINE_SAPLING.get()))));
-    }
-
-    /**
-     * Builds a list of placement modifiers that check if the tree can spawn on snow.
-     * Only passes if the block the tree is growing from is a type of snow and that there isn't 8 or more blocks of powdered snow in the way
-
-     * @return The list of placement modifiers that will determine if a tree can be spawned
-     */
-    private static List<PlacementModifier> surviveOnSnowPredicate() {
-        BlockPredicate snowPredicate = BlockPredicate.matchesBlocks(Direction.DOWN.getNormal(), Blocks.SNOW_BLOCK, Blocks.POWDER_SNOW);
-        return List.of(EnvironmentScanPlacement.scanningFor(Direction.UP, BlockPredicate.not(BlockPredicate.matchesBlocks(Blocks.POWDER_SNOW)), 8), BlockPredicateFilter.forPredicate(snowPredicate));
     }
 }
