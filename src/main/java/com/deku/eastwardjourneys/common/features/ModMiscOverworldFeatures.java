@@ -1,6 +1,6 @@
 package com.deku.eastwardjourneys.common.features;
 
-import com.deku.eastwardjourneys.common.blocks.ModBlocks;
+import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
@@ -71,6 +71,6 @@ public class ModMiscOverworldFeatures {
         context.register(HOTSPRING, new ConfiguredFeature<>(ModFeatures.HOTSPRING, createHotspringConfiguration(Blocks.WATER.defaultBlockState(), Blocks.STONE.defaultBlockState())));
 
         context.register(KARST_STONE, new ConfiguredFeature<>(ModFeatures.KARST_STONE, createKarstStoneConfiguration(Blocks.STONE.defaultBlockState())));
-        context.register(FALLEN_TREE_HINOKI, new ConfiguredFeature<>(ModFeatures.FALLEN_TREE, createFallenTreeConfiguration(ModBlocks.HINOKI_LOG.defaultBlockState(), 6, 16)));
+        context.register(FALLEN_TREE_HINOKI, new ConfiguredFeature<>(ModFeatures.FALLEN_TREE, createFallenTreeConfiguration(ModBlockInitializer.HINOKI_LOG.get().defaultBlockState(), 6, 16)));
     }
 }

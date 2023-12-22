@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class SaxaulDoor extends DoorBlock {
     public SaxaulDoor() {
-        super(Properties.of().strength(3.0f).sound(SoundType.WOOD).mapColor(MapColor.COLOR_LIGHT_GRAY).instrument(NoteBlockInstrument.BASS).ignitedByLava().noOcclusion().isValidSpawn(SaxaulDoor::never), ModBlockSetType.SAXAUL);
+        super(ModBlockSetType.SAXAUL, Properties.of().strength(3.0f).sound(SoundType.WOOD).mapColor(MapColor.COLOR_LIGHT_GRAY).instrument(NoteBlockInstrument.BASS).ignitedByLava().noOcclusion().isValidSpawn(SaxaulDoor::never));
     }
 
     /**

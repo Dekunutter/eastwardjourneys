@@ -1,6 +1,6 @@
 package com.deku.eastwardjourneys.common.blocks.hinoki;
 
-import com.deku.eastwardjourneys.common.blocks.ModBlocks;
+import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
 import com.deku.eastwardjourneys.common.blocks.ModWoodType;
 import com.deku.eastwardjourneys.common.entity.sign.ModHangingSignBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class HinokiWallHangingSign extends WallHangingSignBlock {
     public HinokiWallHangingSign() {
-        super(Properties.of().mapColor(MapColor.WOOD).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS).lootFrom(() -> ModBlocks.HINOKI_HANGING_SIGN), ModWoodType.HINOKI);
+        super(ModWoodType.HINOKI, Properties.of().mapColor(MapColor.WOOD).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS).lootFrom(() -> ModBlockInitializer.HINOKI_HANGING_SIGN.get()));
     }
 
     /**

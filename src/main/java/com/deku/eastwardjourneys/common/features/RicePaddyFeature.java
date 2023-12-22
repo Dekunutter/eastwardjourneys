@@ -1,6 +1,6 @@
 package com.deku.eastwardjourneys.common.features;
 
-import com.deku.eastwardjourneys.common.blocks.ModBlocks;
+import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
 import com.deku.eastwardjourneys.common.blocks.RicePaddy;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -76,7 +76,7 @@ public class RicePaddyFeature extends Feature<RicePaddyFeature.Configuration> {
             }
 
             BlockState water = config.fluid().getState(random, position);
-            BlockState grownRice = ModBlocks.RICE_PADDY.defaultBlockState().setValue(RicePaddy.AGE, RicePaddy.MAX_AGE);
+            BlockState grownRice = ModBlockInitializer.RICE_PADDY.get().defaultBlockState().setValue(RicePaddy.AGE, RicePaddy.MAX_AGE);
 
             // Look through blocks in this chunk and see if a given block should be replaced by water?
             for (int chunkX = 0; chunkX < 16; ++chunkX) {

@@ -20,19 +20,21 @@ import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.packets.SpawnEntity;
 
 public class ShurikenEntity extends AbstractArrow implements IEntityAdditionalSpawnData {
+    private static final ItemStack DEFAULT_SHURIKEN_ITEM_STACK = new ItemStack(ModItems.SHURIKEN);
+
     public float spin = 0.0f;
 
     public ShurikenEntity(EntityType<ShurikenEntity> entityType, Level level) {
-        super(entityType, level);
+        super(entityType, level, DEFAULT_SHURIKEN_ITEM_STACK);
     }
 
     public ShurikenEntity(LivingEntity livingEntity, Level level) {
-        super(ModEntityTypeInitializer.SHURIKEN_ENTITY_TYPE.get(), livingEntity, level);
+        super(ModEntityTypeInitializer.SHURIKEN_ENTITY_TYPE.get(), livingEntity, level, DEFAULT_SHURIKEN_ITEM_STACK);
         setBaseDamage(0.1D);
     }
 
     public ShurikenEntity(SpawnEntity spawnEntity, Level level) {
-        super(ModEntityTypeInitializer.SHURIKEN_ENTITY_TYPE.get(), level);
+        super(ModEntityTypeInitializer.SHURIKEN_ENTITY_TYPE.get(), level, DEFAULT_SHURIKEN_ITEM_STACK);
         setBaseDamage(0.1D);
     }
 

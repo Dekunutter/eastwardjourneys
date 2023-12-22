@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 public class JunglePlanksTrapdoor extends TrapDoorBlock {
     public JunglePlanksTrapdoor() {
-        super(Properties.of().strength( 3.0f).mapColor(Blocks.JUNGLE_PLANKS.defaultMapColor()).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).noOcclusion().isValidSpawn(JunglePlanksTrapdoor::never), BlockSetType.JUNGLE);
+        super(BlockSetType.JUNGLE, Properties.of().strength( 3.0f).mapColor(Blocks.JUNGLE_PLANKS.defaultMapColor()).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).noOcclusion().isValidSpawn(JunglePlanksTrapdoor::never));
     }
 
     /**

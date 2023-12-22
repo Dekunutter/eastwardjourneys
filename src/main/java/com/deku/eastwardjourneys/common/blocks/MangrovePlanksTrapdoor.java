@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 public class MangrovePlanksTrapdoor extends TrapDoorBlock {
     public MangrovePlanksTrapdoor() {
-        super(Properties.of().strength( 3.0f).mapColor(Blocks.MANGROVE_PLANKS.defaultMapColor()).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).noOcclusion().isValidSpawn(MangrovePlanksTrapdoor::never), BlockSetType.MANGROVE);
+        super(BlockSetType.MANGROVE, Properties.of().strength( 3.0f).mapColor(Blocks.MANGROVE_PLANKS.defaultMapColor()).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).noOcclusion().isValidSpawn(MangrovePlanksTrapdoor::never));
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.deku.eastwardjourneys.common.features;
 
-import com.deku.eastwardjourneys.common.blocks.ModBlocks;
+import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
 import com.deku.eastwardjourneys.common.blocks.ShiitakeMushroom;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
@@ -114,7 +114,7 @@ public class HugeShiitakeMushroomFeature extends AbstractHugeMushroomFeature {
                 for(int l = -k; l <= k; ++l) {
                     for(int i1 = -k; i1 <= k; ++i1) {
                         BlockState blockstate1 = levelAccessor.getBlockState(mutablePosition.setWithOffset(position, l, j, i1));
-                        if (!blockstate1.isAir() && !blockstate1.is(BlockTags.LEAVES) && !blockstate1.is(ModBlocks.SHIITAKE_MUSHROOM)) {
+                        if (!blockstate1.isAir() && !blockstate1.is(BlockTags.LEAVES) && !blockstate1.is(ModBlockInitializer.SHIITAKE_MUSHROOM.get())) {
                             return false;
                         }
                     }

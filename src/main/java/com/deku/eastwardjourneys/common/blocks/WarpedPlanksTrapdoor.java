@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 public class WarpedPlanksTrapdoor extends TrapDoorBlock {
     public WarpedPlanksTrapdoor() {
-        super(Properties.of().strength(2.0f, 3.0f).mapColor(Blocks.WARPED_PLANKS.defaultMapColor()).ignitedByLava().sound(SoundType.NETHER_WOOD).instrument(NoteBlockInstrument.BASS).noOcclusion().isValidSpawn(WarpedPlanksTrapdoor::never), BlockSetType.WARPED);
+        super(BlockSetType.WARPED, Properties.of().strength(2.0f, 3.0f).mapColor(Blocks.WARPED_PLANKS.defaultMapColor()).ignitedByLava().sound(SoundType.NETHER_WOOD).instrument(NoteBlockInstrument.BASS).noOcclusion().isValidSpawn(WarpedPlanksTrapdoor::never));
     }
 
     /**

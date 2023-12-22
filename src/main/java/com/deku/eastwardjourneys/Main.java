@@ -2,13 +2,7 @@ package com.deku.eastwardjourneys;
 
 import com.deku.eastwardjourneys.client.network.handlers.DoubleJumpClientMessageHandler;
 import com.deku.eastwardjourneys.client.network.messages.DoubleJumpClientMessage;
-import com.deku.eastwardjourneys.common.blockEntities.ShojiScreenBlockEntity;
 import com.deku.eastwardjourneys.common.blocks.*;
-import com.deku.eastwardjourneys.common.blocks.black_pine.*;
-import com.deku.eastwardjourneys.common.blocks.hinoki.*;
-import com.deku.eastwardjourneys.common.blocks.maple.*;
-import com.deku.eastwardjourneys.common.blocks.saxaul.*;
-import com.deku.eastwardjourneys.common.blocks.water_fir.*;
 import com.deku.eastwardjourneys.common.capabilities.DoubleJumpCapability;
 import com.deku.eastwardjourneys.common.enchantments.ModEnchantmentInitializer;
 import com.deku.eastwardjourneys.common.entity.ModEntityTypeInitializer;
@@ -50,14 +44,6 @@ import com.deku.eastwardjourneys.utils.LogTweaker;
 import com.deku.eastwardjourneys.utils.ModConfiguration;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.RegistrySetBuilder;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
-import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -79,16 +65,13 @@ import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFea
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.util.MutableHashedLinkedMap;
-import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.*;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -167,6 +150,9 @@ public class Main
 
         // Sound events logic
         ModSoundEvents.SOUND_EVENTS.register(eventBus);
+
+        // Block logic
+        ModBlockInitializer.BLOCKS.register(eventBus);
 
         // Biome logic
         ModBiomeInitializer.BIOMES.register(eventBus);
@@ -295,196 +281,6 @@ public class Main
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
         /**
-         * Used to register blocks into the game using the mod event bus
-         *
-         * @param registryEvent The register event with which blocks will be registered
-         */
-        @SubscribeEvent
-        public static void onBlocksRegistry(final RegisterEvent registryEvent) {
-            registryEvent.register(ForgeRegistries.Keys.BLOCKS, registrar -> {
-                // All maple wood blocks
-                registrar.register(new ResourceLocation(MOD_ID, "maple_log"), new MapleLog());
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_maple_log"), new StrippedMapleLog());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_wood"), new MapleWood());
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_maple_wood"), new StrippedMapleWood());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_planks"), new MaplePlanks());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_slab"), new MapleSlab());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_stairs"), new MapleStairs());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_button"), new MapleButton());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_fence"), new MapleFence());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_fence_gate"), new MapleFenceGate());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_pressure_plate"), new MaplePressurePlate());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_sign"), new MapleSign());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_wall_sign"), new MapleWallSign());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_hanging_sign"), new MapleHangingSign());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_wall_hanging_sign"), new MapleWallHangingSign());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_door"), new MapleDoor());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_trapdoor"), new MapleTrapDoor());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_planks_trapdoor"), new MaplePlanksTrapdoor());
-
-                // All maple tree blocks
-                registrar.register(new ResourceLocation(MOD_ID, "maple_leaves"), new MapleLeaves());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_leaf_pile"), new MapleLeafPile());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_sapling"), new MapleSapling());
-                registrar.register(new ResourceLocation(MOD_ID, "potted_maple_sapling"), new PottedMapleSapling());
-
-                // All black pine wood blocks
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_log"), new BlackPineLog());
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_black_pine_log"), new StrippedBlackPineLog());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_wood"), new BlackPineWood());
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_black_pine_wood"), new StrippedBlackPineWood());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_planks"), new BlackPinePlanks());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_slab"), new BlackPineSlab());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_stairs"), new BlackPineStairs());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_button"), new BlackPineButton());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_fence"), new BlackPineFence());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_fence_gate"), new BlackPineFenceGate());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_pressure_plate"), new BlackPinePressurePlate());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_sign"), new BlackPineSign());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_wall_sign"), new BlackPineWallSign());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_hanging_sign"), new BlackPineHangingSign());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_wall_hanging_sign"), new BlackPineWallHangingSign());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_door"), new BlackPineDoor());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_trapdoor"), new BlackPineTrapDoor());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_planks_trapdoor"), new BlackPinePlanksTrapdoor());
-
-                // All black pine tree blocks
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_leaves"), new BlackPineLeaves());
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_sapling"), new BlackPineSapling());
-                registrar.register(new ResourceLocation(MOD_ID, "potted_black_pine_sapling"), new PottedBlackPineSapling());
-
-                // All hinoki wood blocks
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_log"), new HinokiLog());
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_hinoki_log"), new StrippedHinokiLog());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_wood"), new HinokiWood());
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_hinoki_wood"), new StrippedHinokiWood());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_planks"), new HinokiPlanks());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_slab"), new HinokiSlab());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_stairs"), new HinokiStairs());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_button"), new HinokiButton());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_fence"), new HinokiFence());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_fence_gate"), new HinokiFenceGate());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_pressure_plate"), new HinokiPressurePlate());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_sign"), new HinokiSign());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_wall_sign"), new HinokiWallSign());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_hanging_sign"), new HinokiHangingSign());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_wall_hanging_sign"), new HinokiWallHangingSign());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_door"), new HinokiDoor());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_trapdoor"), new HinokiTrapDoor());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_planks_trapdoor"), new HinokiPlanksTrapdoor());
-
-                // All hinoki tree blocks
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_leaves"), new HinokiLeaves());
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_sapling"), new HinokiSapling());
-                registrar.register(new ResourceLocation(MOD_ID, "potted_hinoki_sapling"), new PottedHinokiSapling());
-
-                // All water fir wood blocks
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_log"), new WaterFirLog());
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_water_fir_log"), new StrippedWaterFirLog());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_wood"), new WaterFirWood());
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_water_fir_wood"), new StrippedWaterFirWood());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_planks"), new WaterFirPlanks());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_slab"), new WaterFirSlab());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_stairs"), new WaterFirStairs());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_button"), new WaterFirButton());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_fence"), new WaterFirFence());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_fence_gate"), new WaterFirFenceGate());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_pressure_plate"), new WaterFirPressurePlate());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_sign"), new WaterFirSign());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_wall_sign"), new WaterFirWallSign());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_hanging_sign"), new WaterFirHangingSign());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_wall_hanging_sign"), new WaterFirWallHangingSign());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_door"), new WaterFirDoor());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_trapdoor"), new WaterFirTrapDoor());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_planks_trapdoor"), new WaterFirPlanksTrapdoor());
-
-                // All water fir tree blocks
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_leaves"), new WaterFirLeaves());
-                registrar.register(new ResourceLocation(MOD_ID, "autumnal_water_fir_leaves"), new AutumnalWaterFirLeaves());
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_sapling"), new WaterFirSapling());
-                registrar.register(new ResourceLocation(MOD_ID, "potted_water_fir_sapling"), new PottedWaterFirSapling());
-
-                // All saxaul wood blocks
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_log"), new SaxaulLog());
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_saxaul_log"), new StrippedSaxaulLog());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_wood"), new SaxaulWood());
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_saxaul_wood"), new StrippedSaxaulWood());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_planks"), new SaxaulPlanks());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_slab"), new SaxaulSlab());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_stairs"), new SaxaulStairs());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_button"), new SaxaulButton());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_fence"), new SaxaulFence());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_fence_gate"), new SaxaulFenceGate());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_pressure_plate"), new SaxaulPressurePlate());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_sign"), new SaxaulSign());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_wall_sign"), new SaxaulWallSign());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_hanging_sign"), new SaxaulHangingSign());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_wall_hanging_sign"), new SaxaulWallHangingSign());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_door"), new SaxaulDoor());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_trapdoor"), new SaxaulTrapDoor());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_planks_trapdoor"), new SaxaulPlanksTrapdoor());
-
-                // All saxaul tree blocks
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_leaves"), new SaxaulLeaves());
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_sapling"), new SaxaulSapling());
-                registrar.register(new ResourceLocation(MOD_ID, "potted_saxaul_sapling"), new PottedSaxaulSapling());
-
-
-                // All architectural blocks
-                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.STANDARD, ShojiScreenBlockEntity.WoodColor.STANDARD));
-                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.STANDARD, ShojiScreenBlockEntity.WoodColor.DARK));
-                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED, ShojiScreenBlockEntity.WoodColor.STANDARD));
-                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED, ShojiScreenBlockEntity.WoodColor.DARK));
-                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided_heavy"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED_HEAVY, ShojiScreenBlockEntity.WoodColor.STANDARD));
-                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided_heavy"), new ShojiScreen(ShojiScreenBlockEntity.FrameType.GRIDED_HEAVY, ShojiScreenBlockEntity.WoodColor.DARK));
-                registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen"), new SmallShojiScreen(ShojiScreenBlockEntity.WoodColor.STANDARD));
-                registrar.register(new ResourceLocation(MOD_ID, "small_dark_shoji_screen"), new SmallShojiScreen(ShojiScreenBlockEntity.WoodColor.DARK));
-                registrar.register(new ResourceLocation(MOD_ID, "tatami_mat"), new TatamiMat());
-                registrar.register(new ResourceLocation(MOD_ID, "long_tatami_mat"), new LongTatamiMat());
-                registrar.register(new ResourceLocation(MOD_ID, "aged_tatami_mat"), new AgedTatamiMat());
-                registrar.register(new ResourceLocation(MOD_ID, "long_aged_tatami_mat"), new LongAgedTatamiMat());
-                registrar.register(new ResourceLocation(MOD_ID, "terracotta_warrior_statue"), new TerracottaWarriorStatue());
-                registrar.register(new ResourceLocation(MOD_ID, "red_fence"), new RedFence());
-                registrar.register(new ResourceLocation(MOD_ID, "polished_gravel"), new PolishedGravel());
-
-                // All farm crops
-                registrar.register(new ResourceLocation(MOD_ID, "rice_paddy"), new RicePaddy());
-
-                // Mushrooms
-                registrar.register(new ResourceLocation(MOD_ID, "enoki_mushroom"), new EnokiMushroom());
-                registrar.register(new ResourceLocation(MOD_ID, "shiitake_mushroom"), new ShiitakeMushroom());
-                registrar.register(new ResourceLocation(MOD_ID, "enoki_mushroom_block"), new EnokiMushroomBlock());
-                registrar.register(new ResourceLocation(MOD_ID, "potted_enoki_mushroom"), new PottedEnokiMushroom());
-                registrar.register(new ResourceLocation(MOD_ID, "potted_shiitake_mushroom"), new PottedShiitakeMushroom());
-
-                //Cacti
-                registrar.register(new ResourceLocation(MOD_ID, "flowering_cactus"), new FloweringCactus());
-                registrar.register(new ResourceLocation(MOD_ID, "potted_flowering_cactus"), new PottedFloweringCactus());
-
-                // All lanterns
-                registrar.register(new ResourceLocation(MOD_ID, "zen_lantern"), new ZenLantern());
-                registrar.register(new ResourceLocation(MOD_ID, "soul_zen_lantern"), new SoulZenLantern());
-                registrar.register(new ResourceLocation(MOD_ID, "paper_lantern"), new PaperLantern());
-
-                // All vanilla block trapdoors
-                registrar.register(new ResourceLocation(MOD_ID, "stone_trapdoor"), new StoneTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "smooth_stone_trapdoor"), new SmoothStoneTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "cobblestone_trapdoor"), new CobblestoneTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "oak_planks_trapdoor"), new OakPlanksTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "dark_oak_planks_trapdoor"), new DarkOakPlanksTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "acacia_planks_trapdoor"), new AcaciaPlanksTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "jungle_planks_trapdoor"), new JunglePlanksTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "spruce_planks_trapdoor"), new SprucePlanksTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "birch_planks_trapdoor"), new BirchPlanksTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "mangrove_planks_trapdoor"), new MangrovePlanksTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "bamboo_planks_trapdoor"), new BambooPlanksTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "cherry_planks_trapdoor"), new CherryPlanksTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "warped_planks_trapdoor"), new WarpedPlanksTrapdoor());
-                registrar.register(new ResourceLocation(MOD_ID, "crimson_planks_trapdoor"), new CrimsonPlanksTrapdoor());
-            });
-        }
-
-        /**
          * Used to register tile entities into the game using the mod event bus
          * Associated entity tile data is assigned before registration
          *
@@ -515,158 +311,158 @@ public class Main
         public static void onItemsRegistry(final RegisterEvent registerEvent) {
             registerEvent.register(ForgeRegistries.Keys.ITEMS, registrar -> {
                 // All maple wood items
-                registrar.register(new ResourceLocation(MOD_ID, "maple_log"), new BlockItem(ModBlocks.MAPLE_LOG, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_maple_log"), new BlockItem(ModBlocks.STRIPPED_MAPLE_LOG, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_wood"), new BlockItem(ModBlocks.MAPLE_WOOD, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_maple_wood"), new BlockItem(ModBlocks.STRIPPED_MAPLE_WOOD, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_planks"), new BlockItem(ModBlocks.MAPLE_PLANKS, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_slab"), new BlockItem(ModBlocks.MAPLE_SLAB, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_stairs"), new BlockItem(ModBlocks.MAPLE_STAIRS, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_button"), new BlockItem(ModBlocks.MAPLE_BUTTON, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_fence"), new BlockItem(ModBlocks.MAPLE_FENCE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_fence_gate"), new BlockItem(ModBlocks.MAPLE_FENCE_GATE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_pressure_plate"), new BlockItem(ModBlocks.MAPLE_PRESSURE_PLATE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_sign"), new SignItem(new Item.Properties().stacksTo(16), ModBlocks.MAPLE_SIGN, ModBlocks.MAPLE_WALL_SIGN));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_hanging_sign"), new HangingSignItem(ModBlocks.MAPLE_HANGING_SIGN, ModBlocks.MAPLE_WALL_HANGING_SIGN, new Item.Properties().stacksTo(16)));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_door"), new DoubleHighBlockItem(ModBlocks.MAPLE_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_trapdoor"), new BlockItem(ModBlocks.MAPLE_TRAPDOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_planks_trapdoor"), new BlockItem(ModBlocks.MAPLE_PLANKS_TRAP_DOOR, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_log"), new BlockItem(ModBlockInitializer.MAPLE_LOG.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "stripped_maple_log"), new BlockItem(ModBlockInitializer.STRIPPED_MAPLE_LOG.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_wood"), new BlockItem(ModBlockInitializer.MAPLE_WOOD.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "stripped_maple_wood"), new BlockItem(ModBlockInitializer.STRIPPED_MAPLE_WOOD.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_planks"), new BlockItem(ModBlockInitializer.MAPLE_PLANKS.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_slab"), new BlockItem(ModBlockInitializer.MAPLE_SLAB.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_stairs"), new BlockItem(ModBlockInitializer.MAPLE_STAIRS.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_button"), new BlockItem(ModBlockInitializer.MAPLE_BUTTON.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_fence"), new BlockItem(ModBlockInitializer.MAPLE_FENCE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_fence_gate"), new BlockItem(ModBlockInitializer.MAPLE_FENCE_GATE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_pressure_plate"), new BlockItem(ModBlockInitializer.MAPLE_PRESSURE_PLATE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_sign"), new SignItem(new Item.Properties().stacksTo(16), ModBlockInitializer.MAPLE_SIGN.get(), ModBlockInitializer.MAPLE_WALL_SIGN.get()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_hanging_sign"), new HangingSignItem(ModBlockInitializer.MAPLE_HANGING_SIGN.get(), ModBlockInitializer.MAPLE_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_door"), new DoubleHighBlockItem(ModBlockInitializer.MAPLE_DOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_trapdoor"), new BlockItem(ModBlockInitializer.MAPLE_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_planks_trapdoor"), new BlockItem(ModBlockInitializer.MAPLE_PLANKS_TRAPDOOR.get(), new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "maple_boat"), new MapleBoat());
                 registrar.register(new ResourceLocation(MOD_ID, "maple_chest_boat"), new MapleChestBoat());
 
                 // All maple tree items
-                registrar.register(new ResourceLocation(MOD_ID, "maple_leaves"), new BlockItem(ModBlocks.MAPLE_LEAVES, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "maple_leaf_pile"), new BlockItem(ModBlocks.MAPLE_LEAF_PILE, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_leaves"), new BlockItem(ModBlockInitializer.MAPLE_LEAVES.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_leaf_pile"), new BlockItem(ModBlockInitializer.MAPLE_LEAF_PILE.get(), new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "maple_leaf"), new MapleLeaf());
-                registrar.register(new ResourceLocation(MOD_ID, "maple_sapling"), new BlockItem(ModBlocks.MAPLE_SAPLING, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "maple_sapling"), new BlockItem(ModBlockInitializer.MAPLE_SAPLING.get(), new Item.Properties()));
 
                 // All black pine wood items
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_log"), new BlockItem(ModBlocks.BLACK_PINE_LOG, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_black_pine_log"), new BlockItem(ModBlocks.STRIPPED_BLACK_PINE_LOG, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_wood"), new BlockItem(ModBlocks.BLACK_PINE_WOOD, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_black_pine_wood"), new BlockItem(ModBlocks.STRIPPED_BLACK_PINE_WOOD, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_planks"), new BlockItem(ModBlocks.BLACK_PINE_PLANKS, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_slab"), new BlockItem(ModBlocks.BLACK_PINE_SLAB, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_stairs"), new BlockItem(ModBlocks.BLACK_PINE_STAIRS, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_button"), new BlockItem(ModBlocks.BLACK_PINE_BUTTON, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_fence"), new BlockItem(ModBlocks.BLACK_PINE_FENCE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_fence_gate"), new BlockItem(ModBlocks.BLACK_PINE_FENCE_GATE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_pressure_plate"), new BlockItem(ModBlocks.BLACK_PINE_PRESSURE_PLATE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_sign"), new SignItem(new Item.Properties().stacksTo(16), ModBlocks.BLACK_PINE_SIGN, ModBlocks.BLACK_PINE_WALL_SIGN));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_hanging_sign"), new HangingSignItem(ModBlocks.BLACK_PINE_HANGING_SIGN, ModBlocks.BLACK_PINE_WALL_HANGING_SIGN, new Item.Properties().stacksTo(16)));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_door"), new DoubleHighBlockItem(ModBlocks.BLACK_PINE_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_trapdoor"), new BlockItem(ModBlocks.BLACK_PINE_TRAPDOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_planks_trapdoor"), new BlockItem(ModBlocks.BLACK_PINE_PLANKS_TRAP_DOOR, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_log"), new BlockItem(ModBlockInitializer.BLACK_PINE_LOG.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "stripped_black_pine_log"), new BlockItem(ModBlockInitializer.STRIPPED_BLACK_PINE_LOG.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_wood"), new BlockItem(ModBlockInitializer.BLACK_PINE_WOOD.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "stripped_black_pine_wood"), new BlockItem(ModBlockInitializer.STRIPPED_BLACK_PINE_WOOD.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_planks"), new BlockItem(ModBlockInitializer.BLACK_PINE_PLANKS.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_slab"), new BlockItem(ModBlockInitializer.BLACK_PINE_SLAB.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_stairs"), new BlockItem(ModBlockInitializer.BLACK_PINE_STAIRS.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_button"), new BlockItem(ModBlockInitializer.BLACK_PINE_BUTTON.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_fence"), new BlockItem(ModBlockInitializer.BLACK_PINE_FENCE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_fence_gate"), new BlockItem(ModBlockInitializer.BLACK_PINE_FENCE_GATE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_pressure_plate"), new BlockItem(ModBlockInitializer.BLACK_PINE_PRESSURE_PLATE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_sign"), new SignItem(new Item.Properties().stacksTo(16), ModBlockInitializer.BLACK_PINE_SIGN.get(), ModBlockInitializer.BLACK_PINE_WALL_SIGN.get()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_hanging_sign"), new HangingSignItem(ModBlockInitializer.BLACK_PINE_HANGING_SIGN.get(), ModBlockInitializer.BLACK_PINE_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_door"), new DoubleHighBlockItem(ModBlockInitializer.BLACK_PINE_DOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_trapdoor"), new BlockItem(ModBlockInitializer.BLACK_PINE_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_planks_trapdoor"), new BlockItem(ModBlockInitializer.BLACK_PINE_PLANKS_TRAPDOOR.get(), new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "black_pine_boat"), new BlackPineBoat());
                 registrar.register(new ResourceLocation(MOD_ID, "black_pine_chest_boat"), new BlackPineChestBoat());
 
                 // All black pine tree items
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_leaves"), new BlockItem(ModBlocks.BLACK_PINE_LEAVES, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "black_pine_sapling"), new BlockItem(ModBlocks.BLACK_PINE_SAPLING, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_leaves"), new BlockItem(ModBlockInitializer.BLACK_PINE_LEAVES.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "black_pine_sapling"), new BlockItem(ModBlockInitializer.BLACK_PINE_SAPLING.get(), new Item.Properties()));
 
                 // All hinoki wood items
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_log"), new BlockItem(ModBlocks.HINOKI_LOG, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_hinoki_log"), new BlockItem(ModBlocks.STRIPPED_HINOKI_LOG, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_wood"), new BlockItem(ModBlocks.HINOKI_WOOD, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_hinoki_wood"), new BlockItem(ModBlocks.STRIPPED_HINOKI_WOOD, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_planks"), new BlockItem(ModBlocks.HINOKI_PLANKS, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_slab"), new BlockItem(ModBlocks.HINOKI_SLAB, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_stairs"), new BlockItem(ModBlocks.HINOKI_STAIRS, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_button"), new BlockItem(ModBlocks.HINOKI_BUTTON, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_fence"), new BlockItem(ModBlocks.HINOKI_FENCE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_fence_gate"), new BlockItem(ModBlocks.HINOKI_FENCE_GATE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_pressure_plate"), new BlockItem(ModBlocks.HINOKI_PRESSURE_PLATE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_sign"), new SignItem(new Item.Properties().stacksTo(16), ModBlocks.HINOKI_SIGN, ModBlocks.HINOKI_WALL_SIGN));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_hanging_sign"), new HangingSignItem(ModBlocks.HINOKI_HANGING_SIGN, ModBlocks.HINOKI_WALL_HANGING_SIGN, new Item.Properties().stacksTo(16)));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_door"), new DoubleHighBlockItem(ModBlocks.HINOKI_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_trapdoor"), new BlockItem(ModBlocks.HINOKI_TRAPDOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_planks_trapdoor"), new BlockItem(ModBlocks.HINOKI_PLANKS_TRAP_DOOR, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_log"), new BlockItem(ModBlockInitializer.HINOKI_LOG.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "stripped_hinoki_log"), new BlockItem(ModBlockInitializer.STRIPPED_HINOKI_LOG.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_wood"), new BlockItem(ModBlockInitializer.HINOKI_WOOD.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "stripped_hinoki_wood"), new BlockItem(ModBlockInitializer.STRIPPED_HINOKI_WOOD.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_planks"), new BlockItem(ModBlockInitializer.HINOKI_PLANKS.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_slab"), new BlockItem(ModBlockInitializer.HINOKI_SLAB.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_stairs"), new BlockItem(ModBlockInitializer.HINOKI_STAIRS.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_button"), new BlockItem(ModBlockInitializer.HINOKI_BUTTON.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_fence"), new BlockItem(ModBlockInitializer.HINOKI_FENCE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_fence_gate"), new BlockItem(ModBlockInitializer.HINOKI_FENCE_GATE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_pressure_plate"), new BlockItem(ModBlockInitializer.HINOKI_PRESSURE_PLATE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_sign"), new SignItem(new Item.Properties().stacksTo(16), ModBlockInitializer.HINOKI_SIGN.get(), ModBlockInitializer.HINOKI_WALL_SIGN.get()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_hanging_sign"), new HangingSignItem(ModBlockInitializer.HINOKI_HANGING_SIGN.get(), ModBlockInitializer.HINOKI_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_door"), new DoubleHighBlockItem(ModBlockInitializer.HINOKI_DOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_trapdoor"), new BlockItem(ModBlockInitializer.HINOKI_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_planks_trapdoor"), new BlockItem(ModBlockInitializer.HINOKI_PLANKS_TRAPDOOR.get(), new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "hinoki_boat"), new HinokiBoat());
                 registrar.register(new ResourceLocation(MOD_ID, "hinoki_chest_boat"), new HinokiChestBoat());
 
                 // All hinoki tree items
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_leaves"), new BlockItem(ModBlocks.HINOKI_LEAVES, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "hinoki_sapling"), new BlockItem(ModBlocks.HINOKI_SAPLING, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_leaves"), new BlockItem(ModBlockInitializer.HINOKI_LEAVES.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "hinoki_sapling"), new BlockItem(ModBlockInitializer.HINOKI_SAPLING.get(), new Item.Properties()));
 
                 // All water fir wood items
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_log"), new BlockItem(ModBlocks.WATER_FIR_LOG, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_water_fir_log"), new BlockItem(ModBlocks.STRIPPED_WATER_FIR_LOG, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_wood"), new BlockItem(ModBlocks.WATER_FIR_WOOD, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_water_fir_wood"), new BlockItem(ModBlocks.STRIPPED_WATER_FIR_WOOD, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_planks"), new BlockItem(ModBlocks.WATER_FIR_PLANKS, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_slab"), new BlockItem(ModBlocks.WATER_FIR_SLAB, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_stairs"), new BlockItem(ModBlocks.WATER_FIR_STAIRS, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_button"), new BlockItem(ModBlocks.WATER_FIR_BUTTON, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_fence"), new BlockItem(ModBlocks.WATER_FIR_FENCE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_fence_gate"), new BlockItem(ModBlocks.WATER_FIR_FENCE_GATE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_pressure_plate"), new BlockItem(ModBlocks.WATER_FIR_PRESSURE_PLATE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_sign"), new SignItem(new Item.Properties().stacksTo(16), ModBlocks.WATER_FIR_SIGN, ModBlocks.WATER_FIR_WALL_SIGN));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_hanging_sign"), new HangingSignItem(ModBlocks.WATER_FIR_HANGING_SIGN, ModBlocks.WATER_FIR_WALL_HANGING_SIGN, new Item.Properties().stacksTo(16)));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_door"), new DoubleHighBlockItem(ModBlocks.WATER_FIR_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_trapdoor"), new BlockItem(ModBlocks.WATER_FIR_TRAPDOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_planks_trapdoor"), new BlockItem(ModBlocks.WATER_FIR_PLANKS_TRAP_DOOR, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_log"), new BlockItem(ModBlockInitializer.WATER_FIR_LOG.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "stripped_water_fir_log"), new BlockItem(ModBlockInitializer.STRIPPED_WATER_FIR_LOG.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_wood"), new BlockItem(ModBlockInitializer.WATER_FIR_WOOD.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "stripped_water_fir_wood"), new BlockItem(ModBlockInitializer.STRIPPED_WATER_FIR_WOOD.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_planks"), new BlockItem(ModBlockInitializer.WATER_FIR_PLANKS.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_slab"), new BlockItem(ModBlockInitializer.WATER_FIR_SLAB.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_stairs"), new BlockItem(ModBlockInitializer.WATER_FIR_STAIRS.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_button"), new BlockItem(ModBlockInitializer.WATER_FIR_BUTTON.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_fence"), new BlockItem(ModBlockInitializer.WATER_FIR_FENCE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_fence_gate"), new BlockItem(ModBlockInitializer.WATER_FIR_FENCE_GATE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_pressure_plate"), new BlockItem(ModBlockInitializer.WATER_FIR_PRESSURE_PLATE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_sign"), new SignItem(new Item.Properties().stacksTo(16), ModBlockInitializer.WATER_FIR_SIGN.get(), ModBlockInitializer.WATER_FIR_WALL_SIGN.get()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_hanging_sign"), new HangingSignItem(ModBlockInitializer.WATER_FIR_HANGING_SIGN.get(), ModBlockInitializer.WATER_FIR_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_door"), new DoubleHighBlockItem(ModBlockInitializer.WATER_FIR_DOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_trapdoor"), new BlockItem(ModBlockInitializer.WATER_FIR_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_planks_trapdoor"), new BlockItem(ModBlockInitializer.WATER_FIR_PLANKS_TRAPDOOR.get(), new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "water_fir_boat"), new WaterFirBoat());
                 registrar.register(new ResourceLocation(MOD_ID, "water_fir_chest_boat"), new WaterFirChestBoat());
 
                 // All water fir tree items
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_leaves"), new BlockItem(ModBlocks.WATER_FIR_LEAVES, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "autumnal_water_fir_leaves"), new BlockItem(ModBlocks.AUTUMNAL_WATER_FIR_LEAVES, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "water_fir_sapling"), new BlockItem(ModBlocks.WATER_FIR_SAPLING, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_leaves"), new BlockItem(ModBlockInitializer.WATER_FIR_LEAVES.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "autumnal_water_fir_leaves"), new BlockItem(ModBlockInitializer.AUTUMNAL_WATER_FIR_LEAVES.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "water_fir_sapling"), new BlockItem(ModBlockInitializer.WATER_FIR_SAPLING.get(), new Item.Properties()));
 
                 // All saxaul wood items
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_log"), new BlockItem(ModBlocks.SAXAUL_LOG, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_saxaul_log"), new BlockItem(ModBlocks.STRIPPED_SAXAUL_LOG, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_wood"), new BlockItem(ModBlocks.SAXAUL_WOOD, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "stripped_saxaul_wood"), new BlockItem(ModBlocks.STRIPPED_SAXAUL_WOOD, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_planks"), new BlockItem(ModBlocks.SAXAUL_PLANKS, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_slab"), new BlockItem(ModBlocks.SAXAUL_SLAB, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_stairs"), new BlockItem(ModBlocks.SAXAUL_STAIRS, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_button"), new BlockItem(ModBlocks.SAXAUL_BUTTON, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_fence"), new BlockItem(ModBlocks.SAXAUL_FENCE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_fence_gate"), new BlockItem(ModBlocks.SAXAUL_FENCE_GATE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_pressure_plate"), new BlockItem(ModBlocks.SAXAUL_PRESSURE_PLATE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_sign"), new SignItem(new Item.Properties().stacksTo(16), ModBlocks.SAXAUL_SIGN, ModBlocks.SAXAUL_WALL_SIGN));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_hanging_sign"), new HangingSignItem(ModBlocks.SAXAUL_HANGING_SIGN, ModBlocks.SAXAUL_WALL_HANGING_SIGN, new Item.Properties().stacksTo(16)));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_door"), new DoubleHighBlockItem(ModBlocks.SAXAUL_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_trapdoor"), new BlockItem(ModBlocks.SAXAUL_TRAPDOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_planks_trapdoor"), new BlockItem(ModBlocks.SAXAUL_PLANKS_TRAP_DOOR, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_log"), new BlockItem(ModBlockInitializer.SAXAUL_LOG.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "stripped_saxaul_log"), new BlockItem(ModBlockInitializer.STRIPPED_SAXAUL_LOG.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_wood"), new BlockItem(ModBlockInitializer.SAXAUL_WOOD.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "stripped_saxaul_wood"), new BlockItem(ModBlockInitializer.STRIPPED_SAXAUL_WOOD.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_planks"), new BlockItem(ModBlockInitializer.SAXAUL_PLANKS.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_slab"), new BlockItem(ModBlockInitializer.SAXAUL_SLAB.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_stairs"), new BlockItem(ModBlockInitializer.SAXAUL_STAIRS.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_button"), new BlockItem(ModBlockInitializer.SAXAUL_BUTTON.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_fence"), new BlockItem(ModBlockInitializer.SAXAUL_FENCE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_fence_gate"), new BlockItem(ModBlockInitializer.SAXAUL_FENCE_GATE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_pressure_plate"), new BlockItem(ModBlockInitializer.SAXAUL_PRESSURE_PLATE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_sign"), new SignItem(new Item.Properties().stacksTo(16), ModBlockInitializer.SAXAUL_SIGN.get(), ModBlockInitializer.SAXAUL_WALL_SIGN.get()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_hanging_sign"), new HangingSignItem(ModBlockInitializer.SAXAUL_HANGING_SIGN.get(), ModBlockInitializer.SAXAUL_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_door"), new DoubleHighBlockItem(ModBlockInitializer.SAXAUL_DOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_trapdoor"), new BlockItem(ModBlockInitializer.SAXAUL_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_planks_trapdoor"), new BlockItem(ModBlockInitializer.SAXAUL_PLANKS_TRAPDOOR.get(), new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "saxaul_boat"), new SaxaulBoat());
                 registrar.register(new ResourceLocation(MOD_ID, "saxaul_chest_boat"), new SaxaulChestBoat());
 
                 // All saxaul tree items
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_leaves"), new BlockItem(ModBlocks.SAXAUL_LEAVES, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "saxaul_sapling"), new BlockItem(ModBlocks.SAXAUL_SAPLING, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_leaves"), new BlockItem(ModBlockInitializer.SAXAUL_LEAVES.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "saxaul_sapling"), new BlockItem(ModBlockInitializer.SAXAUL_SAPLING.get(), new Item.Properties()));
 
                 // All lantern items
-                registrar.register(new ResourceLocation(MOD_ID, "zen_lantern"), new DoubleHighBlockItem(ModBlocks.ZEN_LANTERN, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "soul_zen_lantern"), new DoubleHighBlockItem(ModBlocks.SOUL_ZEN_LANTERN, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "paper_lantern"), new BlockItem(ModBlocks.PAPER_LANTERN, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "zen_lantern"), new DoubleHighBlockItem(ModBlockInitializer.ZEN_LANTERN.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "soul_zen_lantern"), new DoubleHighBlockItem(ModBlockInitializer.ZEN_LANTERN_SOUL.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "paper_lantern"), new BlockItem(ModBlockInitializer.PAPER_LANTERN.get(), new Item.Properties()));
 
                 // All architectural items
-                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen"), new DoubleHighBlockItem(ModBlocks.SHOJI_SCREEN, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen"), new DoubleHighBlockItem(ModBlocks.DARK_SHOJI_SCREEN, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided"), new DoubleHighBlockItem(ModBlocks.SHOJI_SCREEN_GRIDED, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided"), new DoubleHighBlockItem(ModBlocks.DARK_SHOJI_SCREEN_GRIDED, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided_heavy"), new DoubleHighBlockItem(ModBlocks.SHOJI_SCREEN_GRIDED_HEAVY, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided_heavy"), new DoubleHighBlockItem(ModBlocks.DARK_SHOJI_SCREEN_GRIDED_HEAVY, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen"), new BlockItem(ModBlocks.SMALL_SHOJI_SCREEN, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "small_dark_shoji_screen"), new BlockItem(ModBlocks.SMALL_DARK_SHOJI_SCREEN, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen"), new DoubleHighBlockItem(ModBlockInitializer.SHOJI_SCREEN.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen"), new DoubleHighBlockItem(ModBlockInitializer.SHOJI_SCREEN_DARK.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided"), new DoubleHighBlockItem(ModBlockInitializer.SHOJI_SCREEN_GRIDED.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided"), new DoubleHighBlockItem(ModBlockInitializer.SHOJI_SCREEN_DARK_GRIDED.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "shoji_screen_grided_heavy"), new DoubleHighBlockItem(ModBlockInitializer.SHOJI_SCREEN_GRIDED_HEAVY.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_shoji_screen_grided_heavy"), new DoubleHighBlockItem(ModBlockInitializer.SHOJI_SCREEN_DARK_GRIDED_HEAVY.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "small_shoji_screen"), new BlockItem(ModBlockInitializer.SMALL_SHOJI_SCREEN.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "small_dark_shoji_screen"), new BlockItem(ModBlockInitializer.SMALL_SHOJI_SCREEN_DARK.get(), new Item.Properties()));
                 registrar.register(new ResourceLocation(MOD_ID, "shoji_paper"), new ShojiPaper());
-                registrar.register(new ResourceLocation(MOD_ID, "tatami_mat"), new BlockItem(ModBlocks.TATAMI_MAT, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "long_tatami_mat"), new BlockItem(ModBlocks.LONG_TATAMI_MAT, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "aged_tatami_mat"), new BlockItem(ModBlocks.AGED_TATAMI_MAT, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "long_aged_tatami_mat"), new BlockItem(ModBlocks.LONG_AGED_TATAMI_MAT, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "terracotta_warrior_statue"), new DoubleHighBlockItem(ModBlocks.TERRACOTTA_WARRIOR_STATUE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "red_fence"), new BlockItem(ModBlocks.RED_FENCE, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "polished_gravel"), new BlockItem(ModBlocks.POLISHED_GRAVEL, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "tatami_mat"), new BlockItem(ModBlockInitializer.TATAMI_MAT.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "aged_tatami_mat"), new BlockItem(ModBlockInitializer.TATAMI_MAT_AGED.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "long_tatami_mat"), new BlockItem(ModBlockInitializer.TATAMI_MAT_LONG.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "long_aged_tatami_mat"), new BlockItem(ModBlockInitializer.TATAMI_MAT_AGED_LONG.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "terracotta_warrior_statue"), new DoubleHighBlockItem(ModBlockInitializer.TERRACOTTA_WARRIOR_STATUE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "red_fence"), new BlockItem(ModBlockInitializer.RED_FENCE.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "polished_gravel"), new BlockItem(ModBlockInitializer.POLISHED_GRAVEL.get(), new Item.Properties()));
 
                 // Mushrooms
-                registrar.register(new ResourceLocation(MOD_ID, "enoki_mushroom"), new BlockItem(ModBlocks.ENOKI_MUSHROOM, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "shiitake_mushroom"), new BlockItem(ModBlocks.SHIITAKE_MUSHROOM, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "enoki_mushroom_block"), new BlockItem(ModBlocks.ENOKI_MUSHROOM_BLOCK, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "enoki_mushroom"), new BlockItem(ModBlockInitializer.ENOKI_MUSHROOM.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "shiitake_mushroom"), new BlockItem(ModBlockInitializer.SHIITAKE_MUSHROOM.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "enoki_mushroom_block"), new BlockItem(ModBlockInitializer.ENOKI_MUSHROOM_BLOCK.get(), new Item.Properties()));
 
                 //Cacti
-                registrar.register(new ResourceLocation(MOD_ID, "flowering_cactus"), new BlockItem(ModBlocks.FLOWERING_CACTUS, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "flowering_cactus"), new BlockItem(ModBlockInitializer.FLOWERING_CACTUS.get(), new Item.Properties()));
 
                 // TODO: Find a way to add these to the composter
                 // All food items
@@ -695,20 +491,20 @@ public class Main
                 registrar.register(new ResourceLocation(MOD_ID, "kabuto_sandals"), new KabutoArmourItem(ArmorItem.Type.BOOTS));
 
                 // All vanilla block trapdoor items
-                registrar.register(new ResourceLocation(MOD_ID, "acacia_planks_trapdoor"), new BlockItem(ModBlocks.ACACIA_PLANKS_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "birch_planks_trapdoor"), new BlockItem(ModBlocks.BIRCH_PLANKS_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "dark_oak_planks_trapdoor"), new BlockItem(ModBlocks.DARK_OAK_PLANKS_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "jungle_planks_trapdoor"), new BlockItem(ModBlocks.JUNGLE_PLANKS_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "oak_planks_trapdoor"), new BlockItem(ModBlocks.OAK_PLANKS_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "spruce_planks_trapdoor"), new BlockItem(ModBlocks.SPRUCE_PLANKS_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "mangrove_planks_trapdoor"), new BlockItem(ModBlocks.MANGROVE_PLANKS_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "bamboo_planks_trapdoor"), new BlockItem(ModBlocks.BAMBOO_PLANKS_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "cherry_planks_trapdoor"), new BlockItem(ModBlocks.CHERRY_PLANKS_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "smooth_stone_trapdoor"), new BlockItem(ModBlocks.SMOOTH_STONE_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "stone_trapdoor"), new BlockItem(ModBlocks.STONE_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "cobblestone_trapdoor"), new BlockItem(ModBlocks.COBBLESTONE_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "warped_planks_trapdoor"), new BlockItem(ModBlocks.WARPED_PLANKS_TRAP_DOOR, new Item.Properties()));
-                registrar.register(new ResourceLocation(MOD_ID, "crimson_planks_trapdoor"), new BlockItem(ModBlocks.CRIMSON_PLANKS_TRAP_DOOR, new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "acacia_planks_trapdoor"), new BlockItem(ModBlockInitializer.ACACIA_PLANKS_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "birch_planks_trapdoor"), new BlockItem(ModBlockInitializer.BIRCH_PLANKS_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "dark_oak_planks_trapdoor"), new BlockItem(ModBlockInitializer.DARK_OAK_PLANKS_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "jungle_planks_trapdoor"), new BlockItem(ModBlockInitializer.JUNGLE_PLANKS_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "oak_planks_trapdoor"), new BlockItem(ModBlockInitializer.OAK_PLANKS_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "spruce_planks_trapdoor"), new BlockItem(ModBlockInitializer.SPRUCE_PLANKS_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "mangrove_planks_trapdoor"), new BlockItem(ModBlockInitializer.MANGROVE_PLANKS_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "bamboo_planks_trapdoor"), new BlockItem(ModBlockInitializer.BAMBOO_PLANKS_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "cherry_planks_trapdoor"), new BlockItem(ModBlockInitializer.CHERRY_PLANKS_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "smooth_stone_trapdoor"), new BlockItem(ModBlockInitializer.SMOOTH_STONE_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "stone_trapdoor"), new BlockItem(ModBlockInitializer.STONE_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "cobblestone_trapdoor"), new BlockItem(ModBlockInitializer.COBBLESTONE_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "warped_planks_trapdoor"), new BlockItem(ModBlockInitializer.WARPED_PLANKS_TRAPDOOR.get(), new Item.Properties()));
+                registrar.register(new ResourceLocation(MOD_ID, "crimson_planks_trapdoor"), new BlockItem(ModBlockInitializer.CRIMSON_PLANKS_TRAPDOOR.get(), new Item.Properties()));
             });
         }
 
@@ -754,28 +550,6 @@ public class Main
             });
 
             //TODO: Should I register configured features in here after the feature registration has run? Right now they register at the global level spread across a few new classes and sit in holders. This might not be the right stage to be registering them...
-        }
-
-        /**
-         * Used to register datapacks into the game using the mod event bus
-         *
-         * @param gatherEvent The register event with which datapacks will be registered
-         */
-        @SubscribeEvent
-        public static void onGatherDataRegistry(final GatherDataEvent gatherEvent) {
-            DataGenerator generator = gatherEvent.getGenerator();
-            PackOutput packOutput = generator.getPackOutput();
-            ExistingFileHelper fileHelper = gatherEvent.getExistingFileHelper();
-
-            HolderLookup.Provider lookupProvider = new RegistrySetBuilder()
-                    //.add(Registries.CONFIGURED_FEATURE, (RegistrySetBuilder.RegistryBootstrap) ModConfiguredFeatures::bootstrap)
-                    //.add(Registries.PLACED_FEATURE, (RegistrySetBuilder.RegistryBootstrap) ModPlacements::bootstrap)
-                    //.add(Registries.FOLIAGE_PLACER_TYPE, (RegistrySetBuilder.RegistryBootstrap) ModFoliagePlacers::bootstrap)
-                    //.add(Registries.PROCESSOR_LIST, ())
-                    //.add(Registries.STRUCTURE_SET, ())
-                    //.add(Registries.TEMPLATE_POOL, ())
-                    .add(Registries.BIOME, ModBiomeInitializer::bootstrap)
-                    .buildPatch(RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY), VanillaRegistries.createLookup());
         }
 
         /**
@@ -1132,35 +906,6 @@ public class Main
         }
 
         /**
-         * Used to handle events that occur when a block is placed into the world.
-         * Currently this handles the replacement of base game grass blocks with our modded variant.
-         * We also check to see if we should replace the block below the current so that we stop issues
-         * with blocks placed on top of grass reverting the block back to the vanilla variant.
-         *
-         * @param event The event object that is build when a block is placed
-         */
-        @SubscribeEvent
-        public static void onPlace(BlockEvent.EntityPlaceEvent event) {
-            //ModBlocks.GRASS.replaceVanillaGrassBlock(event.getPos(),  (World) event.getWorld());
-
-            // NOTE: This fix to the grass being placed on makes the ground incompatible with tools for some reason. Like the game still thinks its covered ground maybe??
-            //ModBlocks.GRASS.replaceVanillaGrassBlock(event.getPos().below(),  (World) event.getWorld());
-        }
-
-        /**
-         * Used to handle events that notify neighbouring blocks of changes.
-         * Currently this handles the replacement of base game grass blocks with our modded variant
-         * whenever a grass propegation occurs since the random ticker in the new block does not seem to be
-         * sufficient alone.
-         *
-         * @param event The event object that is built when a block is updated
-         */
-        @SubscribeEvent
-        public static void onNeighbourNotified(BlockEvent.NeighborNotifyEvent event) {
-            //ModBlocks.GRASS.replaceVanillaGrassBlock(event.getPos(), (World) event.getWorld());
-        }
-
-        /**
          * Used to handle events that occur when a block is right-clicked by a player.
          * Currently this handles the stripping that occurs with new wood-based blocks that are right-clicked with an axe
          *
@@ -1170,16 +915,16 @@ public class Main
         public static void onBlockClicked(PlayerInteractEvent.RightClickBlock event) {
             final Map<Block, Block> BLOCK_STRIPPING_MAP = (
                 new ImmutableMap.Builder<Block, Block>()
-                    .put(ModBlocks.MAPLE_LOG, ModBlocks.STRIPPED_MAPLE_LOG)
-                    .put(ModBlocks.MAPLE_WOOD, ModBlocks.STRIPPED_MAPLE_WOOD)
-                    .put(ModBlocks.BLACK_PINE_LOG, ModBlocks.STRIPPED_BLACK_PINE_LOG)
-                    .put(ModBlocks.BLACK_PINE_WOOD, ModBlocks.STRIPPED_BLACK_PINE_WOOD)
-                    .put(ModBlocks.HINOKI_LOG, ModBlocks.STRIPPED_HINOKI_LOG)
-                    .put(ModBlocks.HINOKI_WOOD, ModBlocks.STRIPPED_HINOKI_WOOD)
-                    .put(ModBlocks.WATER_FIR_LOG, ModBlocks.STRIPPED_WATER_FIR_LOG)
-                    .put(ModBlocks.WATER_FIR_WOOD, ModBlocks.STRIPPED_WATER_FIR_WOOD)
-                    .put(ModBlocks.SAXAUL_LOG, ModBlocks.STRIPPED_SAXAUL_LOG)
-                    .put(ModBlocks.SAXAUL_WOOD, ModBlocks.STRIPPED_SAXAUL_WOOD)
+                    .put(ModBlockInitializer.MAPLE_LOG.get(), ModBlockInitializer.STRIPPED_MAPLE_LOG.get())
+                    .put(ModBlockInitializer.MAPLE_WOOD.get(), ModBlockInitializer.STRIPPED_MAPLE_WOOD.get())
+                    .put(ModBlockInitializer.BLACK_PINE_LOG.get(), ModBlockInitializer.STRIPPED_BLACK_PINE_LOG.get())
+                    .put(ModBlockInitializer.BLACK_PINE_WOOD.get(), ModBlockInitializer.STRIPPED_BLACK_PINE_WOOD.get())
+                    .put(ModBlockInitializer.HINOKI_LOG.get(), ModBlockInitializer.STRIPPED_HINOKI_LOG.get())
+                    .put(ModBlockInitializer.HINOKI_WOOD.get(), ModBlockInitializer.STRIPPED_HINOKI_WOOD.get())
+                    .put(ModBlockInitializer.WATER_FIR_LOG.get(), ModBlockInitializer.STRIPPED_WATER_FIR_LOG.get())
+                    .put(ModBlockInitializer.WATER_FIR_WOOD.get(), ModBlockInitializer.STRIPPED_WATER_FIR_WOOD.get())
+                    .put(ModBlockInitializer.SAXAUL_LOG.get(), ModBlockInitializer.STRIPPED_SAXAUL_LOG.get())
+                    .put(ModBlockInitializer.SAXAUL_WOOD.get(), ModBlockInitializer.STRIPPED_SAXAUL_WOOD.get())
             ).build();
 
             if (event.getItemStack().getItem() instanceof AxeItem) {

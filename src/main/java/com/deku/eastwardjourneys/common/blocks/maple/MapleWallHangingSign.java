@@ -1,6 +1,6 @@
 package com.deku.eastwardjourneys.common.blocks.maple;
 
-import com.deku.eastwardjourneys.common.blocks.ModBlocks;
+import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
 import com.deku.eastwardjourneys.common.blocks.ModWoodType;
 import com.deku.eastwardjourneys.common.entity.sign.ModHangingSignBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class MapleWallHangingSign extends WallHangingSignBlock {
     public MapleWallHangingSign() {
-        super(Properties.of().mapColor(MapColor.WOOD).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS).lootFrom(() -> ModBlocks.MAPLE_HANGING_SIGN), ModWoodType.MAPLE);
+        super(ModWoodType.MAPLE, Properties.of().mapColor(MapColor.WOOD).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS).lootFrom(() -> ModBlockInitializer.MAPLE_HANGING_SIGN.get()));
     }
 
     /**

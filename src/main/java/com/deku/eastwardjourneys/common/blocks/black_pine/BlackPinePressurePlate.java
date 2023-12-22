@@ -9,6 +9,6 @@ import net.minecraft.world.level.material.MapColor;
 
 public class BlackPinePressurePlate extends PressurePlateBlock {
     public BlackPinePressurePlate() {
-        super(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of().noCollission().strength(0.5F).mapColor(MapColor.TERRACOTTA_RED).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava(), ModBlockSetType.BLACK_PINE);
+        super(ModBlockSetType.BLACK_PINE, BlockBehaviour.Properties.of().noCollission().strength(0.5F).mapColor(MapColor.TERRACOTTA_RED).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
     }
 }

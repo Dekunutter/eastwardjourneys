@@ -1,6 +1,6 @@
 package com.deku.eastwardjourneys.common.world.gen.placements;
 
-import com.deku.eastwardjourneys.common.blocks.ModBlocks;
+import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
 import com.deku.eastwardjourneys.common.features.ModTreeFeatures;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderGetter;
@@ -26,7 +26,6 @@ public class ModTreePlacements {
     public static ResourceKey<PlacedFeature> FANCY_MAPLE_BEES = registerTreePlacementKey("fancy_maple_bees");
     public static ResourceKey<PlacedFeature> BLACK_PINE_CHECKED = registerTreePlacementKey("black_pine_checked");
     public static ResourceKey<PlacedFeature> STRAIGHT_BLACK_PINE_CHECKED = registerTreePlacementKey("straight_black_pine_checked");
-    public static ResourceKey<PlacedFeature> BRANCHING_BLACK_PINE_CHECKED = registerTreePlacementKey(" branching_black_pine_checked");
 
     /**
      * Registers the tree placements into the vanilla game by the placed feature registry
@@ -46,12 +45,11 @@ public class ModTreePlacements {
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> featureGetter = context.lookup(Registries.CONFIGURED_FEATURE);
 
-        context.register(FANCY_MAPLE_CHECKED, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.FANCY_MAPLE_TREE), List.of(PlacementUtils.filteredByBlockSurvival(ModBlocks.MAPLE_SAPLING))));
-        context.register(FANCY_MAPLE_BEES, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.FANCY_MAPLE_TREE_BEES), List.of(PlacementUtils.filteredByBlockSurvival(ModBlocks.MAPLE_SAPLING))));
+        context.register(FANCY_MAPLE_CHECKED, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.FANCY_MAPLE_TREE), List.of(PlacementUtils.filteredByBlockSurvival(ModBlockInitializer.MAPLE_SAPLING.get()))));
+        context.register(FANCY_MAPLE_BEES, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.FANCY_MAPLE_TREE_BEES), List.of(PlacementUtils.filteredByBlockSurvival(ModBlockInitializer.MAPLE_SAPLING.get()))));
 
-        context.register(BLACK_PINE_CHECKED, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.BLACK_PINE), List.of(PlacementUtils.filteredByBlockSurvival(ModBlocks.BLACK_PINE_SAPLING))));
-        context.register(STRAIGHT_BLACK_PINE_CHECKED, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.STRAIGHT_BLACK_PINE), List.of(PlacementUtils.filteredByBlockSurvival(ModBlocks.BLACK_PINE_SAPLING))));
-        context.register(BRANCHING_BLACK_PINE_CHECKED, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.BRANCHING_BLACK_PINE), List.of(PlacementUtils.filteredByBlockSurvival(ModBlocks.BLACK_PINE_SAPLING))));
+        context.register(BLACK_PINE_CHECKED, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.BLACK_PINE), List.of(PlacementUtils.filteredByBlockSurvival(ModBlockInitializer.BLACK_PINE_SAPLING.get()))));
+        context.register(STRAIGHT_BLACK_PINE_CHECKED, new PlacedFeature(featureGetter.getOrThrow(ModTreeFeatures.STRAIGHT_BLACK_PINE), List.of(PlacementUtils.filteredByBlockSurvival(ModBlockInitializer.BLACK_PINE_SAPLING.get()))));
     }
 
     /**

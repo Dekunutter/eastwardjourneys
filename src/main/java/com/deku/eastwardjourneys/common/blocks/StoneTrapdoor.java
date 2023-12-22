@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 public class StoneTrapdoor extends TrapDoorBlock {
     public StoneTrapdoor() {
-        super(BlockBehaviour.Properties.of().strength(6.0f).mapColor(Blocks.STONE.defaultMapColor()).sound(SoundType.STONE).instrument(NoteBlockInstrument.BASEDRUM).noOcclusion().isValidSpawn(StoneTrapdoor::never), BlockSetType.STONE);
+        super(BlockSetType.STONE, BlockBehaviour.Properties.of().strength(6.0f).mapColor(Blocks.STONE.defaultMapColor()).sound(SoundType.STONE).instrument(NoteBlockInstrument.BASEDRUM).noOcclusion().isValidSpawn(StoneTrapdoor::never));
     }
 
     /**

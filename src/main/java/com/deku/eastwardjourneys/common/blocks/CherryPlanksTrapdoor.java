@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 public class CherryPlanksTrapdoor extends TrapDoorBlock {
     public CherryPlanksTrapdoor() {
-        super(Properties.of().strength(3.0f).mapColor(Blocks.CHERRY_PLANKS.defaultMapColor()).ignitedByLava().noOcclusion().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).isValidSpawn(CherryPlanksTrapdoor::never), BlockSetType.BAMBOO);
+        super(BlockSetType.CHERRY, Properties.of().strength(3.0f).mapColor(Blocks.CHERRY_PLANKS.defaultMapColor()).ignitedByLava().noOcclusion().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).isValidSpawn(CherryPlanksTrapdoor::never));
     }
 
     /**

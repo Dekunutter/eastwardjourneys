@@ -1,6 +1,7 @@
 package com.deku.eastwardjourneys.common.blocks;
 
 import com.deku.eastwardjourneys.common.blocks.state.GravelPattern;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
@@ -23,8 +24,19 @@ import static com.deku.eastwardjourneys.common.blocks.ModBlockStateProperties.GR
 
 // TODO: Blockstate setting, testing the different patterns, changing blockstate on interact with a hoe, changing dust colour to be a little lighter and having gravel be polished like stones can be to make this block
 public class PolishedGravel extends FallingBlock {
+    public static final MapCodec<PolishedGravel> CODEC = simpleCodec(PolishedGravel::new);
+
     public PolishedGravel() {
         super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.SNARE).strength(0.6F).sound(SoundType.GRAVEL));
+    }
+
+    public PolishedGravel(BlockBehaviour.Properties properties) {
+        super(properties);
+    }
+
+    @Override
+    protected MapCodec<? extends FallingBlock> codec() {
+        return CODEC;
     }
 
     public int getDustColor(BlockState state, BlockGetter getter, BlockPos position) {

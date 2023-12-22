@@ -29,7 +29,7 @@ public class EnokiMushroom extends MushroomBlock {
     private final ResourceKey<ConfiguredFeature<?, ?>> feature;
 
     public EnokiMushroom() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).hasPostProcess(EnokiMushroom::always).pushReaction(PushReaction.DESTROY), ModTreeFeatures.HUGE_ENOKI_MUSHROOM);
+        super(ModTreeFeatures.HUGE_ENOKI_MUSHROOM, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).hasPostProcess(EnokiMushroom::always).pushReaction(PushReaction.DESTROY));
 
         this.feature = ModTreeFeatures.HUGE_ENOKI_MUSHROOM;
     }

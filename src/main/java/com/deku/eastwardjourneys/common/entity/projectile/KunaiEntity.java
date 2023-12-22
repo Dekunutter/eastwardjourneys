@@ -14,24 +14,27 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.packets.SpawnEntity;
 
 public class KunaiEntity extends AbstractArrow implements IEntityAdditionalSpawnData {
+    private static final ItemStack DEFAULT_KUNAI_ITEM_STACK = new ItemStack(ModItems.KUNAI);
+
     public KunaiEntity(EntityType<KunaiEntity> entityType, Level level) {
-        super(entityType, level);
+        super(entityType, level, DEFAULT_KUNAI_ITEM_STACK);
         setBaseDamage(2.0D);
     }
 
     public KunaiEntity(LivingEntity livingEntity, Level level) {
-        super(ModEntityTypeInitializer.KUNAI_ENTITY_TYPE.get(), livingEntity, level);
+        super(ModEntityTypeInitializer.KUNAI_ENTITY_TYPE.get(), livingEntity, level, DEFAULT_KUNAI_ITEM_STACK);
         setBaseDamage(2.0D);
     }
 
     public KunaiEntity(SpawnEntity spawnEntity, Level level) {
-        super(ModEntityTypeInitializer.KUNAI_ENTITY_TYPE.get(), level);
+        super(ModEntityTypeInitializer.KUNAI_ENTITY_TYPE.get(), level, DEFAULT_KUNAI_ITEM_STACK);
         setBaseDamage(2.0D);
     }
 

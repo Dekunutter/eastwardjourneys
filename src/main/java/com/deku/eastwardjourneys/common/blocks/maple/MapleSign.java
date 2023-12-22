@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class MapleSign extends StandingSignBlock {
     public MapleSign() {
-        super(Properties.of().mapColor(MapColor.WOOD).noCollission().strength(1.0F).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), ModWoodType.MAPLE);
+        super(ModWoodType.MAPLE, Properties.of().mapColor(MapColor.WOOD).noCollission().strength(1.0F).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS));
     }
 
     /**

@@ -11,7 +11,7 @@ import net.minecraftforge.common.extensions.IForgeBlock;
 import java.util.function.Supplier;
 
 public class AbstractWoodenStairsBlock extends StairBlock implements IForgeBlock {
-    public AbstractWoodenStairsBlock(Supplier<BlockState> state, BlockBehaviour.Properties properties) {
+    public AbstractWoodenStairsBlock(BlockState state, BlockBehaviour.Properties properties) {
         super(state, properties);
     }
 

@@ -154,12 +154,11 @@ public class ModVegetationFeatures {
         );
     }
 
-    private static RandomFeatureConfiguration createBlackPineTreesConfiguration(Holder<PlacedFeature> wobblyBlackPine, Holder<PlacedFeature> straightBlackPine, Holder<PlacedFeature> branchingBlackPine) {
+    private static RandomFeatureConfiguration createBlackPineTreesConfiguration(Holder<PlacedFeature> wobblyBlackPine, Holder<PlacedFeature> straightBlackPine) {
         return new RandomFeatureConfiguration(
                 ImmutableList.of(
-                        new WeightedPlacedFeature(wobblyBlackPine, 0.5f),
-                        new WeightedPlacedFeature(straightBlackPine, 0.3f),
-                        new WeightedPlacedFeature(branchingBlackPine, 0.2f)
+                        new WeightedPlacedFeature(wobblyBlackPine, 0.6f),
+                        new WeightedPlacedFeature(straightBlackPine, 0.4f)
                 ),
                 wobblyBlackPine
         );
@@ -180,10 +179,9 @@ public class ModVegetationFeatures {
         Holder<PlacedFeature> fancyOakTreeBees002 = placedFeatureGetter.getOrThrow(TreePlacements.FANCY_OAK_BEES_002);
         Holder<PlacedFeature> wobblyBlackPine = placedFeatureGetter.getOrThrow(ModTreePlacements.BLACK_PINE_CHECKED);
         Holder<PlacedFeature> straightBlackPine = placedFeatureGetter.getOrThrow(ModTreePlacements.STRAIGHT_BLACK_PINE_CHECKED);
-        Holder<PlacedFeature> branchingBlackPine = placedFeatureGetter.getOrThrow(ModTreePlacements.BRANCHING_BLACK_PINE_CHECKED);
 
         context.register(TREES_MAPLE_WOODS, new ConfiguredFeature<>(Feature.RANDOM_SELECTOR, createMapleTreesConfiguration(fancyMapleTree, fancyMapleTreeBees)));
         context.register(TREES_OAK_AND_MAPLE_FOREST, new ConfiguredFeature<>(Feature.RANDOM_SELECTOR, createOakAndMapleTreesConfiguration(fancyMapleTree, fancyMapleTreeBees, oakTreeBees002, fancyOakTreeBees002)));
-        context.register(TREES_BLACK_PINE_FOREST, new ConfiguredFeature<>(Feature.RANDOM_SELECTOR, createBlackPineTreesConfiguration(wobblyBlackPine, straightBlackPine, branchingBlackPine)));
+        context.register(TREES_BLACK_PINE_FOREST, new ConfiguredFeature<>(Feature.RANDOM_SELECTOR, createBlackPineTreesConfiguration(wobblyBlackPine, straightBlackPine)));
     }
 }

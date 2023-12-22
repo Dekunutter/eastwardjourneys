@@ -93,13 +93,14 @@ public class GiantBuddhaPieces {
          */
         @Override
         protected void handleDataMarker(String dataMarker, BlockPos position, ServerLevelAccessor levelAccessor, RandomSource random, BoundingBox boundingBox) {
-            if ("false_chest".equals(dataMarker)) {
-                levelAccessor.setBlock(position, Blocks.AIR.defaultBlockState(), 3);
-                ChestBlockEntity.setLootTable(levelAccessor, random, position.below(), ModLootTables.GIANT_BUDDHA_FAKE_CHEST_LOOT_TABLE);
-            } else if ("real_chest".equals(dataMarker)) {
-                levelAccessor.setBlock(position, Blocks.AIR.defaultBlockState(), 3);
-                ChestBlockEntity.setLootTable(levelAccessor, random, position.below(), ModLootTables.GIANT_BUDDHA_REAL_CHEST_LOOT_TABLE);
-            }
+//            if ("false_chest".equals(dataMarker)) {
+//                //TODO: Going to need to regenerate the structure pieces with proper loot table setting instead of this hardcoded stuff since the function is changed
+//                levelAccessor.setBlock(position, Blocks.AIR.defaultBlockState(), 3);
+//                ChestBlockEntity.setLootTable(levelAccessor, random, position.below(), ModLootTables.GIANT_BUDDHA_FAKE_CHEST_LOOT_TABLE);
+//            } else if ("real_chest".equals(dataMarker)) {
+//                levelAccessor.setBlock(position, Blocks.AIR.defaultBlockState(), 3);
+//                ChestBlockEntity.setLootTable(levelAccessor, random, position.below(), ModLootTables.GIANT_BUDDHA_REAL_CHEST_LOOT_TABLE);
+//            }
         }
     }
 }

@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 public class SmoothStoneTrapdoor extends TrapDoorBlock {
     public SmoothStoneTrapdoor() {
-        super(BlockBehaviour.Properties.of().strength(6.0f).mapColor(Blocks.SMOOTH_STONE.defaultMapColor()).sound(SoundType.STONE).instrument(NoteBlockInstrument.BASEDRUM).noOcclusion().isValidSpawn(SmoothStoneTrapdoor::never), BlockSetType.STONE);
+        super(BlockSetType.STONE, BlockBehaviour.Properties.of().strength(6.0f).mapColor(Blocks.SMOOTH_STONE.defaultMapColor()).sound(SoundType.STONE).instrument(NoteBlockInstrument.BASEDRUM).noOcclusion().isValidSpawn(SmoothStoneTrapdoor::never));
     }
 
     /**

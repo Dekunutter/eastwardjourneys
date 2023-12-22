@@ -1,6 +1,6 @@
 package com.deku.eastwardjourneys.common.blocks.black_pine;
 
-import com.deku.eastwardjourneys.common.blocks.ModBlocks;
+import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
 import com.deku.eastwardjourneys.common.blocks.ModWoodType;
 import com.deku.eastwardjourneys.common.entity.sign.ModHangingSignBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class BlackPineWallHangingSign extends WallHangingSignBlock {
     public BlackPineWallHangingSign() {
-        super(Properties.of().noCollission().strength(1.0F).mapColor(MapColor.WOOD).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS).lootFrom(() -> ModBlocks.BLACK_PINE_HANGING_SIGN), ModWoodType.BLACK_PINE);
+        super(ModWoodType.BLACK_PINE, Properties.of().noCollission().strength(1.0F).mapColor(MapColor.WOOD).ignitedByLava().sound(SoundType.HANGING_SIGN).instrument(NoteBlockInstrument.BASS).lootFrom(() -> ModBlockInitializer.BLACK_PINE_HANGING_SIGN.get()));
     }
 
     /**

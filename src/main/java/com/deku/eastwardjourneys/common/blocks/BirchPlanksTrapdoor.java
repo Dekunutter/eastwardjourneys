@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 public class BirchPlanksTrapdoor extends TrapDoorBlock {
     public BirchPlanksTrapdoor() {
-        super(Properties.of().strength( 3.0f).mapColor(Blocks.BIRCH_PLANKS.defaultMapColor()).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).noOcclusion().isValidSpawn(BirchPlanksTrapdoor::never), BlockSetType.BIRCH);
+        super(BlockSetType.BIRCH, Properties.of().strength( 3.0f).mapColor(Blocks.BIRCH_PLANKS.defaultMapColor()).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).noOcclusion().isValidSpawn(BirchPlanksTrapdoor::never));
     }
 
     /**

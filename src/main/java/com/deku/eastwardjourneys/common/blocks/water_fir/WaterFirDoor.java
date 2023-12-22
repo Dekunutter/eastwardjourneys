@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 public class WaterFirDoor extends DoorBlock
 {
     public WaterFirDoor() {
-        super(Properties.of().strength(3.0f).mapColor(MapColor.TERRACOTTA_RED).instrument(NoteBlockInstrument.BASS).ignitedByLava().noOcclusion().isValidSpawn(WaterFirDoor::never), ModBlockSetType.WATER_FIR);
+        super(ModBlockSetType.WATER_FIR, Properties.of().strength(3.0f).mapColor(MapColor.TERRACOTTA_RED).instrument(NoteBlockInstrument.BASS).ignitedByLava().noOcclusion().isValidSpawn(WaterFirDoor::never));
     }
 
     /**

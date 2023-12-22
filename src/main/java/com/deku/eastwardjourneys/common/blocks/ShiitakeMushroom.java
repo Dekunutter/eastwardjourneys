@@ -40,7 +40,7 @@ public class ShiitakeMushroom extends MushroomBlock {
     private final ResourceKey<ConfiguredFeature<?, ?>> feature;
 
     public ShiitakeMushroom() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).hasPostProcess(ShiitakeMushroom::always).pushReaction(PushReaction.DESTROY), ModTreeFeatures.HUGE_SHIITAKE_MUSHROOM);
+        super(ModTreeFeatures.HUGE_SHIITAKE_MUSHROOM, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).hasPostProcess(ShiitakeMushroom::always).pushReaction(PushReaction.DESTROY));
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH));
 
         // TODO: Temp, see above

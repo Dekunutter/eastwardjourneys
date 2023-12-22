@@ -8,6 +8,6 @@ import net.minecraft.world.level.material.MapColor;
 
 public class MaplePressurePlate extends PressurePlateBlock {
     public MaplePressurePlate() {
-        super(Sensitivity.EVERYTHING, Properties.of().noCollission().strength(0.5F).mapColor(MapColor.WOOD).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava(), ModBlockSetType.MAPLE);
+        super(ModBlockSetType.MAPLE, Properties.of().noCollission().strength(0.5F).mapColor(MapColor.WOOD).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
     }
 }

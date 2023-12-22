@@ -7,7 +7,7 @@ import net.minecraft.world.level.material.PushReaction;
 
 public class PottedFloweringCactus extends FlowerPotBlock {
     public PottedFloweringCactus() {
-        super(ModBlocks.FLOWERING_CACTUS, Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
+        super(ModBlockInitializer.FLOWERING_CACTUS.get(), Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
         ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(new ResourceLocation("eastwardjourneys:flowering_cactus"), () -> this);
     }
 }

@@ -11,7 +11,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class SaxaulTrapDoor extends TrapDoorBlock {
     public SaxaulTrapDoor() {
-        super(Properties.of().strength( 3.0f).mapColor(MapColor.COLOR_LIGHT_GRAY).ignitedByLava().noOcclusion().instrument(NoteBlockInstrument.BASS).isValidSpawn(SaxaulTrapDoor::never), ModBlockSetType.SAXAUL);
+        super(ModBlockSetType.SAXAUL, Properties.of().strength( 3.0f).mapColor(MapColor.COLOR_LIGHT_GRAY).ignitedByLava().noOcclusion().instrument(NoteBlockInstrument.BASS).isValidSpawn(SaxaulTrapDoor::never));
     }
 
     /**

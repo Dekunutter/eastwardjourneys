@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 public class HinokiDoor extends DoorBlock
 {
     public HinokiDoor() {
-        super(Properties.of().strength(3.0f).mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava().noOcclusion().isValidSpawn(HinokiDoor::never), ModBlockSetType.HINOKI);
+        super(ModBlockSetType.HINOKI, Properties.of().strength(3.0f).mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava().noOcclusion().isValidSpawn(HinokiDoor::never));
     }
 
     /**

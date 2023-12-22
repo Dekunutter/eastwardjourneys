@@ -7,7 +7,7 @@ import net.minecraft.world.level.material.PushReaction;
 
 public class PottedEnokiMushroom extends FlowerPotBlock {
     public PottedEnokiMushroom() {
-        super(ModBlocks.ENOKI_MUSHROOM, Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
+        super(ModBlockInitializer.ENOKI_MUSHROOM.get(), Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
         ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(new ResourceLocation("eastwardjourneys:enoki_mushroom"), () -> this);
     }
 }

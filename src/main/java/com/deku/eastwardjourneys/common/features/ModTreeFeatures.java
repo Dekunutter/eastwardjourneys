@@ -1,6 +1,6 @@
 package com.deku.eastwardjourneys.common.features;
 
-import com.deku.eastwardjourneys.common.blocks.ModBlocks;
+import com.deku.eastwardjourneys.common.blocks.ModBlockInitializer;
 import com.deku.eastwardjourneys.common.features.decorators.ShiitakeMushroomDecorator;
 import com.deku.eastwardjourneys.common.world.gen.foliagePlacers.BlackPineFoliagePlacer;
 import com.deku.eastwardjourneys.common.world.gen.foliagePlacers.SaxaulFoliagePlacer;
@@ -17,7 +17,6 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.AcaciaFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FancyFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.MegaPineFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.SpruceFoliagePlacer;
@@ -39,7 +38,6 @@ public class ModTreeFeatures {
 
     public static ResourceKey<ConfiguredFeature<?, ?>> BLACK_PINE = registerTreeFeatureKey("black_pine");
     public static ResourceKey<ConfiguredFeature<?, ?>> STRAIGHT_BLACK_PINE = registerTreeFeatureKey("straight_black_pine");
-    public static ResourceKey<ConfiguredFeature<?, ?>> BRANCHING_BLACK_PINE = registerTreeFeatureKey("branching_black_pine");
 
     public static ResourceKey<ConfiguredFeature<?, ?>> HINOKI = registerTreeFeatureKey("hinoki");
     public static ResourceKey<ConfiguredFeature<?, ?>> HINOKI_BEES = registerTreeFeatureKey("hinoki_bees");
@@ -76,9 +74,9 @@ public class ModTreeFeatures {
      */
     private static TreeConfiguration.TreeConfigurationBuilder createFancyMapleTreeConfiguration() {
         return new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(ModBlocks.MAPLE_LOG),
+                BlockStateProvider.simple(ModBlockInitializer.MAPLE_LOG.get()),
                 new FancyTrunkPlacer(3, 11, 0),
-                BlockStateProvider.simple(ModBlocks.MAPLE_LEAVES),
+                BlockStateProvider.simple(ModBlockInitializer.MAPLE_LEAVES.get()),
                 new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
                 new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(4))
         ).ignoreVines();
@@ -86,9 +84,9 @@ public class ModTreeFeatures {
 
     private static TreeConfiguration.TreeConfigurationBuilder createBlackPineTreeConfiguration() {
         return new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(ModBlocks.BLACK_PINE_LOG),
+                BlockStateProvider.simple(ModBlockInitializer.BLACK_PINE_LOG.get()),
                 new BlackPineTrunkPlacer(4, 2, 0),
-                BlockStateProvider.simple(ModBlocks.BLACK_PINE_LEAVES),
+                BlockStateProvider.simple(ModBlockInitializer.BLACK_PINE_LEAVES.get()),
                 new BlackPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(1)),
                 new TwoLayersFeatureSize(1, 0, 2)
         ).ignoreVines();
@@ -96,29 +94,19 @@ public class ModTreeFeatures {
 
     private static TreeConfiguration.TreeConfigurationBuilder createStraightBlackPineTreeConfiguration() {
         return new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(ModBlocks.BLACK_PINE_LOG),
+                BlockStateProvider.simple(ModBlockInitializer.BLACK_PINE_LOG.get()),
                 new StraightTrunkPlacer(5, 2, 1),
-                BlockStateProvider.simple(ModBlocks.BLACK_PINE_LEAVES),
+                BlockStateProvider.simple(ModBlockInitializer.BLACK_PINE_LEAVES.get()),
                 new SpruceFoliagePlacer(UniformInt.of(2, 0), UniformInt.of(3, 2), UniformInt.of(2, 1)),
                 new TwoLayersFeatureSize(2, 0, 2)
         ).ignoreVines();
     }
 
-    private static TreeConfiguration.TreeConfigurationBuilder createBranchingBlackPineTreeConfiguration() {
-        return new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(ModBlocks.BLACK_PINE_LOG),
-                new ForkingTrunkPlacer(5, 2, 2),
-                BlockStateProvider.simple(ModBlocks.BLACK_PINE_LEAVES),
-                new AcaciaFoliagePlacer(ConstantInt.of(0), ConstantInt.of(2)),
-                new TwoLayersFeatureSize(1, 0, 2)
-        ).ignoreVines();
-    }
-
     private static TreeConfiguration.TreeConfigurationBuilder createHinokiTreeConfiguration() {
         return new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(ModBlocks.HINOKI_LOG),
+                BlockStateProvider.simple(ModBlockInitializer.HINOKI_LOG.get()),
                 new StraightTrunkPlacer(7, 4, 2),
-                BlockStateProvider.simple(ModBlocks.HINOKI_LEAVES),
+                BlockStateProvider.simple(ModBlockInitializer.HINOKI_LEAVES.get()),
                 new SpruceFoliagePlacer(UniformInt.of(2, 0), UniformInt.of(3, 2), UniformInt.of(2, 1)),
                 new TwoLayersFeatureSize(2, 0, 2)
         ).ignoreVines();
@@ -126,9 +114,9 @@ public class ModTreeFeatures {
 
     private static TreeConfiguration.TreeConfigurationBuilder createWaterFirTreeConfiguration() {
         return new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(ModBlocks.WATER_FIR_LOG),
+                BlockStateProvider.simple(ModBlockInitializer.WATER_FIR_LOG.get()),
                 new StraightTrunkPlacer(7, 4, 2),
-                BlockStateProvider.simple(ModBlocks.WATER_FIR_LEAVES),
+                BlockStateProvider.simple(ModBlockInitializer.WATER_FIR_LEAVES.get()),
                 new SpruceFoliagePlacer(UniformInt.of(2, 0), UniformInt.of(3, 2), UniformInt.of(2, 1)),
                 new TwoLayersFeatureSize(2, 0, 2)
         ).ignoreVines();
@@ -136,9 +124,9 @@ public class ModTreeFeatures {
 
     private static TreeConfiguration.TreeConfigurationBuilder createMegaWaterFirTreeConfiguration() {
         return new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(ModBlocks.WATER_FIR_LOG),
+                BlockStateProvider.simple(ModBlockInitializer.WATER_FIR_LOG.get()),
                 new GiantTrunkPlacer(15, 2, 16),
-                BlockStateProvider.simple(ModBlocks.WATER_FIR_LEAVES),
+                BlockStateProvider.simple(ModBlockInitializer.WATER_FIR_LEAVES.get()),
                 new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(13, 17)),
                 new TwoLayersFeatureSize(1, 1, 2)
         ).ignoreVines();
@@ -146,9 +134,9 @@ public class ModTreeFeatures {
 
     private static TreeConfiguration.TreeConfigurationBuilder createSaxaulTreeConfiguration() {
         return new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(ModBlocks.SAXAUL_LOG),
+                BlockStateProvider.simple(ModBlockInitializer.SAXAUL_LOG.get()),
                 new ForkingTrunkPlacer(2, 2, 0),
-                BlockStateProvider.simple(ModBlocks.SAXAUL_LEAVES),
+                BlockStateProvider.simple(ModBlockInitializer.SAXAUL_LEAVES.get()),
                 new SaxaulFoliagePlacer(ConstantInt.of(0), ConstantInt.of(1)),
                 new TwoLayersFeatureSize(1, 0, 2)
         ).ignoreVines();
@@ -156,9 +144,9 @@ public class ModTreeFeatures {
 
     private static TreeConfiguration.TreeConfigurationBuilder createLargeSaxaulTreeConfiguration() {
         return new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(ModBlocks.SAXAUL_LOG),
+                BlockStateProvider.simple(ModBlockInitializer.SAXAUL_LOG.get()),
                 new ForkingTrunkPlacer(4, 2, 0),
-                BlockStateProvider.simple(ModBlocks.SAXAUL_LEAVES),
+                BlockStateProvider.simple(ModBlockInitializer.SAXAUL_LEAVES.get()),
                 new SaxaulFoliagePlacer(ConstantInt.of(0), ConstantInt.of(1)),
                 new TwoLayersFeatureSize(1, 0, 2)
         ).ignoreVines();
@@ -179,7 +167,6 @@ public class ModTreeFeatures {
 
         context.register(BLACK_PINE, new ConfiguredFeature<>(Feature.TREE, createBlackPineTreeConfiguration().build()));
         context.register(STRAIGHT_BLACK_PINE, new ConfiguredFeature<>(Feature.TREE, createStraightBlackPineTreeConfiguration().build()));
-        context.register(BRANCHING_BLACK_PINE, new ConfiguredFeature<>(Feature.TREE, createBranchingBlackPineTreeConfiguration().build()));
 
         context.register(HINOKI, new ConfiguredFeature<>(Feature.TREE, createHinokiTreeConfiguration().build()));
         context.register(HINOKI_BEES, new ConfiguredFeature<>(Feature.TREE, createHinokiTreeConfiguration().decorators(ImmutableList.of(beehiveDecorator05)).build()));

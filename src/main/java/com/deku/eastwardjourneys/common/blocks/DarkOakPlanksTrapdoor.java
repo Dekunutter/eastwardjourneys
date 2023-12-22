@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 public class DarkOakPlanksTrapdoor extends TrapDoorBlock {
     public DarkOakPlanksTrapdoor() {
-        super(Properties.of().strength( 3.0f).mapColor(Blocks.DARK_OAK_PLANKS.defaultMapColor()).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).noOcclusion().isValidSpawn(DarkOakPlanksTrapdoor::never), BlockSetType.DARK_OAK);
+        super(BlockSetType.DARK_OAK, Properties.of().strength( 3.0f).mapColor(Blocks.DARK_OAK_PLANKS.defaultMapColor()).ignitedByLava().sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).noOcclusion().isValidSpawn(DarkOakPlanksTrapdoor::never));
     }
 
     /**

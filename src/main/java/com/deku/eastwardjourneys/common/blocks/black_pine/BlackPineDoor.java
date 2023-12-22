@@ -13,7 +13,7 @@ import net.minecraft.world.level.material.MapColor;
 
 public class BlackPineDoor extends DoorBlock {
     public BlackPineDoor() {
-        super(BlockBehaviour.Properties.of().strength(3.0f).sound(SoundType.WOOD).mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava().noOcclusion().isValidSpawn(BlackPineDoor::never), ModBlockSetType.BLACK_PINE);
+        super(ModBlockSetType.BLACK_PINE, BlockBehaviour.Properties.of().strength(3.0f).sound(SoundType.WOOD).mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava().noOcclusion().isValidSpawn(BlackPineDoor::never));
     }
 
     /**
