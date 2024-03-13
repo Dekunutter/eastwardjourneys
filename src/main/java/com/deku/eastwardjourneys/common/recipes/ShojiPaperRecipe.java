@@ -60,20 +60,20 @@ public class ShojiPaperRecipe extends CustomRecipe {
      */
     @Override
     public ItemStack assemble(CraftingContainer container, RegistryAccess registryAccess) {
-        ItemStack itemStack = new ItemStack(ModItems.SHOJI_PAPER);
-        itemStack.setCount(4);
+        ItemStack result = new ItemStack(ModItems.SHOJI_PAPER);
+        result.setCount(4);
 
         String pattern = "base";
         for(int i = 0; i < container.getContainerSize(); ++i) {
             ItemStack itemstack = container.getItem(i);
-            if (!itemstack.isEmpty() && !(itemStack.is(Items.PAPER) || itemStack.is(ModItems.RICE))) {
+            if (!itemstack.isEmpty() && !(itemstack.is(Items.PAPER) || itemstack.is(ModItems.RICE))) {
                 pattern = ShojiPaper.determinePattern(itemstack);
                 break;
             }
         }
 
-        ShojiPaper.savePattern(itemStack, pattern);
-        return itemStack;
+        ShojiPaper.savePattern(result, pattern);
+        return result;
     }
 
     /**
